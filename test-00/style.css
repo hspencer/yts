@@ -1,0 +1,12 @@
+body, html {
+  background-color: purple;
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+canvas {
+  display: block; /* Elimina el espacio extra debajo 
+}
