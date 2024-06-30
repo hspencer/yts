@@ -17,3 +17,7 @@ svg {
     max-width: 100%;
     height: auto;
 }
+
+.logo-container{
+  text-align: center;
+}

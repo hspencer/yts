@@ -1,2 +1,7 @@
-# yts
-Sitio web del grupo musical YTS
+# YTS
+
+´´´
+Martín Campusano
+Simón Miranda
+Paul Spencer
+´´´
