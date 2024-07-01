@@ -46,20 +46,52 @@
     source.connect(analyser);
     analyser.connect(audioContext.destination);
 
-    analyser.fftSize = 256;
+    analyser.fftSize = 1024;
     const bufferLength = analyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
+
+    let lastVolume = 0;
+    const beatThreshold = 1.5;
+    const beatHoldTime = 60;
+    let lastBeatTime = 0;
+
+    function getVolume(dataArray) {
+      const sum = dataArray.reduce((acc, val) => acc + val);
+      return sum / dataArray.length;
+    }
+
+    function detectBeat(volume) {
+      const currentTime = audioContext.currentTime;
+      if (volume > lastVolume * beatThreshold && currentTime > lastBeatTime + beatHoldTime / 1000) {
+        lastBeatTime = currentTime;
+        return true;
+      }
+      return false;
+    }
+
+    function getLowFrequencyEnergy(dataArray) {
+      // Asumiendo que las frecuencias bajas están en el primer 10% del array
+      const lowEnd = Math.floor(dataArray.length * 0.1);
+      return dataArray.slice(0, lowEnd).reduce((acc, val) => acc + val) / lowEnd;
+    }
 
     function updateRipple() {
       analyser.getByteFrequencyData(dataArray);
 
-      const average = dataArray.reduce((a, b) => a + b) / bufferLength;
+      const volume = getVolume(dataArray);
+      const beat = detectBeat(volume);
+      const lowFreqEnergy = getLowFrequencyEnergy(dataArray);
 
-      const scaleX = average / 2;
-      const scaleY = average / 8;
+      // X se mueve más y es sensible al volumen general y los beats
+      const scaleX = (volume / 2) * (beat ? 2 : 1);
+      
+      // Y es más suave y responde a las frecuencias bajas
+      const scaleY = lowFreqEnergy / 4;
 
-      dispX.setAttribute("values", scaleX);
-      dispY.setAttribute("values", scaleY);
+      dispX.setAttribute("values", -scaleX); // Movimiento hacia la izquierda
+      dispY.setAttribute("values", scaleY);  // Movimiento hacia abajo
+
+      lastVolume = volume;
 
       requestAnimationFrame(updateRipple);
     }
