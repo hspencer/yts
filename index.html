@@ -1,28 +1,74 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YTS Animated Logo</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YTS</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <div class="logo-container">
-        <object type="image/svg+xml" data="yts-animated.svg">
-            Tu navegador no soporta SVG
-        </object>
-        <p>pronto... </p>
+      <object type="image/svg+xml" data="yts-animated.svg">
+        Tu navegador no soporta SVG
+      </object>
+      <p>pronto...</p>
 
-        <audio id="bg-music" src="sts.mp3" type="audio/mp3" autoplay controls></audio>
+      <audio id="bg-music" src="sts.mp3" type="audio/mp3" controls></audio>
     </div>
-    
-   
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+  const audio = document.getElementById("bg-music");
+  const svgObject = document.querySelector("object");
 
-  <script>
-    window.addEventListener('load', function() {
-      var audio = document.getElementById('bg-music');
-      audio.play();
+  if (!audio || !svgObject) {
+    console.error('No se encontró el elemento de audio o SVG object');
+    return;
+  }
+
+  svgObject.addEventListener('load', function() {
+    const svgDoc = svgObject.contentDocument;
+    if (!svgDoc) {
+      console.error('No se pudo acceder al documento SVG');
+      return;
+    }
+
+    const dispX = svgDoc.getElementById("dispX");
+    const dispY = svgDoc.getElementById("dispY");
+
+    if (!dispX || !dispY) {
+      console.error('No se encontraron los elementos de animación en el SVG');
+      return;
+    }
+
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const analyser = audioContext.createAnalyser();
+    const source = audioContext.createMediaElementSource(audio);
+    source.connect(analyser);
+    analyser.connect(audioContext.destination);
+
+    analyser.fftSize = 256;
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+
+    function updateRipple() {
+      analyser.getByteFrequencyData(dataArray);
+
+      const average = dataArray.reduce((a, b) => a + b) / bufferLength;
+
+      const scaleX = average / 2;
+      const scaleY = average / 8;
+
+      dispX.setAttribute("values", scaleX);
+      dispY.setAttribute("values", scaleY);
+
+      requestAnimationFrame(updateRipple);
+    }
+
+    audio.addEventListener('play', () => {
+      audioContext.resume().then(() => updateRipple());
     });
-  </script>
-</body>
+  });
+});
+    </script>
+  </body>
 </html>

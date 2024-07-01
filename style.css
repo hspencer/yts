@@ -1,23 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap');
 
-body, html {
-    height: 100%;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #300228;
-    font-family: "Rock Salt", cursive;
+body,
+html {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #300228;
+  font-family: "Didact Gothic", sans-serif;
   font-weight: 400;
   font-style: normal;
   color: white;
 }
 
 svg {
-    max-width: 100%;
-    height: auto;
+  max-width: 100%;
+  height: auto;
 }
 
-.logo-container{
+.logo-container {
+  font-size: 2em;
   text-align: center;
 }
