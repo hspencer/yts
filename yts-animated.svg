@@ -53,7 +53,7 @@
       <feOffset dx="10" dy="15" in="SourceAlpha" result="offsetDark" />
       <feGaussianBlur stdDeviation="5" in="offsetDark" result="blurDark" />
       <feComposite in="blurDark" in2="SourceAlpha" operator="in" result="darkShadow" />
-      <feFlood flood-color="#1b023c" flood-opacity="0.126" result="darkColor" />
+      <feFlood flood-color="#1b023c" flood-opacity="0.6" result="darkColor" />
       <feComposite in="darkColor" in2="darkShadow" operator="in" result="darkEffect" />
       <feBlend mode="multiply" in="darkEffect" in2="blendedLight" result="embossed" />
 
