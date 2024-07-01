@@ -25,36 +25,41 @@
     </linearGradient>
 
     <filter id="ripple">
-  <feTurbulence type="fractalNoise" baseFrequency="0.01 0.005" numOctaves="1" result="noise">
-    <animate attributeName="baseFrequency" values="0.01 0.005;0.02 0.005;0.01 0.005" dur="5s" repeatCount="indefinite" />
-  </feTurbulence>
-  <feDisplacementMap in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G" result="displacedX">
-    <animate id="dispX" attributeName="scale" attributeType="XML" dur="0.1s" values="0" repeatCount="indefinite"/>
-  </feDisplacementMap>
-  <feDisplacementMap in="displacedX" in2="noise" scale="0" xChannelSelector="G" yChannelSelector="R" result="displacedXY">
-    <animate id="dispY" attributeName="scale" attributeType="XML" dur="0.1s" values="0" repeatCount="indefinite"/>
-  </feDisplacementMap>
-</filter>
+      <feTurbulence type="fractalNoise" baseFrequency="0.01 0.005" numOctaves="1" result="noise">
+        <animate attributeName="baseFrequency" values="0.01 0.005;0.02 0.005;0.01 0.005" dur="5s"
+          repeatCount="indefinite" />
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R"
+        yChannelSelector="G" result="displacedX">
+        <animate id="dispX" attributeName="scale" attributeType="XML" dur="0.1s" values="0"
+          repeatCount="indefinite" />
+      </feDisplacementMap>
+      <feDisplacementMap in="displacedX" in2="noise" scale="0" xChannelSelector="G"
+        yChannelSelector="R" result="displacedXY">
+        <animate id="dispY" attributeName="scale" attributeType="XML" dur="0.1s" values="0"
+          repeatCount="indefinite" />
+      </feDisplacementMap>
+    </filter>
 
-      <filter id="emboss">
-    <feOffset dx="-7" dy="-7" in="SourceAlpha" result="offsetLight"/>
-    <feGaussianBlur stdDeviation="5" in="offsetLight" result="blurLight"/>
-    <feComposite in="blurLight" in2="SourceAlpha" operator="in" result="lightShadow"/>
-    <feFlood flood-color="#94eef2" flood-opacity="0.126" result="lightColor"/>
-    <feComposite in="lightColor" in2="lightShadow" operator="in" result="lightEffect"/>
-    <feBlend mode="screen" in="lightEffect" in2="SourceGraphic" result="blendedLight"/>
-    
-    <!-- Sombra oscura interior (inset) -->
-    <feOffset dx="10" dy="15" in="SourceAlpha" result="offsetDark"/>
-    <feGaussianBlur stdDeviation="5" in="offsetDark" result="blurDark"/>
-    <feComposite in="blurDark" in2="SourceAlpha" operator="in" result="darkShadow"/>
-    <feFlood flood-color="#1b023c" flood-opacity="0.126" result="darkColor"/>
-    <feComposite in="darkColor" in2="darkShadow" operator="in" result="darkEffect"/>
-    <feBlend mode="multiply" in="darkEffect" in2="blendedLight" result="embossed"/>
-    
-    <!-- Combinar con la imagen original -->
-    <feComposite in="embossed" in2="SourceGraphic" operator="in"/>
-  </filter>
+    <filter id="emboss">
+      <feOffset dx="-7" dy="-7" in="SourceAlpha" result="offsetLight" />
+      <feGaussianBlur stdDeviation="5" in="offsetLight" result="blurLight" />
+      <feComposite in="blurLight" in2="SourceAlpha" operator="in" result="lightShadow" />
+      <feFlood flood-color="#94eef2" flood-opacity="0.126" result="lightColor" />
+      <feComposite in="lightColor" in2="lightShadow" operator="in" result="lightEffect" />
+      <feBlend mode="screen" in="lightEffect" in2="SourceGraphic" result="blendedLight" />
+
+      <!-- Sombra oscura interior (inset) -->
+      <feOffset dx="10" dy="15" in="SourceAlpha" result="offsetDark" />
+      <feGaussianBlur stdDeviation="5" in="offsetDark" result="blurDark" />
+      <feComposite in="blurDark" in2="SourceAlpha" operator="in" result="darkShadow" />
+      <feFlood flood-color="#1b023c" flood-opacity="0.126" result="darkColor" />
+      <feComposite in="darkColor" in2="darkShadow" operator="in" result="darkEffect" />
+      <feBlend mode="multiply" in="darkEffect" in2="blendedLight" result="embossed" />
+
+      <!-- Combinar con la imagen original -->
+      <feComposite in="embossed" in2="SourceGraphic" operator="in" />
+    </filter>
   </defs>
 
   <g filter="url(#ripple)">
