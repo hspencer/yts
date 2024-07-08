@@ -1,0 +1,42 @@
+title: YTS
+description: Un lugar para mostrar la música y más
+baseurl: "" # Deja esto vacío si es tu sitio principal
+url: "https://ytsmusica.com"
+
+# Configuración de construcción
+markdown: kramdown
+permalink: /:categories/:title/
+
+# Excluir archivos y carpetas
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+
+# Colecciones
+collections:
+  releases:
+    output: true
+  diario:
+    output: true
+
+# Valores predeterminados para el front matter
+defaults:
+  - scope:
+      path: ""
+      type: "releases"
+    values:
+      layout: "release"
+  - scope:
+      path: ""
+      type: "diario"
+    values:
+      layout: "diario"
+  - scope:
+      path: ""
+    values:
+      layout: "default"
