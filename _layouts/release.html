@@ -1,0 +1,10 @@
+---
+layout: default
+---
+<article class="release">
+    <h2>{{ page.title }}</h2>
+    <p>Fecha: {{ page.date | date: "%d-%m-%Y" }}</p>
+    <p>Duración: {{ page.duracion }}</p>
+    {{ content }}
+    <!-- Aquí irán los enlaces a tiendas de música, letra, fotos, videos, etc. -->
+</article>

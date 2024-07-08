@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<!-- UNDER HEAVY CONSTRUCTION -->
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YTS</title>
+    <link rel="stylesheet" href="css/style-uc.css" />
+  </head>
+  <body>
+    <div class="logo-container">
+      <object type="image/svg+xml" data="img/yts-animated.svg">
+        Tu navegador no soporta SVG
+      </object>
+      <p>pronto...</p>
+
+      <audio id="bg-music" src="sts.mp3" type="audio/mp3" controls></audio>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+  const audio = document.getElementById("bg-music");
+  const svgObject = document.querySelector("object");
+
+  if (!audio || !svgObject) {
+    console.error('No se encontró el elemento de audio o SVG object');
+    return;
+  }
+
+  svgObject.addEventListener('load', function() {
+    const svgDoc = svgObject.contentDocument;
+    if (!svgDoc) {
+      console.error('No se pudo acceder al documento SVG');
+      return;
+    }
+
+    const dispX = svgDoc.getElementById("dispX");
+    const dispY = svgDoc.getElementById("dispY");
+
+    if (!dispX || !dispY) {
+      console.error('No se encontraron los elementos de animación en el SVG');
+      return;
+    }
+
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const analyser = audioContext.createAnalyser();
+    const source = audioContext.createMediaElementSource(audio);
+    source.connect(analyser);
+    analyser.connect(audioContext.destination);
+
+    analyser.fftSize = 1024;
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+
+    let lastVolume = 0;
+    const beatThreshold = 1.5;
+    const beatHoldTime = 60;
+    let lastBeatTime = 0;
+
+    function getVolume(dataArray) {
+      const sum = dataArray.reduce((acc, val) => acc + val);
+      return sum / dataArray.length;
+    }
+
+    function detectBeat(volume) {
+      const currentTime = audioContext.currentTime;
+      if (volume > lastVolume * beatThreshold && currentTime > lastBeatTime + beatHoldTime / 1000) {
+        lastBeatTime = currentTime;
+        return true;
+      }
+      return false;
+    }
+
+    function getLowFrequencyEnergy(dataArray) {
+      // Asumiendo que las frecuencias bajas están en el primer 10% del array
+      const lowEnd = Math.floor(dataArray.length * 0.1);
+      return dataArray.slice(0, lowEnd).reduce((acc, val) => acc + val) / lowEnd;
+    }
+
+    function updateRipple() {
+      analyser.getByteFrequencyData(dataArray);
+
+      const volume = getVolume(dataArray);
+      const beat = detectBeat(volume);
+      const lowFreqEnergy = getLowFrequencyEnergy(dataArray);
+
+      // X se mueve más y es sensible al volumen general y los beats
+      const scaleX = (volume / 2) * (beat ? 2 : 1);
+      
+      // Y es más suave y responde a las frecuencias bajas
+      const scaleY = lowFreqEnergy / 4;
+
+      dispX.setAttribute("values", -scaleX); // Movimiento hacia la izquierda
+      dispY.setAttribute("values", scaleY);  // Movimiento hacia abajo
+
+      lastVolume = volume;
+
+      requestAnimationFrame(updateRipple);
+    }
+
+    audio.addEventListener('play', () => {
+      audioContext.resume().then(() => updateRipple());
+    });
+  });
+});
+    </script>
+  </body>
+</html>
