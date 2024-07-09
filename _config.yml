@@ -45,3 +45,6 @@ defaults:
       path: ""
     values:
       layout: "default"
+
+# no github default theme
+theme: null
