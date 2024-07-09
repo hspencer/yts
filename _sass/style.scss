@@ -1,0 +1,17 @@
+---
+---
+
+@import "variables";
+@import "mixins";
+@import 'base';
+@import 'typography';
+@import 'layout';
+@import 'components';
+@import 'animations';
+
+// Estilos adicionales específicos de la página
+#content {
+  @include flex-center;
+  min-height: 100vh;
+  text-align: center;
+}

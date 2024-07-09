@@ -1,0 +1,19 @@
+h1, h2, h3, h4, h5, h6 {
+    font-family: $font-primary;
+    font-weight: 800;
+    margin-bottom: 1rem;
+  }
+  
+  p {
+    margin-bottom: 1rem;
+  }
+  
+  a {
+    color: $color-text;
+    text-decoration: none;
+    transition: color $transition-speed ease;
+  
+    &:hover {
+      color: darken($color-text, 15%);
+    }
+  }

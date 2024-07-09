@@ -7,6 +7,11 @@ url: "https://ytsmusica.com"
 markdown: kramdown
 permalink: /:categories/:title/
 
+# Sass stuff
+sass:
+  sass_dir: _sass
+  style: compressed
+
 # Excluir archivos y carpetas
 exclude:
   - Gemfile
