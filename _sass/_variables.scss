@@ -3,9 +3,10 @@
 // Colores
 $color-primary: #4900a2;
 $color-secondary: #af5105;
-$color-tertiary: #c77fb2;
+$color-tertiary: #31016d;
 $color-ground: #4bf4f4;
 $color-text: #ffffff;
+$color-line: transparentize($color-text, .8);
 
 // Fuentes
 $font-primary:  "Didact Gothic", sans-serif;

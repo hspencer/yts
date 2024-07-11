@@ -2,7 +2,9 @@
 layout: default
 ---
 <article class="release">
-    <h2>{{ page.title }}</h2>
+    <a href="{{ '/bio' | relative_url }}">Bio</a>
+    <img src="{{ page.image }}" alt="{{ page.description}}">
+    <h2 class="title">{{ page.title }}</h2>
     <p>Fecha: {{ page.date | date: "%d-%m-%Y" }}</p>
     <p>Duración: {{ page.duracion }}</p>
     {{ content }}
