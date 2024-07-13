@@ -1,6 +1,10 @@
 ---
 layout: home
-title: Bienvenido
+title: La Banda
 ---
 
-Bienvenido a mi sitio de música. Aquí encontrarás mis últimos lanzamientos, noticias y más.
+### Últimos Lanzamientos
+
+{% include releases_carousel.html %}
+
+{% include ig_embed.html %}

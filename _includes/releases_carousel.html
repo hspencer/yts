@@ -1,0 +1,71 @@
+<div class="releases-carousel">
+  <div class="carousel-container">
+    {% assign sorted_releases = site.releases | sort: 'date' | reverse %}
+    {% for release in sorted_releases limit:10 %}
+      <div class="carousel-item">
+        <img src="{{ release.image | relative_url }}" alt="{{ release.title }}">
+        <div class="carousel-content">
+          <h3>{{ release.title }}</h3>
+          <p>{{ release.date | date: "%d-%m-%Y" }}</p>
+          <p>{{ release.description | truncate: 100 }}</p>
+          <a href="{{ release.url | relative_url }}" class="btn">Ver más</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <button class="carousel-control prev" aria-label="Anterior">&lt;</button>
+  <button class="carousel-control next" aria-label="Siguiente">&gt;</button>
+  <div class="carousel-dots"></div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const carousel = document.querySelector('.carousel-container');
+  const items = carousel.querySelectorAll('.carousel-item');
+  const prevButton = document.querySelector('.carousel-control.prev');
+  const nextButton = document.querySelector('.carousel-control.next');
+  const dots = document.querySelector('.carousel-dots');
+  let currentIndex = 0;
+
+  // Crear los puntos de navegación
+  items.forEach((_, index) => {
+  const dot = document.createElement('span');
+  dot.classList.add('dot');
+  dot.addEventListener('click', () => goToSlide(index));
+  dots.appendChild(dot);
+});
+
+  function updateDots() {
+    dots.querySelectorAll('.dot').forEach((dot, index) => {
+      dot.classList.toggle('active', index === currentIndex);
+    });
+  }
+
+  function showSlide(index) {
+    items.forEach((item, i) => {
+      item.style.transform = `translateX(${100 * (i - index)}%)`;
+    });
+    updateDots();
+  }
+
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % items.length;
+    showSlide(currentIndex);
+  }
+
+  function prevSlide() {
+    currentIndex = (currentIndex - 1 + items.length) % items.length;
+    showSlide(currentIndex);
+  }
+
+  function goToSlide(index) {
+    currentIndex = index;
+    showSlide(currentIndex);
+  }
+
+  nextButton.addEventListener('click', nextSlide);
+  prevButton.addEventListener('click', prevSlide);
+
+  showSlide(currentIndex);
+});
+</script>
