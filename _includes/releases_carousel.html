@@ -13,15 +13,15 @@
       </div>
     {% endfor %}
   </div>
-  <button class="carousel-control prev" aria-label="Anterior">&lt;</button>
-  <button class="carousel-control next" aria-label="Siguiente">&gt;</button>
+  <button class="carousel-control prev" aria-label="Anterior">◀︎</button>
+  <button class="carousel-control next" aria-label="Siguiente">▶︎</button>
   <div class="carousel-dots"></div>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const carousel = document.querySelector('.carousel-container');
-  const items = carousel.querySelectorAll('.carousel-item');
+  const items = Array.from(carousel.querySelectorAll('.carousel-item'));
   const prevButton = document.querySelector('.carousel-control.prev');
   const nextButton = document.querySelector('.carousel-control.next');
   const dots = document.querySelector('.carousel-dots');
@@ -29,11 +29,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Crear los puntos de navegación
   items.forEach((_, index) => {
-  const dot = document.createElement('span');
-  dot.classList.add('dot');
-  dot.addEventListener('click', () => goToSlide(index));
-  dots.appendChild(dot);
-});
+    const dot = document.createElement('span');
+    dot.classList.add('dot');
+    dot.addEventListener('click', () => goToSlide(index));
+    dots.appendChild(dot);
+  });
 
   function updateDots() {
     dots.querySelectorAll('.dot').forEach((dot, index) => {
@@ -42,9 +42,8 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function showSlide(index) {
-    items.forEach((item, i) => {
-      item.style.transform = `translateX(${100 * (i - index)}%)`;
-    });
+    const offset = -index * 109;
+    carousel.style.transform = `translateX(${offset}%)`;
     updateDots();
   }
 
@@ -63,8 +62,8 @@ document.addEventListener('DOMContentLoaded', function() {
     showSlide(currentIndex);
   }
 
-  nextButton.addEventListener('click', nextSlide);
   prevButton.addEventListener('click', prevSlide);
+  nextButton.addEventListener('click', nextSlide);
 
   showSlide(currentIndex);
 });

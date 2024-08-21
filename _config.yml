@@ -38,9 +38,9 @@ defaults:
       layout: "release"
   - scope:
       path: ""
-      type: "diario"
+      type: "news"
     values:
-      layout: "diario"
+      layout: "post"
   - scope:
       path: ""
     values:

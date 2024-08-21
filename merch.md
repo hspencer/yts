@@ -6,7 +6,7 @@ permalink: /merch/
 
 # todavía nada por aquí
 
-<div class="releases-grid">
+<div class="merch-grid">
   {% for release in site.releases %}
     <div class="release-item">
       <a href="{{ release.url | relative_url }}">

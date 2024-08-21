@@ -15,3 +15,28 @@
     justify-content: center;
     align-items: center;
   }
+
+  .radial-bg {
+    // background: radial-gradient(circle at 25% 75%, rgba(255,195,158,1) 0%, rgba(254,172,172,1) 19%, rgba(225,250,255,1) 100%);
+    animation: move-center 5s infinite alternate;
+    transition: background 5s ease;
+  }
+  
+  @keyframes move-center {
+    0% {
+      background: radial-gradient(circle at 0% 100%, rgba(255,195,158,1) 0%, rgba(254,172,172,1) 19%, rgba(225,250,255,1) 100%);
+    }
+    25% {
+      background: radial-gradient(circle at 25% 75%, rgba(255,195,158,1) 0%, rgba(254,172,172,1) 19%, rgba(225,250,255,1) 100%);
+    }
+    50% {
+      background: radial-gradient(circle at 50% 50%, rgba(255,195,158,1) 0%, rgba(254,172,172,1) 19%, rgba(225,250,255,1) 100%);
+    }
+    75% {
+      background: radial-gradient(circle at 75% 25%, rgba(255,195,158,1) 0%, rgba(254,172,172,1) 19%, rgba(225,250,255,1) 100%);
+    }
+    100% {
+      background: radial-gradient(circle at 0% 100%, rgba(255,195,158,1) 0%, rgba(254,172,172,1) 19%, rgba(225,250,255,1) 100%);
+    }
+  }
+  

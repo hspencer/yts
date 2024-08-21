@@ -1,7 +1,27 @@
+# macOS
 .DS_Store
-_site
-.sass-cache
-.jekyll-cache
-.jekyll-metadata
-vendor
+._*
+.AppleDouble
 
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# Jekyll
+_site/
+.jekyll-cache/
+.jekyll-metadata
+
+# Bundler
+.bundle/
+vendor/bundle/
+
+# Log files
+*.log
+
+# Temp files
+*.tmp
+*.swp
