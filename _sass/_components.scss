@@ -22,8 +22,6 @@
 
 
 #header-top {
-  background-color: $color-tertiary;
-  min-height: 20vh;
   display: flex;
   align-content: flex-start;
   justify-content: space-evenly;
@@ -32,29 +30,29 @@
   h1 {
     letter-spacing: .5ex;
   }
+
+  img{
+    fill: $color-text;
+    max-width: 120px;
+    height: auto;
+  }
 }
 
 #nav-main {
   border-top: 1px solid $color-line;
   border-bottom: 1px solid $color-line;
-  padding: 1ex;
-  margin: 0 0 3em 0;
 
-  ul {
-    text-align: center;
-    line-height: 100%;
+
+  ol {
+      list-style-position: outside;
+      margin: 1em 0 1em 2em;
+      line-height: 100%;
+      font-size: 1.5em;
 
     li {
-      display: inline-block;
-      margin: 1ex .5ex;
+  
 
       a {
-        padding: .51ex 1em;
-        border-radius: 2em;
-        border: 1px solid $color-line;
-        text-transform: uppercase;
-        letter-spacing: .46ex;
-        font-size: .8rem;
 
         &:hover {
           color: $color-primary;
@@ -67,8 +65,6 @@
 
 
 footer {
-  position: sticky;
-  background-color: $color-tertiary;
   margin-top: 3em;
   padding: 1.8em 0 1.2em 0;
   font-size: 80%;

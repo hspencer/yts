@@ -5,6 +5,14 @@ url: "https://ytsmusica.com"
 
 # Configuración de construcción
 markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+  enable_coderay: false
+  parse_block_html: true
+  parse_span_html: true
+  html_to_native: false
+
 permalink: /:categories/:title/
 
 # Sass stuff

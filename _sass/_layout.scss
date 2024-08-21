@@ -23,3 +23,24 @@ main{
   flex: 1;
   padding: 0 15px;
 }
+
+
+.grid-body{
+  display: grid;
+  min-height: 100vh;
+  grid-template-areas: 
+                "yts pag pag"
+                "nav pag pag"
+                "fut fut fut";
+  header{
+    grid-area: yts;
+  }
+
+  nav{
+    grid-area: nav;
+  }
+
+  footer{
+    grid-area: fut;
+  }
+}
