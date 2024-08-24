@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: grid
 ---
 <article class="release-detail">
   <header>
@@ -15,13 +15,19 @@ layout: default
 
   <div class="streaming-links">
     {% if page.spotify %}
-      <a href="{{ page.spotify }}" target="_blank">Spotify</a>
+      <a class="btn" href="{{ page.spotify }}" target="_blank">
+        <img src="{{ '/assets/images/icon-spotify.svg' | relative_url }}" alt="Spotify Icon"> Spotify
+      </a>
     {% endif %}
     {% if page.apple_music %}
-      <a href="{{ page.apple_music }}" target="_blank">Apple Music</a>
+      <a class="btn" href="{{ page.apple_music }}" target="_blank">
+        <img src="{{ '/assets/images/icon-apple.svg' | relative_url }}" alt="Apple Music Icon"> Apple Music
+      </a>
     {% endif %}
     {% if page.youtube_music %}
-      <a href="{{ page.youtube_music }}" target="_blank">YouTube Music</a>
+      <a class="btn" href="{{ page.youtube_music }}" target="_blank">
+        <img src="{{ '/assets/images/icon-youtube.svg' | relative_url }}" alt="YouTube Music Icon"> YouTube Music
+      </a>
     {% endif %}
   </div>
 

@@ -1,46 +1,38 @@
-
-
-main{
-  margin: 0 auto;
-  width: 90%;
-  max-width: 740px;
-}
-
-.container {
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 15px;
-}
-  
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 -15px;
-}
-
-.col {
-  flex: 1;
-  padding: 0 15px;
-}
-
-
-.grid-body{
+.grid-body {
   display: grid;
   min-height: 100vh;
-  grid-template-areas: 
-                "yts pag pag"
-                "nav pag pag"
-                "fut fut fut";
-  header{
-    grid-area: yts;
-  }
+  margin: 0 auto;
+  grid-template-columns: 200px 1fr;
+  grid-template-rows: 5fr 1fr;
+  grid-template-areas:
+    "nav pag"
+    "fut fut";
+}
 
-  nav{
-    grid-area: nav;
-  }
+header {
+  grid-area: nav;
+}
 
-  footer{
-    grid-area: fut;
-  }
+nav {
+  grid-area: nav;
+}
+
+main {
+  grid-area: pag;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 540px));
+  margin: 4em 0;
+  max-width: 740px;
+  padding-left: 1em;
+}
+
+footer {
+  grid-area: fut;
+  border-top: 1px solid $color-line;
+  padding: 1.8em 0 1.2em 0;
+  font-size: 80%;
+  display: flex;
+  align-content: flex-start;
+  justify-content: space-evenly;
+  align-items: center;
+  bottom: 0;
 }

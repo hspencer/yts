@@ -1,15 +1,23 @@
 ---
-layout: post
+layout: grid
 title: News
 permalink: /posts/
 ---
 
-<div>
+<h2>News</h2>
+<div class="news-grid">
   {% for post in site.posts %}
-    <div class="post">
+    <div class="post-excerpt">
       <a href="{{ post.url | relative_url }}">
-        <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
-        <h3>{{ post.title }}</h3>
+        <span class="title">{{ post.title }}</span>
+        <p class="meta">
+          {% assign meses = "Enero,Febrero,Marzo,Abril,Mayo,Junio,Julio,Agosto,Septiembre,Octubre,Noviembre,Diciembre" | split: ',' %}
+          {% assign mes = page.date | date: "%-m" | minus: 1 %}
+          <time datetime="{{ post.date | date_to_xmlschema }}">
+              {{ post.date | date: "%d" }} de {{ meses[mes] }} de {{ post.date | date: "%Y" }}
+          </time>
+        </p>
+        
       </a>
     </div>
   {% endfor %}

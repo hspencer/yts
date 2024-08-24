@@ -1,25 +1,12 @@
-@mixin respond-to($breakpoint) {
-    @if $breakpoint == small {
-      @media (min-width: $breakpoint-small) { @content; }
-    } @else if $breakpoint == medium {
-      @media (min-width: $breakpoint-medium) { @content; }
-    } @else if $breakpoint == large {
-      @media (min-width: $breakpoint-large) { @content; }
-    } @else if $breakpoint == xlarge {
-      @media (min-width: $breakpoint-xlarge) { @content; }
-    }
-  }
-  
-  @mixin flex-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+@mixin multiple-shadows($color, $length, $alpha) {
+  $shadows: ();
+
+  @for $i from 1 through $length {
+    $transparency: $alpha * (1 - ($i / $length));
+    $current-shadow: #{$i}px #{$i}px 0 rgba($color, $transparency);
+
+    $shadows: append($shadows, $current-shadow, comma);
   }
 
-  .radial-bg {
-    background: rgb(254,227,255);
-    background: $background-gradient;
-  }
-  
- 
-  
+  box-shadow: $shadows;
+}

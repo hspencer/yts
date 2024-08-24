@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: grid
 title: Releases
 permalink: /releases/
 ---
@@ -9,7 +9,7 @@ permalink: /releases/
     <div class="release-item">
       <a href="{{ release.url | relative_url }}">
         <img src="{{ release.image | relative_url }}" alt="{{ release.title }}">
-        <h3>{{ release.title }}</h3>
+        <span class="release-title">{{ release.title }}</span>
       </a>
     </div>
   {% endfor %}

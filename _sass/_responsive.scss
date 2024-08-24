@@ -1,0 +1,43 @@
+/* Media query para pantallas pequeñas (smartphones en modo vertical) */
+@media only screen and (max-width: $breakpoint-small) {
+    /* Estilos específicos para pantallas pequeñas */
+    body {
+     
+    }
+
+    .container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .header {
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .menu {
+        display: block;
+        text-align: center;
+    }
+
+    /* Otros estilos específicos para dispositivos móviles */
+}
+
+/* Media query para pantallas medianas (tablets en modo vertical) */
+@media only screen and (max-width: $breakpoint-medium) {
+    /* Estilos específicos para pantallas medianas */
+    body {
+        
+    }
+
+    .container {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .header {
+        font-size: 22px;
+    }
+
+    /* Otros estilos específicos para tablets */
+}
