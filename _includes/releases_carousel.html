@@ -8,6 +8,23 @@
           <h3>{{ release.title }}</h3>
           <p>{{ release.date | date: "%d-%m-%Y" }}</p>
           <p>{{ release.description | truncate: 100 }}</p>
+          <div class="streaming-links">
+            {% if release.spotify %}
+              <a class="btn" href="{{ release.spotify }}" target="_blank">
+                {{ include icon-apple}} Spotify
+              </a>
+            {% endif %}
+            {% if release.apple_music %}
+              <a class="btn" href="{{ release.apple_music }}" target="_blank">
+                <img src="{{ '/assets/images/icon-apple.svg' | relative_url }}" alt="Apple Music Icon"> Apple Music
+              </a>
+            {% endif %}
+            {% if release.youtube_music %}
+              <a class="btn" href="{{ release.youtube_music }}" target="_blank">
+                <img src="{{ '/assets/images/icon-youtube.svg' | relative_url }}" alt="YouTube Music Icon"> YouTube Music
+              </a>
+            {% endif %}
+          </div>
           <a href="{{ release.url | relative_url }}" class="btn">Ver más</a>
         </div>
       </div>

@@ -1,14 +1,17 @@
 .btn {
   font-size: .9rem;
   display: inline-block;
-  padding: 0 5px;
-  background-color: transparent;
+  min-width: 11em;
+  max-width: 50%;
+  padding: 0.6944ex 1.1111ex 0.8333ex 1.1111ex;
+  line-height: 114%;
   color: $color-text;
   border: 1px solid $color-text;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color $transition-speed ease;
-
+  margin: 0 1ex 1ex 0;
+  
   &:hover {
     background-color: transparentize($color-primary, .8);
   }
@@ -47,12 +50,30 @@
       stroke-width: 1.5px;
     }
   }
+
+  @media only screen and (max-width: $breakpoint-small) {
+    /* Estilos específicos para pantallas pequeñas */
+    .grid-body {
+      grid-template-columns: 111px 1fr;
+    }
+    svg{
+      max-width: 200px;
+      height: auto;
+      .yts-logo{
+        stroke: rgba(255, 255, 255, 0.5);
+        fill: $color-text;
+        stroke-width: 5px;
+      }
+    }
+  }
 }
+
 
 aside{
   border-right: 1px solid $color-line;
 
 }
+
 #nav-main {
   text-align: right;
 
@@ -94,7 +115,21 @@ aside{
       margin-top: 10px;
       font-size: 1.2em;
     }
+
+    &:hover{
+      a .release-title{
+        box-sizing:content-box;
+        display: block;
+        margin: 0;
+        color: $color-secondary;
+      }
+    }
   }
+}
+
+.streaming-links{
+  display: flex;
+  flex-direction: column;
 }
 
 .release-detail {
@@ -115,27 +150,38 @@ aside{
     }
   }
 
-  .release-info {
-    margin: 20px 0;
-  }
-
-  .streaming-links {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 20px;
-
-    .btn{
-      display: flex;
-    justify-content: center;
-      img{
-        width: 1.3em;
-        height: auto;
-        margin-right: .5ex;
-        padding: .3ex 0;
+  .info-grid{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    margin-top: 3em;
+    .release-info {
+      margin: 0;
+      li{
+        list-style-type: none;
       }
     }
+  
+    .streaming-links {
+      display: flex;
+      flex-flow: column;
+      justify-content: start;
+    
+  
+      .btn{
+        display: flex;
+        justify-content: left;
+        margin-bottom: 1ex;
+        img{
+          width: 1.3em;
+          height: auto;
+          padding: .3ex 0;
+          margin: -4px 6px -3px -1px;
+        }
+      }
+    }
+
   }
+  
 }
 
 .releases-carousel {
@@ -154,6 +200,11 @@ aside{
   width: 100%;
   box-sizing: border-box;
   padding: 0 15px;
+
+  img{
+    max-width: 100%;
+    @include multiple-shadows(rgb(135, 96, 172), 35, .11);
+  }
 }
 
 .releases-carousel {
@@ -187,6 +238,17 @@ aside{
 
       p {
         margin-bottom: 10px;
+      }
+
+      .streaming-links a.btn{
+        img{
+          width: 1.5em;
+          max-width: 2em;
+          display: inline;
+          margin-bottom: -.83ex;
+          margin-top: -0.4ex;
+          box-shadow: none;
+        }
       }
     }
   }
@@ -239,7 +301,7 @@ aside{
 
 .news-grid{
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(0, 200px));
   gap: 1em;
   .post-excerpt{
     border: 1px solid $color-line;
@@ -249,4 +311,25 @@ aside{
       background-color: $color-line;
     }
   }
+}
+
+.elemento {
+  position: relative;
+  width: 200px;
+  height: 100px;
+  background-color: rgba(255, 255, 255, 0.3); /* Fondo transparente */
+  border: 1px solid rgba(49,1,109,0.2);
+}
+
+.elemento::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: .51ex;
+  left: .51ex;
+  background-color: rgba(255, 255, 255, 0.24);
+  border: 4px solid rgb(255, 255, 255);
+  border-radius: 1ex;
+  z-index: -1; /* Asegura que la "sombra" esté detrás del elemento principal */
 }

@@ -36,3 +36,14 @@ footer {
   align-items: center;
   bottom: 0;
 }
+
+
+@media only screen and (max-width: $breakpoint-small) {
+  /* Estilos específicos para pantallas pequeñas */
+  .grid-body {
+    grid-template-columns: 111px minmax(50vw, 1fr);
+  }
+  nav{
+    line-height: 300%;
+  }
+}
