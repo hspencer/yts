@@ -11,9 +11,21 @@
   cursor: pointer;
   transition: background-color $transition-speed ease;
   margin: 0 1ex 1ex 0;
+
+  &.simple{
+    border: none;
+  }
   
   &:hover {
     background-color: transparentize($color-primary, .8);
+  }
+
+  svg{
+    width: 1.6em;
+    margin: -4px -1px -5px -3px;
+    fill: $color-text;
+    // $type: box, $angle: 45deg, $color: pink, $length: 10, $alpha: 0.5) 
+    @include long-shadow(svg, 225, white, 25, .36)
   }
 }
 
@@ -103,25 +115,36 @@ aside{
   gap: 20px;
 
   .release-item {
+    position: relative;
 
     img {
       width: 100%;
       height: auto;
       border-radius: 5px;
-      @include multiple-shadows(rgb(204, 149, 255), 5, 1);
+      @include long-shadow(box, 45,rgb(204, 149, 255), 5, 1);
     }
 
     .release-title {
       margin-top: 10px;
-      font-size: 1.2em;
+      font-size: 0.69em;
+      position: absolute;
+      display: inline-block;
+      top: -1.243em;
+      left: 0;
+      padding: .1ex 1em;
+      color: rgba(255, 255, 255, 0.694);
+      background-color: $color-line;
+      border-radius: 0 1ex 0 0.81ex;
+      text-transform: uppercase;
+      letter-spacing: .23ex;
     }
 
     &:hover{
       a .release-title{
         box-sizing:content-box;
         display: block;
-        margin: 0;
-        color: $color-secondary;
+        background-color: $color-secondary;
+        color: $color-text;
       }
     }
   }
@@ -146,7 +169,7 @@ aside{
       height: auto;
       border-radius: 5px;
       // ($color, $length, $alpha)
-      @include multiple-shadows(pink, 30, .5);
+      @include long-shadow(box, 45, pink, 30, .5);
     }
   }
 
@@ -171,12 +194,6 @@ aside{
         display: flex;
         justify-content: left;
         margin-bottom: 1ex;
-        img{
-          width: 1.3em;
-          height: auto;
-          padding: .3ex 0;
-          margin: -4px 6px -3px -1px;
-        }
       }
     }
 
@@ -203,13 +220,13 @@ aside{
 
   img{
     max-width: 100%;
-    @include multiple-shadows(rgb(135, 96, 172), 35, .11);
+    @include long-shadow(box, 45,rgb(135, 96, 172), 35, .11);
   }
 }
 
 .releases-carousel {
   position: relative;
-  max-width: 800px;
+  max-width: 75vw;
   margin: 0 auto;
   overflow: hidden;
 
@@ -241,14 +258,14 @@ aside{
       }
 
       .streaming-links a.btn{
-        img{
-          width: 1.5em;
-          max-width: 2em;
-          display: inline;
-          margin-bottom: -.83ex;
-          margin-top: -0.4ex;
-          box-shadow: none;
-        }
+        // img{
+        //   width: 1.5em;
+        //   max-width: 2em;
+        //   display: inline;
+        //   margin-bottom: -.83ex;
+        //   margin-top: -0.4ex;
+        //   box-shadow: none;
+        // }
       }
     }
   }
@@ -289,11 +306,11 @@ aside{
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background-color: rgba(255, 255, 255, 0.5);
+      background-color: $color-line;
       cursor: pointer;
 
       &.active {
-        background-color: white;
+        background-color: $color-tertiary;
       }
     }
   }

@@ -5,10 +5,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const songItems = carousel.querySelectorAll('.song-item');
     let currentIndex = 0;
 
+    // function showSong(index) {
+    //     songItems.forEach((item, i) => {
+    //         item.style.display = i === index ? 'block' : 'none';
+    //     });
+    // }
+
     function showSong(index) {
-        songItems.forEach((item, i) => {
-            item.style.display = i === index ? 'block' : 'none';
-        });
+        const offset = -index * 100; // Cada item se desplaza 100% de su ancho
+        carousel.style.transform = `translateX(${offset}%)`;
     }
 
     function nextSong() {

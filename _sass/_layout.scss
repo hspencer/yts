@@ -21,8 +21,7 @@ main {
   grid-area: pag;
   grid-template-columns: repeat(auto-fit, minmax(200px, 540px));
   margin: 4em 0;
-  max-width: 740px;
-  padding-left: 1em;
+  padding: 0 1em;
 }
 
 footer {

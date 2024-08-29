@@ -3,7 +3,9 @@
     {% assign sorted_releases = site.releases | sort: 'date' | reverse %}
     {% for release in sorted_releases limit:10 %}
       <div class="carousel-item">
-        <img src="{{ release.image | relative_url }}" alt="{{ release.title }}">
+        <a href="{{ release.url | relative_url }}">
+          <img src="{{ release.image | relative_url }}" alt="{{ release.title }}">
+        </a>
         <div class="carousel-content">
           <h3>{{ release.title }}</h3>
           <p>{{ release.date | date: "%d-%m-%Y" }}</p>
@@ -11,21 +13,21 @@
           <div class="streaming-links">
             {% if release.spotify %}
               <a class="btn" href="{{ release.spotify }}" target="_blank">
-                {{ include icon-apple}} Spotify
+                {% include icon-spotify.html %} Spotify
               </a>
             {% endif %}
             {% if release.apple_music %}
               <a class="btn" href="{{ release.apple_music }}" target="_blank">
-                <img src="{{ '/assets/images/icon-apple.svg' | relative_url }}" alt="Apple Music Icon"> Apple Music
+               {% include icon-apple.html %} Apple Music
               </a>
             {% endif %}
             {% if release.youtube_music %}
               <a class="btn" href="{{ release.youtube_music }}" target="_blank">
-                <img src="{{ '/assets/images/icon-youtube.svg' | relative_url }}" alt="YouTube Music Icon"> YouTube Music
+                {% include icon-youtube.html %} YouTube Music
               </a>
             {% endif %}
           </div>
-          <a href="{{ release.url | relative_url }}" class="btn">Ver más</a>
+          <a href="{{ release.url | relative_url }}" class="btn simple">Ver más &rarr;</a>
         </div>
       </div>
     {% endfor %}

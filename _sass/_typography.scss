@@ -8,13 +8,14 @@ h1, h2, h3, h4, h5, h6 {
     font-size: .9rem;
     margin-bottom: 1rem;
     letter-spacing: 0.03ex;
+    max-width: 40em;
   }
   
   a {
     color: $color-text;
     text-decoration: none;
     transition: color $transition-speed ease;
-  
+    position: relative;
     &:hover {
       color: darken($color-text, 15%);
     }
