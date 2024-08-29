@@ -17,17 +17,17 @@ layout: grid
 
     <div class="streaming-links">
       {% if page.spotify %}
-        <a class="btn" href="{{ page.spotify }}" target="_blank">
+        <a class="btn spotify" href="{{ page.spotify }}" target="_blank">
           {% include icon-spotify.html %} Spotify
         </a>
       {% endif %}
       {% if page.apple_music %}
-        <a class="btn" href="{{ page.apple_music }}" target="_blank">
+        <a class="btn apple" href="{{ page.apple_music }}" target="_blank">
          {% include icon-apple.html %} Apple Music
         </a>
       {% endif %}
       {% if page.youtube_music %}
-        <a class="btn" href="{{ page.youtube_music }}" target="_blank">
+        <a class="btn youtube" href="{{ page.youtube_music }}" target="_blank">
           {% include icon-youtube.html %} YouTube Music
         </a>
       {% endif %}
