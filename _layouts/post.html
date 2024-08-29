@@ -1,16 +1,15 @@
 ---
-layout: default
+layout: grid
 ---
 <article class="post">
   <header>
-    <h1>{{ page.title }}</h1>
+    <h3 class="post-title">{{ page.title }}</h3>
     <p class="post-meta">
+      {% assign meses = "Enero,Febrero,Marzo,Abril,Mayo,Junio,Julio,Agosto,Septiembre,Octubre,Noviembre,Diciembre" | split: ',' %}
+      {% assign mes = page.date | date: "%-m" | minus: 1 %}
       <time datetime="{{ page.date | date_to_xmlschema }}">
-        {{ page.date | date: "%d-%m-%Y" }}
+          {{ page.date | date: "%d" }} de {{ meses[mes] }} de {{ page.date | date: "%Y" }}
       </time>
-      {% if page.author %}
-        • {{ page.author }}
-      {% endif %}
     </p>
   </header>
 

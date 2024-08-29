@@ -1,70 +1,77 @@
-<div class="releases-carousel">
-  <div class="carousel-container">
+<div class="carousel">
+  <div class="carousel-inner">
     {% assign sorted_releases = site.releases | sort: 'date' | reverse %}
     {% for release in sorted_releases limit:10 %}
       <div class="carousel-item">
-        <img src="{{ release.image | relative_url }}" alt="{{ release.title }}">
+        <a href="{{ release.url | relative_url }}">
+          <img src="{{ release.image | relative_url }}" alt="{{ release.title }}">
+        </a>
         <div class="carousel-content">
           <h3>{{ release.title }}</h3>
-          <p>{{ release.date | date: "%d-%m-%Y" }}</p>
-          <p>{{ release.description | truncate: 100 }}</p>
-          <a href="{{ release.url | relative_url }}" class="btn">Ver más</a>
+          <div class="streaming-links">
+            {% if release.spotify %}
+              <a class="btn spotify" href="{{ release.spotify }}" target="_blank">
+                {% include icon-spotify.html %}
+              </a>
+            {% endif %}
+            {% if release.apple_music %}
+              <a class="btn apple" href="{{ release.apple_music }}" target="_blank">
+               {% include icon-apple.html %}
+              </a>
+            {% endif %}
+            {% if release.youtube_music %}
+              <a class="btn youtube" href="{{ release.youtube_music }}" target="_blank">
+                {% include icon-youtube.html %}
+              </a>
+            {% endif %}
+          </div>
         </div>
       </div>
     {% endfor %}
   </div>
-  <button class="carousel-control prev" aria-label="Anterior">◀︎</button>
-  <button class="carousel-control next" aria-label="Siguiente">▶︎</button>
-  <div class="carousel-dots"></div>
+  <div class="carousel-navigation">
+    <button class="carousel-control prev" aria-label="Anterior">&uarr;</button>
+    <button class="carousel-control next" aria-label="Siguiente">&darr;</button>
+  </div>
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const carousel = document.querySelector('.carousel-container');
-  const items = Array.from(carousel.querySelectorAll('.carousel-item'));
-  const prevButton = document.querySelector('.carousel-control.prev');
-  const nextButton = document.querySelector('.carousel-control.next');
-  const dots = document.querySelector('.carousel-dots');
-  let currentIndex = 0;
+  document.addEventListener('DOMContentLoaded', function() {
+    const carouselInner = document.querySelector('.carousel-inner');
+    const items = document.querySelectorAll('.carousel-item');
+    const prevButton = document.querySelector('.carousel-control.prev');
+    const nextButton = document.querySelector('.carousel-control.next');
+    let currentIndex = 0;
 
-  // Crear los puntos de navegación
-  items.forEach((_, index) => {
-    const dot = document.createElement('span');
-    dot.classList.add('dot');
-    dot.addEventListener('click', () => goToSlide(index));
-    dots.appendChild(dot);
-  });
+    const angle = 360 / items.length; // Calcula el ángulo de rotación basado en el número de elementos
 
-  function updateDots() {
-    dots.querySelectorAll('.dot').forEach((dot, index) => {
-      dot.classList.toggle('active', index === currentIndex);
+    // Coloca los elementos del carrusel en un círculo 3D
+    items.forEach((item, index) => {
+      const rotateAngle = index * angle;
+      item.style.transform = `rotateX(${rotateAngle}deg) translateZ(300px)`;
     });
-  }
 
-  function showSlide(index) {
-    const offset = -index * 109;
-    carousel.style.transform = `translateX(${offset}%)`;
-    updateDots();
-  }
+    function showSlide(index) {
+      const rotateAngle = -index * angle;
+      carouselInner.style.transform = `rotateX(${rotateAngle}deg)`;
+      items.forEach((item, idx) => {
+        item.classList.toggle('active', idx === index);
+      });
+    }
 
-  function nextSlide() {
-    currentIndex = (currentIndex + 1) % items.length;
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % items.length;
+      showSlide(currentIndex);
+    }
+
+    function prevSlide() {
+      currentIndex = (currentIndex - 1 + items.length) % items.length;
+      showSlide(currentIndex);
+    }
+
+    prevButton.addEventListener('click', prevSlide);
+    nextButton.addEventListener('click', nextSlide);
+
     showSlide(currentIndex);
-  }
-
-  function prevSlide() {
-    currentIndex = (currentIndex - 1 + items.length) % items.length;
-    showSlide(currentIndex);
-  }
-
-  function goToSlide(index) {
-    currentIndex = index;
-    showSlide(currentIndex);
-  }
-
-  prevButton.addEventListener('click', prevSlide);
-  nextButton.addEventListener('click', nextSlide);
-
-  showSlide(currentIndex);
-});
+  });
 </script>

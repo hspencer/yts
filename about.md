@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: grid
 title: About
 permalink: /about/
 ---
