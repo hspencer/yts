@@ -1,12 +1,13 @@
 .carousel {
   position: relative;
   width: 100%;
-  max-width: 600px;
-  border-radius: .5ex;
+  max-width: 41em;
+  border-radius: 1ex;
   aspect-ratio: 1 / 1; /* Mantener la proporción cuadrada */
   overflow: hidden;
-  margin: 0 auto;
+  margin: 0 0 2em 0;
   perspective: 3600px; /* Añadir perspectiva para el efecto 3D */
+  @include long-shadow();
 
   .carousel-inner {
     position: relative;
@@ -58,7 +59,8 @@
       gap: 10px;
 
       h3 {
-        margin: 0 0 1ex 0;
+        font-weight: 500;
+        margin: 0 0 1ex 1ex;
         flex: 1;
         text-align: left;
       }
@@ -67,13 +69,13 @@
         display: flex;
         flex-direction: row;
         gap: 1ex;
-        right: 6em;
+        right: 5em;
 
         a.btn {
-          width: 3em;
-          min-width: 3em;
+          width: 32px;
+          min-width: 32px;
           border-radius: 50%;
-          padding: 5px 10px;
+          padding: 0 0 2px 6px;
           background-color: rgba(255, 255, 255, 0.2);
           border: 1px solid transparentize($color-ground, .5);
           color: white;
@@ -99,8 +101,9 @@
     button {
       background-color: rgba(0, 0, 0, 0.5);
       color: white;
+      width: 32px;
       border: 1px solid transparentize($color-ground, .5);
-      padding: 1ex 1em;
+      padding: 0;
       cursor: pointer;
       border-radius: 50%;
       aspect-ratio: 1 / 1;

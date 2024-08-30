@@ -5,7 +5,8 @@ permalink: /releases/
 ---
 
 <div class="releases-grid">
-  {% for release in site.releases %}
+  {% assign sorted_releases = site.releases | sort: 'date' | reverse %}
+  {% for release in sorted_releases %}
     <div class="release-item">
       <a href="{{ release.url | relative_url }}">
         <img src="{{ release.image | relative_url }}" alt="{{ release.title }}">

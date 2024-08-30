@@ -13,7 +13,7 @@ Paul Spencer
 - para servir el sitio localmente:
 
 ```
-bundle exec jekyll serve --livereload
+bundle exec jekyll serve --host 0.0.0.0 --livereload
 ```
 
 
