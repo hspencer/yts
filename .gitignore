@@ -25,3 +25,4 @@ vendor/bundle/
 # Temp files
 *.tmp
 *.swp
+.DS_Store
