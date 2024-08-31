@@ -14,6 +14,20 @@ layout: grid
   </header>
 
   <div class="post-content">
+    <!-- Inserción del iframe de YouTube si el parámetro existe -->
+    {% if page.youtube %}
+    {% if page.youtube contains "youtu.be" %}
+      <!-- Para URLs cortas (https://youtu.be/ID) -->
+      {% assign video_id = page.youtube | split: "/" | last | split: "?" | first %}
+    {% elsif page.youtube contains "watch?v=" %}
+      <!-- Para URLs largas (https://www.youtube.com/watch?v=ID) -->
+      {% assign video_id = page.youtube | split: "v=" | last | split: "&" | first %}
+    {% endif %}
+    <div class="embed-responsive embed-responsive-16by9">
+      <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ video_id }}" frameborder="0" allowfullscreen></iframe>
+    </div>
+  {% endif %}
+    
     {{ content }}
   </div>
 </article>

@@ -266,11 +266,16 @@ aside {
       z-index: -1; /* Asegura que la "sombra" esté detrás del elemento principal */
     }
 
+    li,
     p {
       color: transparentize($color-text, .45);
       font-size: 0.82em;
       letter-spacing: normal;
       line-height: 1.15em;
+    }
+
+    li{
+      margin: 0 0 0 2em;
     }
     img{
       width: 100%;

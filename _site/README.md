@@ -16,6 +16,12 @@ Paul Spencer
 bundle exec jekyll serve --host 0.0.0.0 --livereload
 ```
 
+para visualizar el sitio en tu teléfono celular debes conocer la IP de tu computador en tu red local. Para esto ejecutas en tu terminal:
+
+```
+ipconfig   
+```
+luego accedes a esa ip en el puerto 4000.
 
 #### Instalación
 
