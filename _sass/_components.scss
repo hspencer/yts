@@ -183,6 +183,7 @@ aside {
     h1 {
       font-weight: 200;
       font-size: 3em;
+      line-height: 100%;
     }
     img {
       max-width: 100%;
@@ -216,11 +217,20 @@ aside {
       }
     }
   }
+
+  @media only screen and (max-width: $breakpoint-small) {
+    .info-grid{
+      display: block;
+      .streaming-links{
+        margin: 1em 0;
+      }
+    }
+  }
 }
 
 .news-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(0, 15em));
+  grid-template-columns: repeat(auto-fit, minmax(10em, 20em));
   gap: 1em;
 
   .post-excerpt {
@@ -258,7 +268,7 @@ aside {
 
     p {
       color: transparentize($color-text, .45);
-      font-size: 0.72em;
+      font-size: 0.82em;
       letter-spacing: normal;
       line-height: 1.15em;
     }
