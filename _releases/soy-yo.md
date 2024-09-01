@@ -4,7 +4,7 @@ title: "Soy yo"
 date: 2021-05-01
 duracion: "3:36"
 description: "algo extra, una bajada de texto"
-image: /assets/images/r-soy-yo.jpg
+image: /assets/images/releases/soy-yo.jpg
 spotify: https://open.spotify.com/intl-es/track/7v21xXXbMX68vReGDwHKIm?si=a497b57191de4362
 apple_music: https://music.apple.com/us/album/soy-yo-feat-consuelohm-single/1569325513
 youtube_music: https://music.youtube.com/watch?v=jBD3DzYV6tw&si=TlY1WRq6b8-gvyQQ

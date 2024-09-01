@@ -4,7 +4,7 @@ title: "Un ratito más"
 date: 2023-09-30
 duracion: "2:58"
 description: "single release"
-image: /assets/images/r-un-ratito-mas.jpg
+image: /assets/images/releases/un-ratito-mas.jpg
 spotify: https://open.spotify.com/intl-es/track/1AHSmaoSZGwVra3r4JYeFj?si=c7433ee2202c4e9e
 apple_music: https://music.apple.com/us/album/un-ratito-m%C3%A1s-single/1709025543
 youtube_music: https://music.youtube.com/watch?v=g9xsiDURe7g&si=OZJS0-iYyyclb4Am

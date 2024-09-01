@@ -4,7 +4,7 @@ title: "Otra Cerveza"
 date: 2022-07-01
 duracion: "2:57"
 description: "con Crasa"
-image: /assets/images/r-otra-cerveza.jpg
+image: /assets/images/releases/otra-cerveza.jpg
 spotify: https://open.spotify.com/intl-es/track/3Y51JriJdxGaFVFuOAG90N?si=a022a01fea1745dd
 apple_music: https://music.apple.com/us/album/otra-cerveza-feat-crasa-single/1655513961
 youtube_music: https://music.youtube.com/watch?v=_vg2BQl6_Mo&si=ibcUQJ7fq0FQQwDS
