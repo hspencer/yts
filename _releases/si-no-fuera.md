@@ -1,5 +1,5 @@
 ---
-layout: release-detail
+layout: release
 title: "Si no fuera"
 date: 2023-12-01
 duracion: "3:14"

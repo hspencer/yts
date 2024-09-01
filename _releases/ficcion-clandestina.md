@@ -1,5 +1,5 @@
 ---
-layout: release-detail
+layout: release
 title: "Ficción Clandestina"
 date: 2020-02-12
 duracion: "3:45"

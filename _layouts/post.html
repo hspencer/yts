@@ -1,33 +1,38 @@
 ---
 layout: grid
 ---
+
 <article class="post">
   <header>
     <h3 class="post-title">{{ page.title }}</h3>
     <p class="post-meta">
-      {% assign meses = "Enero,Febrero,Marzo,Abril,Mayo,Junio,Julio,Agosto,Septiembre,Octubre,Noviembre,Diciembre" | split: ',' %}
-      {% assign mes = page.date | date: "%-m" | minus: 1 %}
+      {% assign meses =
+      "Enero,Febrero,Marzo,Abril,Mayo,Junio,Julio,Agosto,Septiembre,Octubre,Noviembre,Diciembre"
+      | split: ',' %} {% assign mes = page.date | date: "%-m" | minus: 1 %}
       <time datetime="{{ page.date | date_to_xmlschema }}">
-          {{ page.date | date: "%d" }} de {{ meses[mes] }} de {{ page.date | date: "%Y" }}
+        {{ page.date | date: "%d" }} de {{ meses[mes] }} de {{ page.date | date:
+        "%Y" }}
       </time>
     </p>
   </header>
 
   <div class="post-content">
     <!-- Inserción del iframe de YouTube si el parámetro existe -->
-    {% if page.youtube %}
-    {% if page.youtube contains "youtu.be" %}
-      <!-- Para URLs cortas (https://youtu.be/ID) -->
-      {% assign video_id = page.youtube | split: "/" | last | split: "?" | first %}
-    {% elsif page.youtube contains "watch?v=" %}
-      <!-- Para URLs largas (https://www.youtube.com/watch?v=ID) -->
-      {% assign video_id = page.youtube | split: "v=" | last | split: "&" | first %}
-    {% endif %}
+    {% if page.youtube %} {% if page.youtube contains "youtu.be" %}
+    <!-- Para URLs cortas (https://youtu.be/ID) -->
+    {% assign video_id = page.youtube | split: "/" | last | split: "?" | first
+    %} {% elsif page.youtube contains "watch?v=" %}
+    <!-- Para URLs largas (https://www.youtube.com/watch?v=ID) -->
+    {% assign video_id = page.youtube | split: "v=" | last | split: "&" | first
+    %} {% endif %}
     <div class="embed-responsive embed-responsive-16by9">
-      <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ video_id }}" frameborder="0" allowfullscreen></iframe>
+      <iframe
+        class="embed-responsive-item"
+        src="https://www.youtube.com/embed/{{ video_id }}"
+        frameborder="0"
+        allowfullscreen
+      ></iframe>
     </div>
-  {% endif %}
-    
-    {{ content }}
+    {% endif %} {{ content }}
   </div>
 </article>

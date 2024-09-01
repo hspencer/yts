@@ -1,5 +1,5 @@
 ---
-layout: release-detail
+layout: release
 title: "Si Tú Supieras"
 date: 2024-05-01
 duracion: "3:01"

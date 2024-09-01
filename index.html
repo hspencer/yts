@@ -8,7 +8,7 @@ title: La Banda
 {% include releases_carousel.html %}
 
 <h2>News</h2>
-<div class="news-grid">
+<!-- <div class="news-grid">
   {% for post in site.posts %}
   <div class="post-excerpt">
     <a href="{{ post.url | relative_url }}">
@@ -19,6 +19,41 @@ title: La Banda
       </time>
       </p>
       <p class="excerpt">{{ post.excerpt | truncatewords: 80 }}</p>
+    </a>
+  </div>
+  {% endfor %}
+</div> -->
+<div class="news-grid">
+  {% for post in site.posts %}
+  <div class="post-excerpt">
+    <a href="{{ post.url | relative_url }}">
+      <span class="title">{{ post.title }}</span>
+      <p class="meta">
+        <time datetime="{{ post.date | date_to_xmlschema }}">
+          {{ post.date | date: "%d-%m-%Y" }}
+        </time>
+      </p>
+
+      {% if post.youtube %} {% if post.youtube contains "youtu.be" %}
+      <!-- Para URLs cortas (https://youtu.be/ID) -->
+      {% assign video_id = post.youtube | split: "/" | last | split: "?" | first
+      %} {% elsif post.youtube contains "watch?v=" %}
+      <!-- Para URLs largas (https://www.youtube.com/watch?v=ID) -->
+      {% assign video_id = post.youtube | split: "v=" | last | split: "&" |
+      first %} {% endif %}
+      <div class="embed-responsive embed-responsive-16by9">
+        <iframe
+          class="embed-responsive-item"
+          src="https://www.youtube.com/embed/{{ video_id }}"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
+      </div>
+      {% endif %} {% assign excerpt_length = 80 %} {% capture excerpt %} {{
+      post.content | truncatewords: excerpt_length }} {% endcapture %} {% if
+      excerpt %}
+      <p class="excerpt">{{ excerpt | strip_newlines }}</p>
+      {% endif %}
     </a>
   </div>
   {% endfor %}

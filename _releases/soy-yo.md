@@ -1,5 +1,5 @@
 ---
-layout: release-detail
+layout: release
 title: "Soy yo"
 date: 2021-05-01
 duracion: "3:36"

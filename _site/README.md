@@ -7,7 +7,7 @@ Simón Miranda
 Paul Spencer
 ```
 
-### Quick Start
+### DEV
 
 - desarrollado en [Jekyll](https://jekyllrb.com/)
 - para servir el sitio localmente:
@@ -16,14 +16,15 @@ Paul Spencer
 bundle exec jekyll serve --host 0.0.0.0 --livereload
 ```
 
-para visualizar el sitio en tu teléfono celular debes conocer la IP de tu computador en tu red local. Para esto ejecutas en tu terminal:
+Para visualizar el sitio en tu teléfono celular debes conocer la IP de tu computador en tu red local. Para esto ejecutas en tu terminal:
 
 ```
-ipconfig   
+ipconfig // (en pc of ifcongif en mac)   
 ```
-luego accedes a esa ip en el puerto 4000.
+luego accedes a esa ip en el puerto 4000 en el teléfono.
 
-#### Instalación
+#### Instalación (para desarrollo local)
+El propósito de instalarlo localmente es para poder previsualizarlo antes de publicarlo, como hacer pruebas en múltiples pantallas (escritorio, celular, explicado más arriba).
 
 ##### Requisitos Previos
 
@@ -65,19 +66,19 @@ luego accedes a esa ip en el puerto 4000.
 
 #### Creación de un Nuevo Post
 
-Para crear un nuevo post, sigue estos pasos:
+Debes crear un nuevo post en la carpeta <code>_posts</code>; sigue los siguientes pasos:
 
-1. **Nombre del Archivo**:
+1. **Crea el archivo con el nombre correcto**:
    - El nombre del archivo debe seguir el formato `YYYY-MM-DD-titulo-del-post.md`, donde `YYYY-MM-DD` es la fecha del post.
 
-2. **Estructura del Post**:
+2. **Estructura del archivo**:
    - Cada post debe tener un encabezado YAML (front matter) con la siguiente estructura:
      ```yaml
      ---
      layout: post
      title: "Título del Post"
      date: YYYY-MM-DD HH:MM:SS +0000
-     categories: [categoría1, categoría2]
+     youtube: https://youtu.be/...
      ---
      ```
 

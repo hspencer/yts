@@ -28,7 +28,7 @@ layout: grid
       {% endif %}
       {% if page.youtube_music %}
         <a class="btn youtube" href="{{ page.youtube_music }}" target="_blank">
-          {% include icon-youtube.html %} YouTube Music
+          {% include icon-youtube-music.html %} YouTube Music
         </a>
       {% endif %}
     </div>

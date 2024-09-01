@@ -1,5 +1,5 @@
 ---
-layout: release-detail
+layout: release
 title: "Un ratito más"
 date: 2023-09-30
 duracion: "2:58"

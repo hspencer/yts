@@ -1,5 +1,5 @@
 ---
-layout: release-detail
+layout: release
 title: "Noche de Placer"
 date: 2020-03-15
 duracion: "3:42"

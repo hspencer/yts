@@ -43,10 +43,10 @@
 
     .carousel-content {
       position: absolute;
-      bottom: 10px;
+      bottom: 1.5em;
       left: 50%; /* Centrar horizontalmente */
       transform: translateX(-50%); /* Centrar horizontalmente */
-      display: flex;
+      display: inline-block;
       justify-content: space-between;
       align-items: center;
       width: calc(100% - 40px); /* Ajustar para que no toque los bordes */
@@ -60,9 +60,10 @@
 
       h3 {
         font-weight: 500;
-        margin: 0 0 1ex 1ex;
+        margin: 0 0 1ex .5ex;
         flex: 1;
         text-align: left;
+        @include long-shadow(text, 45, $color-text, 20, .5);
       }
 
       .streaming-links {
@@ -70,21 +71,24 @@
         flex-direction: row;
         gap: 1ex;
         right: 5em;
+        left: 0;
 
         a.btn {
           width: 32px;
           min-width: 32px;
           border-radius: 50%;
           padding: 0 0 2px 6px;
-          background-color: rgba(255, 255, 255, 0.2);
-          border: 1px solid transparentize($color-ground, .5);
-          color: white;
+          border: 2px solid rgb(240, 246, 246);
+          background-color: transparent;
           text-decoration: none;
-          display: flex;
+          display: inline-block;
           align-items: center;
           aspect-ratio: 1 / 1;
+
           svg{
-            fill: white
+            fill: white;
+            top: .45em;
+            left: 0;
           }
         }
       }
@@ -99,10 +103,10 @@
     gap: 10px;
 
     button {
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgba(47, 2, 87, 0.5);
       color: white;
       width: 32px;
-      border: 1px solid transparentize($color-ground, .5);
+      border: 2px solid rgba(240, 246, 246, 0.87);
       padding: 0;
       cursor: pointer;
       border-radius: 50%;

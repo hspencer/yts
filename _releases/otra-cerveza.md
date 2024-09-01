@@ -1,5 +1,5 @@
 ---
-layout: release-detail
+layout: release
 title: "Otra Cerveza"
 date: 2022-07-01
 duracion: "2:57"
