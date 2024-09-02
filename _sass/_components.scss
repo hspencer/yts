@@ -91,6 +91,8 @@
   @media only screen and (max-width: $breakpoint-small) {
     a.home{
       background-image: url(/assets/images/yts-logo.png);
+      background-size: 80%;
+      background-repeat: no-repeat;
     }
     .grid-body {
       grid-template-columns: 111px 1fr;
@@ -100,11 +102,18 @@
 
 aside {
   border-right: 1px solid $color-line;
+  @media only screen and (max-width: $breakpoint-small) {
+    border-right: none;
+  }
 }
 
 #nav-main {
   text-align: right;
   line-height: 200%;
+
+  @media only screen and (max-width: $breakpoint-small) {
+    line-height: 500%;
+  }
 
   ol {
     list-style-position: outside;
@@ -161,7 +170,6 @@ aside {
         }
       }
     }
-
   }
 }
 
