@@ -26,7 +26,4 @@ Martín Campusano comenzó su carrera musical en el mundo del freestyle, donde d
 ### Polo
 Paul Spencer, miembro fundador de YTS, es un talentoso multi-instrumentalista y el productor principal del grupo. Inicialmente, fue la voz principal del grupo, pero gradualmente hizo la transición hacia la producción, donde logró destacarse y crear el sonido único de YTS. Desde los inicios del grupo, ha sido una figura central, trabajando junto a sus compañeros para crear y llevar a cabo la visión de YTS. Desde pequeño, Paul demostró un profundo interés por la música, y se ha dedicado a asegurar que YTS sea una entidad magnífica en la escena musical.
 
-
-#### IG
-
-{% include ig_embed.html %}
+<img src="/assets/images/bio-todos-01.jpg" class="special" title="Paul Spencer">

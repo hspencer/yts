@@ -19,6 +19,15 @@
       }
       img{
         max-width: 100%;
+        &.special{
+          border-radius: 1ex;
+          border: 1px solid $color-line;
+          filter: opacity(.78);
+          @include long-shadow(box, 45, $color-text, 20, .05);
+          &:hover{
+            filter: none;
+          }
+        }
         &.portrait{
           display: block;
           max-width: 40%;
