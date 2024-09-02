@@ -8,46 +8,48 @@
     "nav pag"
     "fut fut";
 
-    main{
-      p{
-        hyphens: auto;
+  main {
+    p {
+      hyphens: auto;
+    }
+
+    .title-big {
+      font-weight: 300;
+      font-size: 2.5em;
+    }
+    img {
+      max-width: 100%;
+      &.special {
+        border-radius: 1ex;
+        border: 1px solid $color-line;
+        transform-origin: center;
+        rotate: -3deg;
+        margin: 2em auto -1em auto;
+        filter: opacity(0.78);
+        @include long-shadow(box, 45, $color-text, 20, 0.05);
+        &:hover {
+          filter: none;
+        }
       }
+      &.portrait {
+        display: block;
+        max-width: 40%;
+        border-radius: 50%;
+        margin: 8em auto 0 auto;
+        @include long-shadow(box, 45, transparentize($color-primary, 0.5), 40, 0.015);
+        border: 1px solid $color-primary;
 
-      .title-big{
-        font-weight: 300;
-        font-size: 2.5em;
+        @media only screen and (max-width: $breakpoint-small) {
+          max-width: 70%;
+        }
       }
-      img{
-        max-width: 100%;
-        &.special{
-          border-radius: 1ex;
-          border: 1px solid $color-line;
-          filter: opacity(.78);
-          @include long-shadow(box, 45, $color-text, 20, .05);
-          &:hover{
-            filter: none;
-          }
-        }
-        &.portrait{
-          display: block;
-          max-width: 40%;
-          border-radius: 50%;
-          margin: 8em auto 0 auto;
-          @include long-shadow(box, 45, transparentize($color-primary, .5), 40, .05);
-          border: 2px solid $color-primary;
-
-          @media only screen and (max-width: $breakpoint-small) {
-            max-width: 70%;
-          }
-
-        }
-        &.main-pic{
-          border-radius: 1ex;
-          @include long-shadow(box, 45, $color-primary, 10, .1);
-          border: 2px solid $color-primary;
-        }
+      &.main-pic {
+        border-radius: 1ex;
+        @include long-shadow(box, 45, $color-primary, 10, 0.1);
+        border: 1px solid $color-primary;
       }
     }
+  }
 }
 
 header {
@@ -81,6 +83,12 @@ footer {
   flex-direction: column;
   align-items: center;
   bottom: 0;
+
+  img.cc {
+    position: relative;
+    width: 1.7267321em;
+    bottom: -.942ex;
+  }
 
   .illustration {
     max-width: 200px;
@@ -119,21 +127,21 @@ footer {
 
 @keyframes vueloAbeja {
   0% {
-      transform: translate(-50%, -50%) rotate(0deg);
+    transform: translate(-50%, -50%) rotate(0deg);
   }
   20% {
-      transform: translate(-60%, -45%) rotate(-10deg);
+    transform: translate(-60%, -45%) rotate(-10deg);
   }
   40% {
-      transform: translate(-50%, -55%) rotate(10deg);
+    transform: translate(-50%, -55%) rotate(10deg);
   }
   60% {
-      transform: translate(-40%, -50%) rotate(-10deg);
+    transform: translate(-40%, -50%) rotate(-10deg);
   }
   80% {
-      transform: translate(-50%, -45%) rotate(10deg);
+    transform: translate(-50%, -45%) rotate(10deg);
   }
   100% {
-      transform: translate(-50%, -50%) rotate(0deg);
+    transform: translate(-50%, -50%) rotate(0deg);
   }
 }
