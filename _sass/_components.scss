@@ -220,8 +220,7 @@ aside {
 }
 
 .release-detail {
-  max-width: 800px;
-  margin: 0 auto;
+  max-width: $breakpoint-small;
 
   header {
     h1 {

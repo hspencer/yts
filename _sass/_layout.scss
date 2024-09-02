@@ -7,6 +7,38 @@
   grid-template-areas:
     "nav pag"
     "fut fut";
+
+    main{
+      p{
+        hyphens: auto;
+      }
+
+      .title-big{
+        font-weight: 300;
+        font-size: 2.5em;
+      }
+      img{
+        max-width: 100%;
+        &.portrait{
+          display: block;
+          max-width: 40%;
+          border-radius: 50%;
+          margin: 8em auto 0 auto;
+          @include long-shadow(box, 45, $color-primary, 40, .1);
+          border: 2px solid $color-primary;
+
+          @media only screen and (max-width: $breakpoint-small) {
+            max-width: 70%;
+          }
+
+        }
+        &.main-pic{
+          border-radius: 1ex;
+          @include long-shadow(box, 45, $color-primary, 10, .1);
+          border: 2px solid $color-primary;
+        }
+      }
+    }
 }
 
 header {
@@ -24,7 +56,7 @@ nav {
 main {
   grid-area: pag;
   grid-template-columns: repeat(auto-fit, minmax(200px, 540px));
-  margin: 4em 0;
+  margin: 4em 0 0 0;
   padding: 0 1em;
 }
 
