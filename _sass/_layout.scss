@@ -24,7 +24,7 @@
           max-width: 40%;
           border-radius: 50%;
           margin: 8em auto 0 auto;
-          @include long-shadow(box, 45, $color-primary, 40, .1);
+          @include long-shadow(box, 45, transparentize($color-primary, .5), 40, .05);
           border: 2px solid $color-primary;
 
           @media only screen and (max-width: $breakpoint-small) {

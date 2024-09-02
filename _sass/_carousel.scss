@@ -43,7 +43,7 @@
 
     .carousel-content {
       position: absolute;
-      bottom: 1.5em;
+      bottom: 13px;
       left: 50%; /* Centrar horizontalmente */
       transform: translateX(-50%); /* Centrar horizontalmente */
       display: inline-block;
@@ -52,7 +52,7 @@
       width: calc(100% - 40px); /* Ajustar para que no toque los bordes */
       padding: 1em;
       box-sizing: border-box;
-      background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+      background: transparentize($color-text, .2);
       border-radius: 10px;
       color: white;
       text-align: center;
@@ -98,20 +98,20 @@
 
   .carousel-navigation {
     position: absolute;
-    bottom: 12px;
+    bottom: 13px;
     right: 10px;
     display: flex;
     gap: 10px;
 
     button {
-      background-color: rgba(47, 2, 87, 0.5);
-      color: white;
-      width: 32px;
-      border: 2px solid rgba(240, 246, 246, 0.87);
+      background-color: white;
+      color: $color-text;
+      width: 34px;
       padding: 0;
       cursor: pointer;
       border-radius: 50%;
       aspect-ratio: 1 / 1;
+      border: none;
     }
   }
 }
