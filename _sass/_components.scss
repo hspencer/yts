@@ -240,7 +240,9 @@ aside {
   .info-grid {
     display: grid;
     grid-template-columns: 3fr 1fr;
-    margin-top: 3em;
+    margin: 3em 0 3em 0;
+    border-bottom: 1px solid $color-line;
+    padding-bottom: 2em;
     .release-info {
       margin: 0;
       li {
