@@ -1,0 +1,30 @@
+<div class="last-releases-container">
+    <div class="last-releases">
+      <!-- Asignar los últimos 3 releases explícitamente -->
+      {% assign last_releases = site.releases | sort: 'date' | reverse %}
+      {% assign last_releases = last_releases | slice: 0, 3 %}
+      
+      {% for release in last_releases %}
+      <div class="release-item">
+        <a href="{{ release.url | relative_url }}" class="release-image">
+          <img src="{{ release.image | relative_url }}" alt="{{ release.title }}">
+        </a>
+        <div class="release-details">
+          <h3 class="release-title">{{ release.title }}</h3>
+          <div class="streaming-links">
+            {% if release.spotify %}
+            <a class="streaming-btn spotify" href="{{ release.spotify }}" target="_blank">Spotify</a>
+            {% endif %}
+            {% if release.youtube %}
+            <a class="streaming-btn youtube" href="{{ release.youtube }}" target="_blank">YouTube</a>
+            {% endif %}
+            {% if release.apple_music %}
+            <a class="streaming-btn apple" href="{{ release.apple_music }}" target="_blank">Apple Music</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  

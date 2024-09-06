@@ -11,22 +11,22 @@
   cursor: pointer;
   transition: background-color $transition-speed ease;
   margin: 0 1ex 1ex 0;
-  
-  &.spotify{
+
+  &.spotify {
     background-color: rgba(255, 255, 255, 0.613);
-    &:hover{
+    &:hover {
       background-color: rgba(58, 172, 58, 0.389);
     }
   }
-  &.apple{
+  &.apple {
     background-color: rgba(255, 255, 255, 0.613);
-    &:hover{
+    &:hover {
       background-color: rgba(125, 220, 255, 0.99);
     }
   }
-  &.youtube{
+  &.youtube {
     background-color: rgba(255, 255, 255, 0.434);
-    &:hover{
+    &:hover {
       background-color: rgba(252, 83, 83, 0.773);
     }
   }
@@ -66,7 +66,7 @@
     margin-bottom: 1rem;
   }
 
-  a.home{
+  a.home {
     position: relative;
     cursor: pointer;
     display: block;
@@ -76,20 +76,19 @@
     background-position: center center;
     background-size: contain;
 
-    span{
+    span {
       display: none;
     }
 
-    img{
+    img {
       width: 100%;
       padding: 1ex;
       margin: 0 0 1em 0;
     }
-
   }
 
   @media only screen and (max-width: $breakpoint-small) {
-    a.home{
+    a.home {
       background-image: url(/assets/images/yts-logo.png);
       background-size: 80%;
       background-repeat: no-repeat;
@@ -132,14 +131,14 @@ aside {
         }
       }
 
-      &.sep{
+      &.sep {
         width: 100%;
         display: flex;
         height: 3em;
         flex-flow: column;
         justify-content: space-around;
 
-        hr{
+        hr {
           margin: 50% 0;
           height: 1px;
           border-top: 1px solid $color-line;
@@ -150,8 +149,8 @@ aside {
       }
 
       &.instagram,
-      &.email{
-        a.btn{
+      &.email {
+        a.btn {
           display: inline-block;
           min-width: 32px;
           width: 20%;
@@ -159,11 +158,11 @@ aside {
           padding: 0;
           aspect-ratio: 1 / 1;
           margin: 0;
-          
-          span{
+
+          span {
             display: none;
           }
-          svg{
+          svg {
             margin: 0;
             width: 100%;
           }
@@ -264,12 +263,18 @@ aside {
   }
 
   @media only screen and (max-width: $breakpoint-small) {
-    .info-grid{
+    .info-grid {
       display: block;
-      .streaming-links{
+      .streaming-links {
         margin: 1em 0;
       }
     }
+  }
+}
+
+.release-content {
+  ul, ol {
+    padding: 0 0 0 2em;
   }
 }
 
@@ -286,15 +291,16 @@ aside {
 
     &:hover {
       background-color: $color-line;
-      p{
+      p {
         color: $color-text;
       }
-      span.title{
+      span.title {
         color: $color-ground;
-        $col: transparentize($color-text, .34);
-        text-shadow: .2ex .1ex 0 $col,
-                      .2ex .1ex 2px $col,
-                      .2ex .1ex 6px $col;
+        $col: transparentize($color-text, 0.34);
+        text-shadow:
+          0.2ex 0.1ex 0 $col,
+          0.2ex 0.1ex 2px $col,
+          0.2ex 0.1ex 6px $col;
       }
     }
 
@@ -313,43 +319,45 @@ aside {
 
     li,
     p {
-      color: transparentize($color-text, .45);
+      color: transparentize($color-text, 0.45);
       font-size: 0.82em;
       letter-spacing: normal;
       line-height: 1.15em;
     }
 
-    li{
+    li {
       margin: 0 0 0 2em;
     }
-    ul, ol{
+    ul,
+    ol {
       margin: 0 0 2em 0;
     }
-    img{
+    img {
       width: 100%;
       height: auto;
       border-radius: 1ex;
       margin: 1em 0;
       @include long-shadow();
     }
-    .embed-responsive{
+    .embed-responsive {
       @include long-shadow();
     }
   }
 }
 
-.post-content{
-  img{
+.post-content {
+  img {
     max-width: 68vw;
     height: auto;
     border-radius: 1ex;
     margin: 1em 0;
   }
-  li{
-    font-size: .9rem;
+  li {
+    font-size: 0.9rem;
     margin: 0 0 0 2em;
   }
-  ul, ol{
+  ul,
+  ol {
     margin: 0 0 2em 0;
   }
 }

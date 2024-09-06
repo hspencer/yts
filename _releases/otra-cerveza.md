@@ -1,7 +1,7 @@
 ---
 layout: release
 title: "Otra Cerveza"
-date: 2022-07-01
+date: 2022-11-25
 duracion: "2:57"
 description: "con Crasa"
 image: /assets/images/releases/otra-cerveza.jpg

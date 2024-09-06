@@ -1,7 +1,7 @@
 ---
 layout: release
 title: "Ficción Clandestina"
-date: 2020-02-12
+date: 2020-01-12
 duracion: "3:45"
 description: "Polo y Simón"
 image: /assets/images/releases/ficcion-clandestina.jpg
