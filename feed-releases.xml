@@ -1,0 +1,17 @@
+---
+layout: feed
+title: "Releases Feed"
+permalink: /feed-releases.xml
+---
+{% assign releases = site.releases %}
+{% for release in releases %}
+<entry>
+  <title>{{ release.title | xml_escape }}</title>
+  <link href="{{ site.url }}{{ release.url }}"/>
+  <updated>{{ release.date | date_to_xmlschema }}</updated>
+  <id>{{ site.url }}{{ release.id }}</id>
+  <content type="html">
+    {{ release.content | xml_escape }}
+  </content>
+</entry>
+{% endfor %}

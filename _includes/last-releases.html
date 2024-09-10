@@ -13,13 +13,16 @@
           <h3 class="release-title">{{ release.title }}</h3>
           <div class="streaming-links">
             {% if release.spotify %}
-            <a class="streaming-btn spotify" href="{{ release.spotify }}" target="_blank">Spotify</a>
+            <a class="streaming-btn spotify" href="{{ release.spotify }}"> {% include icon-spotify.html %} </a>
             {% endif %}
             {% if release.youtube %}
-            <a class="streaming-btn youtube" href="{{ release.youtube }}" target="_blank">YouTube</a>
+            <a class="streaming-btn youtube" href="{{ release.youtube }}"> {% include icon-youtube.html %} </a>
+            {% endif %}
+            {% if release.youtube_music %}
+            <a class="streaming-btn youtube_music" href="{{ release.youtube_music }}"> {% include icon-youtube-music.html %} </a>
             {% endif %}
             {% if release.apple_music %}
-            <a class="streaming-btn apple" href="{{ release.apple_music }}" target="_blank">Apple Music</a>
+            <a class="streaming-btn apple" href="{{ release.apple_music }}"> {% include icon-apple.html %}</a>
             {% endif %}
           </div>
         </div>

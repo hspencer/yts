@@ -1,8 +1,11 @@
 title: YTS
+author: YTS
 description: Un lugar para mostrar la música y más
 baseurl: "" # Deja esto vacío si es tu sitio principal
 url: "https://ytsmusica.com"
-
+feed:
+  path: "feed.xml" # Esto es opcional; jekyll-feed usa este nombre por defecto
+  
 # Configuración de construcción
 markdown: kramdown
 kramdown:
