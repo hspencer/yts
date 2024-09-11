@@ -37,8 +37,10 @@ exclude:
 collections:
   releases:
     output: true
-  diario:
+    permalink: /releases/:title/
+  posts:
     output: true
+    permalink: /posts/:title/
 
 # Valores predeterminados para el front matter
 defaults:

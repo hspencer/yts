@@ -1,8 +1,8 @@
 .last-releases {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin: 2em 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15em, 1fr));
+    gap: 1em;
+    margin-bottom: 1em;
 
     .release-item {
         display: flex;

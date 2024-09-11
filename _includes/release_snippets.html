@@ -1,7 +1,7 @@
 <div class="release-snippets-container">
   <div class="release-snippets">
     {% assign releases_reversed = site.releases | reverse %} 
-    {% assign last_index = releases_reversed.size | minus: 1 %}
+    {% assign last_index = releases_reversed.size | minus: 0 %}
     {% for release in releases_reversed %}
       {% if forloop.index0 < last_index %}
         <a href="{{ release.url | relative_url }}" class="release-item">

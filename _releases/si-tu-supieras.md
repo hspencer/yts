@@ -1,13 +1,13 @@
 ---
 layout: release
 title: "Si Tú Supieras"
-date: 2024-10-05
-duracion: "3:01"
+date: 2024-05-04
+duracion: "3:14"
 description: ""
 image: /assets/images/releases/si-tu-supieras.jpg
-spotify: https://open.spotify.com/intl-es/track/7dxtALO2OGgckzkO1ynK1b?si=7b350c3b5b1c4fff
-apple_music: https://music.apple.com/us/album/si-t%C3%BA-supieras-single/1743619788
-youtube_music: https://music.youtube.com/playlist?list=OLAK5uy_lWzb5mpLUptSh4KwgJvuMSv6KoZrPOX7A&si=Mbujr2sIk8y68sZJ
+spotify: https://open.spotify.com/intl-es/track/5WSMeR9sDHmB62GBLXnbSW?si=1910cac3b70b409f
+apple_music: https://music.apple.com/us/album/si-no-fuera-feat-kid-vekko-young-808-beats-single/1512114846
+youtube_music: https://music.youtube.com/watch?v=1mQqPxI9HiQ&si=EghFMCHH3bYsIZRd
 ---
 
 Y si tú supieras lo que me ha costado llegar hasta aquí<br>
