@@ -1,12 +1,13 @@
 <div class="release-snippets-container">
-    <div class="release-snippets">
-      {% assign last_index = site.releases.size | minus: 1 %}
-      {% for release in site.releases %}
-        {% if forloop.index0 < last_index %}
-          <a href="{{ release.url | relative_url }}" class="release-item">
-            <img src="{{ release.image | relative_url }}" alt="{{ release.title }}">
-          </a>
-        {% endif %}
-      {% endfor %}
-    </div>
+  <div class="release-snippets">
+    {% assign releases_reversed = site.releases | reverse %} 
+    {% assign last_index = releases_reversed.size | minus: 1 %}
+    {% for release in releases_reversed %}
+      {% if forloop.index0 < last_index %}
+        <a href="{{ release.url | relative_url }}" class="release-item">
+          <img src="{{ release.image | relative_url }}" alt="{{ release.title }}" />
+        </a>
+      {% endif %}
+    {% endfor %}
   </div>
+</div>

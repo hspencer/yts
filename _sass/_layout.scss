@@ -52,16 +52,23 @@
   }
 }
 
-header {
-  grid-area: nav;
-
-  a {
-    position: absolute;
+aside {
+  #nav-elements {
+    position: fixed;
+    width: 12.5em;
   }
-}
 
-nav {
-  grid-area: nav;
+  header {
+    grid-area: nav;
+
+    a {
+      //position: absolute;
+    }
+  }
+
+  nav {
+    grid-area: nav;
+  }
 }
 
 main {
@@ -83,11 +90,12 @@ footer {
   flex-direction: column;
   align-items: center;
   bottom: 0;
+  position: relative;
 
   img.cc {
     position: relative;
     width: 1.7267321em;
-    bottom: -.942ex;
+    bottom: -0.942ex;
   }
 
   .illustration {
@@ -112,9 +120,21 @@ footer {
 
   p {
     text-align: center;
-    &.small {
-      padding: 0 1em;
-      font-size: 0.8em;
+    padding: 0 1em;
+    font-size: 0.8em;
+    a{
+      display: inline-block;
+      padding: 0 .7ex;
+      border-radius: .7ex;
+      margin: 0 .3ex;
+      color: white;
+      transition: all .5s ease;
+      background-color: $color-secondary;
+      text-shadow: 1px 1px 0 transparentize($color-text, .5);
+      &:hover{
+        color: white;
+        background-color: $color-text;
+      }
     }
   }
 }
@@ -122,6 +142,12 @@ footer {
 @media only screen and (max-width: $breakpoint-small) {
   .grid-body {
     grid-template-columns: 111px minmax(50vw, 1fr);
+    #nav-elements {
+      width: 111px;
+    }
+    .news-grid {
+      grid-template-columns: 1fr;
+    }
   }
 }
 

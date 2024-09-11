@@ -273,14 +273,17 @@ aside {
 }
 
 .release-content {
-  ul, ol {
+  ul,
+  ol {
     padding: 0 0 0 2em;
   }
 }
 
 .news-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(10em, 20em));
+  position: relative;
+  grid-template-columns: repeat(auto-fit, minmax(15em, 1fr)); /* Columnas ajustables automáticamente */
+  grid-auto-flow: dense; /* Permite reorganizar los bloques para llenar los huecos */
   gap: 1em;
 
   .post-excerpt {

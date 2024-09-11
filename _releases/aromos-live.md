@@ -6,6 +6,7 @@ duracion: "3:45"
 description: "Live Session de YTS"
 image: /assets/images/releases/aromos-live.jpg
 youtube_music: https://music.youtube.com/watch?v=znd7aYdGBUk&si=dHXisFHuK8lDotOc
+youtube: https://youtu.be/znd7aYdGBUk?si=iZd5aC3fgShlOQpO
 ---
 
 Sesión en vivo en los Aromos, Limache.
