@@ -5,9 +5,9 @@ date: 2024-05-04
 duracion: "3:14"
 description: ""
 image: /assets/images/releases/si-tu-supieras.jpg
-spotify: https://open.spotify.com/intl-es/track/5WSMeR9sDHmB62GBLXnbSW?si=1910cac3b70b409f
-apple_music: https://music.apple.com/us/album/si-no-fuera-feat-kid-vekko-young-808-beats-single/1512114846
-youtube_music: https://music.youtube.com/watch?v=1mQqPxI9HiQ&si=EghFMCHH3bYsIZRd
+spotify: https://open.spotify.com/intl-es/track/7dxtALO2OGgckzkO1ynK1b?si=106a2ddd16da4136
+apple_music: https://music.apple.com/do/album/si-t%C3%BA-supieras-single/1743619788
+youtube_music: https://music.youtube.com/watch?v=wBAipSw69zs&si=FQHDhNEYlWtBOl5Y
 ---
 
 Y si tú supieras lo que me ha costado llegar hasta aquí<br>

@@ -1,3 +1,9 @@
+.grid-carousel {
+  display: grid;
+  margin-top: 2em;
+  grid-template-columns: 6fr 5fr;
+}
+
 .carousel {
   position: relative;
   width: 100%;
@@ -52,7 +58,7 @@
       width: calc(100% - 40px); /* Ajustar para que no toque los bordes */
       padding: 1em;
       box-sizing: border-box;
-      background: transparentize($color-text, .2);
+      background: transparentize($color-text, 0.2);
       border-radius: 10px;
       color: white;
       text-align: center;
@@ -119,33 +125,33 @@
 // Release Snippets
 
 .release-snippets-container {
-  width: 100%;
-  overflow-x: scroll; /* Permite el scroll horizontal */
-  white-space: nowrap; /* Previene que los elementos se rompan a la siguiente línea */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
+  grid-auto-rows: minmax(64px, auto);
+  gap: 1em;
   scrollbar-width: thin;
   scroll-behavior: smooth;
   scrollbar-color: $color-secondary;
   scrollbar-track-color: $color-secondary;
   margin-bottom: 2em;
+
   .release-snippets {
-    display: inline-block; /* Asegura que todos los elementos se alineen en una fila */
-    padding-bottom: 1em; /* Espacio debajo del último elemento */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(69px, 128px)); /* Coloca tantas columnas como sea posible */
+    gap: 1em;
+    margin: 0 0 0 1.6em;
 
     .release-item {
-      display: inline-block;
-      width: 5em;
-      height: 5em;
-      margin-right: 1em; /* Espacio entre elementos */
-      background-color: #f0f0f0; /* Color de fondo de los elementos */
-      border-radius: 0.5em; /* Bordes redondeados */
-      overflow: hidden; /* Asegura que la imagen no se salga del contenedor */
-      vertical-align: middle; /* Alinea los elementos en el medio */
-
+      aspect-ratio: 1 / 1; /* Garantiza que cada celda sea un cuadrado */
+      
       img {
         width: 100%;
         height: 100%;
         object-fit: cover; /* Asegura que la imagen cubra todo el contenedor */
-        display: block;
+        overflow-y: auto; /* Permite scroll vertical si el contenido es mayor que la celda */
+        max-height: 100%; /* Limita la altura interna al tamaño del contenedor cuadrado */
+        border-radius: .6ex;
+        @include long-shadow(box, 45, $color-secondary, 15, .6);
       }
     }
   }

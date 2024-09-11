@@ -33,7 +33,7 @@
       }
       &.portrait {
         display: block;
-        max-width: 40%;
+        max-width: 30%;
         border-radius: 50%;
         margin: 8em auto 0 auto;
         @include long-shadow(box, 45, transparentize($color-primary, 0.5), 40, 0.015);
@@ -122,16 +122,44 @@ footer {
     text-align: center;
     padding: 0 1em;
     font-size: 0.8em;
-    a{
+    a {
       display: inline-block;
-      padding: 0 .7ex;
-      border-radius: .7ex;
-      margin: 0 .3ex;
-      color: white;
-      transition: all .5s ease;
-      background-color: $color-secondary;
-      text-shadow: 1px 1px 0 transparentize($color-text, .5);
-      &:hover{
+      padding: 0 0.7ex;
+      border-radius: 0.7ex;
+      margin: 0 0.3ex;
+
+      transition: all 0.5s ease;
+      background-color: transparentize($color-secondary, 0.5);
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: inherit; /* Hereda el fondo del enlace */
+        filter: blur(8px); /* Aplicar desenfoque al fondo */
+        z-index: -1; /* Asegurar que el pseudo-elemento esté detrás del contenido del enlace */
+        backdrop-filter: blur(8px); /* Desenfoque del fondo */
+      }
+      &::after {
+        content: "";
+        display: inline-block;
+        background-image: url("/assets/images/feed.svg");
+        background-size: contain; /* Asegura que el SVG se ajuste al tamaño del pseudo-elemento */
+        background-repeat: no-repeat;
+
+        position: absolute;
+
+        top: 0;
+
+        width: 13px;
+        height: 13px;
+        right: -8px;
+        transform: translateY(-50%); /* Centra verticalmente */
+      }
+      &:hover {
         color: white;
         background-color: $color-text;
       }
@@ -150,6 +178,19 @@ footer {
     }
   }
 }
+
+
+@media only screen and (max-width: $breakpoint-medium) {
+  .grid-carousel{
+    
+    display: block !important;
+    margin: 0;
+    padding: 0;
+  }
+  
+}
+
+
 
 @keyframes vueloAbeja {
   0% {

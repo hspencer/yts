@@ -1,23 +1,40 @@
-h1, h2, h3, h4, h5, h6 {
-    font-family: $font-primary;
-    font-weight: 800;
-    margin-bottom: 1rem;
-    line-height: 99%;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $font-primary;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  line-height: 99%;
+}
+
+p {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  letter-spacing: 0.03ex;
+  max-width: 40em;
+}
+
+a {
+  color: $color-text;
+  text-decoration: none;
+  transition: color $transition-speed ease;
+  position: relative;
+  &:hover {
+    color: darken($color-text, 15%);
   }
-  
-  p {
-    font-size: .9rem;
-    margin-bottom: 1rem;
-    letter-spacing: 0.03ex;
-    max-width: 40em;
-  }
-  
-  a {
-    color: $color-text;
-    text-decoration: none;
-    transition: color $transition-speed ease;
-    position: relative;
-    &:hover {
-      color: darken($color-text, 15%);
-    }
-  }
+}
+
+.title-releases {
+  $color-c: darken($color-primary, 5%);
+  color: transparentize($color-c, .3);
+  font-size: 4em;
+  margin: 0;
+  font-stretch: expanded;
+  font-weight: 150;
+  margin: 0 0 0.3571em 0;
+  letter-spacing: 0.036ex;
+  @include long-shadow(text, 225, $color-secondary, 10, .2);
+}
