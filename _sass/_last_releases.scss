@@ -15,6 +15,10 @@
         border-radius: 0.5px solid $color-gold-light;
         background-color: transparentize($color-gold-medium, 0.9);
         @include long-shadow(box, 45, $color-gold-medium, 15, 0.1);
+        
+        @media only screen and (max-width: $breakpoint-small) {
+            margin: 0.1em 0 0 0;
+          }
 
         &:hover {
             background-color: white;
@@ -66,19 +70,23 @@
     .last-releases {
         .release-item {
             .release-details {
+                width: 100%;
                 h3.release-title {
                     font-size: 1em;
                 }
-            }
-            .streaming-links {
-                a.streaming-btn {
-                    margin: 0.5ex 1ex 0 0;
-                    margin: 0.5ex 0.4ex 0 0;
-                    svg {
-                        width: 1.35em;
+
+                .streaming-links {
+                    float: right;
+                    margin-right: 1ex;
+                    a.streaming-btn {
+                        margin: 0.5ex 1ex 0 0;
+                        svg {
+                            width: 1.35em;
+                        }
                     }
                 }
             }
+            
         }
     }
 }

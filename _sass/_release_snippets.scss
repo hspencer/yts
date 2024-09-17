@@ -1,8 +1,4 @@
 .release-snippets-container {
-  // // display: grid;
-  // // grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
-  // // grid-auto-rows: minmax(64px, auto);
-  // gap: 1em;
   scrollbar-width: thin;
   scroll-behavior: smooth;
   scrollbar-color: $color-secondary;
@@ -36,15 +32,10 @@
 @media only screen and (max-width: $breakpoint-medium) {
 
   .release-snippets-container {
-    grid-template-columns: repeat(auto-fit, minmax(48px, 1fr));
-    grid-auto-rows: minmax(48px, auto);
-    gap: 1ex;
-    max-height: 20vh;
-    margin-bottom: 1em;
-
     .release-snippets {
       width: 100%;
       height: 8em;
+      margin: 0;
       grid-template-columns: 6em 6em 6em 6em 6em 6em 6em 6em 6em;
       grid-template-rows: 6em;
       overflow-x: scroll;
