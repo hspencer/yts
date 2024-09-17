@@ -20,6 +20,8 @@
     img {
       max-width: 100%;
       &.special {
+        position: relative;
+        z-index: 1000;
         border-radius: 1ex;
         border: 1px solid $color-line;
         transform-origin: center;
@@ -187,7 +189,6 @@ footer {
     margin: 0;
     padding: 0;
   }
-  
 }
 
 

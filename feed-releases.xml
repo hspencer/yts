@@ -1,6 +1,6 @@
 ---
 layout: feed
-title: "Releases Feed"
+title: "YTS - Releases Feed"
 permalink: /feed-releases.xml
 ---
 {% assign releases = site.releases %}

@@ -121,38 +121,3 @@
     }
   }
 }
-
-// Release Snippets
-
-.release-snippets-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
-  grid-auto-rows: minmax(64px, auto);
-  gap: 1em;
-  scrollbar-width: thin;
-  scroll-behavior: smooth;
-  scrollbar-color: $color-secondary;
-  scrollbar-track-color: $color-secondary;
-  margin-bottom: 2em;
-
-  .release-snippets {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(69px, 128px)); /* Coloca tantas columnas como sea posible */
-    gap: 1em;
-    margin: 0 0 0 1.6em;
-
-    .release-item {
-      aspect-ratio: 1 / 1; /* Garantiza que cada celda sea un cuadrado */
-      
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover; /* Asegura que la imagen cubra todo el contenedor */
-        overflow-y: auto; /* Permite scroll vertical si el contenido es mayor que la celda */
-        max-height: 100%; /* Limita la altura interna al tamaño del contenedor cuadrado */
-        border-radius: .6ex;
-        @include long-shadow(box, 45, $color-secondary, 15, .6);
-      }
-    }
-  }
-}
