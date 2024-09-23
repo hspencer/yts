@@ -68,6 +68,9 @@ El propósito de instalarlo localmente es para poder previsualizarlo antes de pu
 
 Debes crear un nuevo post en la carpeta <code>_posts</code>; sigue los siguientes pasos:
 
+0. **Asegúrate de sincronizar el repositorio**
+   - haz un <code>git pull</code>. Si usas Visual Studio Code encuentras el ícono para sincronizar abajo a la izquierda. Recuerda que la rama que publicamos al sitio es **main**.
+
 1. **Crea el archivo con el nombre correcto**:
    - El nombre del archivo debe seguir el formato `YYYY-MM-DD-titulo-del-post.md`, donde `YYYY-MM-DD` es la fecha del post.
 
