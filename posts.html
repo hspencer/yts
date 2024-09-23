@@ -5,18 +5,5 @@ permalink: /posts/
 ---
 
 <h2>News</h2>
-<div class="news-grid">
-  {% for post in site.posts %}
-  <div class="post-excerpt">
-    <a href="{{ post.url | relative_url }}">
-      <span class="title">{{ post.title }}</span>
-      <p class="meta">
-        <time datetime="{{ post.date | date_to_xmlschema }}">
-          {{ post.date | date: "%d-%m-%Y" }}
-      </time>
-      </p>
-      <p class="excerpt">{{ post.excerpt | truncatewords: 80 }}</p>
-    </a>
-  </div>
-  {% endfor %}
-</div>
+{% include news_grid.html %}
+

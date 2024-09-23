@@ -37,4 +37,8 @@ a {
   margin: 0 0 0.3571em 0;
   letter-spacing: 0.036ex;
   @include long-shadow(text, 225, $color-secondary, 10, 0.2);
+
+  @media only screen and (max-width: $breakpoint-small) {
+    font-size: 3em;
+  }
 }

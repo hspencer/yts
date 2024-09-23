@@ -5,7 +5,10 @@ baseurl: "" # Deja esto vacío si es tu sitio principal
 url: "https://ytsmusica.com"
 feed:
   path: "feed.xml" # Esto es opcional; jekyll-feed usa este nombre por defecto
-  
+
+# Habilitar la publicación de posts con fechas futuras
+future: true
+
 # Configuración de construcción
 markdown: kramdown
 kramdown:
@@ -40,7 +43,7 @@ collections:
     permalink: /releases/:title/
   posts:
     output: true
-    permalink: /posts/:title/
+    permalink: /news/:title/
 
 # Valores predeterminados para el front matter
 defaults:

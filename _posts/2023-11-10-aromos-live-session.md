@@ -3,8 +3,8 @@ layout: post
 title: "Aromos Live Session"
 date: 2023-11-10
 youtube: https://youtu.be/znd7aYdGBUk?si=S359QsoCBErOhXoC
-
 ---
+
 Sesión en vivo en los Aromos, Limache.
 
 1. **Desde Que No Estás Vos**
