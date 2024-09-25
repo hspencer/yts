@@ -25,3 +25,19 @@
   </div>
   {% endfor %}
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Seleccionar todos los elementos con la clase .post-excerpt
+    var postExcerpts = document.querySelectorAll('.post-excerpt');
+
+    // Recorrer cada elemento y aplicarle una rotación aleatoria
+    postExcerpts.forEach(function(post) {
+      // Generar un número aleatorio entre -3 y 3
+      var randomRotation = Math.floor(Math.random() * 7) - 3; // 7 = (3 - (-3) + 1)
+      
+      // Aplicar la rotación al elemento
+      post.style.transform = `rotate(${randomRotation}deg)`;
+    });
+  });
+</script>
