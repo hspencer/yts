@@ -185,7 +185,7 @@ aside {
       width: 100%;
       height: auto;
       border-radius: 5px;
-      @include long-shadow(box, 45, rgb(204, 149, 255), 5, 1);
+      @include long-shadow(box, 45, $color-secondary, 15, 0.6);
     }
 
     .release-title {
@@ -376,3 +376,51 @@ aside {
     margin: 0 0 2em 0;
   }
 }
+
+.presave {
+  position: relative; /* Necesario para la posición absoluta de la cinta */
+  overflow: hidden; /* Oculta cualquier contenido que sobresalga del contenedor */
+  padding: 0 1ex 2em 0;
+
+  .ribbon {
+    position: absolute;
+    top: 20px;
+    left: -36px;
+    width: 10em; /* Ajustamos el ancho del ribbon para que sea responsive */
+    text-align: center;
+    transform: rotate(-45deg); /* Mantén la rotación */
+    background-color: #c5840a; /* Color dorado */
+    color: white;
+    padding: 5px 1em;
+    font-size: 0.9em;
+    font-weight: 700;
+    z-index: 10; /* Asegura que esté sobre la imagen */
+    border-radius: 0.3ex;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.348);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.348);
+    border-top: 1px solid #a7700b;
+    border-bottom: 1px solid #a7700b;
+  }
+
+  a {
+    position: relative;
+    img {
+      max-height: 35vh; /* Mantén este ajuste */
+      width: auto;
+      border-radius: .5ex;
+      @include long-shadow(box, 45, #c5840a, 10, 0.2);
+    }
+
+    p {
+      font-size: 73%;
+      text-transform: uppercase;
+      position: absolute;
+      font-weight: 400;
+      top: -4px;
+      left: 5px;
+    }
+  }
+}
+
+
+
