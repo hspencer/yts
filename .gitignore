@@ -18,6 +18,7 @@ _site/
 # Bundler
 .bundle/
 vendor/bundle/
+Gemfile.lock
 
 # Log files
 *.log
