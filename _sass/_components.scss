@@ -367,6 +367,12 @@ aside {
     border-radius: 1ex;
     margin: 1em 0;
   }
+  p{
+    a{
+      text-decoration: underline;
+      color: blue;
+    }
+  }
   li {
     font-size: 0.9rem;
     margin: 0 0 0 2em;
