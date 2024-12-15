@@ -11,9 +11,9 @@ youtube: https://youtu.be/znd7aYdGBUk?si=iZd5aC3fgShlOQpO
 
 Sesión en vivo en los Aromos, Limache.
 
-1. **Desde Que No Estás Vos**
+1. **[Desde Que No Estás Vos](https://ytsmusica.com/releases/dqnev/)**
 2. **Wonita**
-3. **Tu y Yo**
+3. **[Tú y Yo](https://ytsmusica.com/releases/tu-y-yo/)**
 
 <br><br>
 

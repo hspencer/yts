@@ -101,6 +101,10 @@ Debes crear un nuevo post en la carpeta <code>_posts</code>; sigue los siguiente
 - **Problemas de Permisos**: Si tienes problemas con permisos al instalar dependencias, intenta usar `sudo` (en Linux/Mac) o ejecutar el terminal como administrador (en Windows).
 - **Errores de Gemas**: Si encuentras errores relacionados con gemas, prueba correr:
   ```bash
+  rm Gemfile.lock
+  ```
+  para borrar las referencias a gemas erróneas (normalmente entre Windows y Mac) y luego reinstala las gemas:
+  ```bash
   bundle install
   ```
 - **Problemas de Caché**: Si los cambios no se reflejan, intenta limpiar el caché:
