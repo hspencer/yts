@@ -3,7 +3,7 @@ name: Jekyll Deploy
 on:
   push:
     branches:
-      - main # O la rama que uses para tu sitio
+      - main
 
 jobs:
   build-deploy:
@@ -29,5 +29,5 @@ jobs:
       - name: Subir el sitio a GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GH_TOKEN }}
           publish_dir: ./_site
