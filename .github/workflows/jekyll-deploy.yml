@@ -1,0 +1,33 @@
+name: Jekyll Deploy
+
+on:
+  push:
+    branches:
+      - main # O la rama que uses para tu sitio
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.1"
+
+      - name: Instalar dependencias
+        run: |
+          gem install bundler
+          bundle install
+
+      - name: Compilar sitio Jekyll
+        run: bundle exec jekyll build
+
+      - name: Subir el sitio a GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
