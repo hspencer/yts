@@ -1,11 +1,10 @@
 source "https://rubygems.org"
 
-gem "jekyll", "~> 3.9.5"
+gem "jekyll", "~> 4.3.2"
 gem "webrick", "~> 1.7"
-gem "jekyll-sass-converter", "~> 1.5.2"
+gem "jekyll-sass-converter", "~> 3.0"
 
-# Plugins adicionales
 group :jekyll_plugins do
-  gem "jekyll-feed", "~> 0.6"
+  gem "jekyll-feed", "~> 0.17"
   gem "kramdown-parser-gfm"
 end
