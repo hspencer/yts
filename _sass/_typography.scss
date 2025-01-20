@@ -29,7 +29,7 @@ a {
 
 .title-big {
   font-weight: 100;
-  color: transparentize($color-text, .7);
+  color: transparentize($color-text, .6);
   font-size: 6em;
   line-height: .56;
   @media only screen and (max-width: $breakpoint-small) {
@@ -55,10 +55,10 @@ a {
 
 .title-hr{
   font-size: 2em;
-  font-weight: 160;
+  font-weight: 260;
   text-transform: lowercase;
-  line-height: 0;
-  margin: 1em .5ex .5em .5ex;
+  line-height: 0.7;
+  margin: .51em 0 -0.251em .25ex;
   color: transparentize($color-text, .7);
  
   @media only screen and (max-width: $breakpoint-small) {
