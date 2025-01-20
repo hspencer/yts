@@ -55,11 +55,10 @@
       display: inline-block;
       justify-content: space-between;
       align-items: center;
-      width: calc(100% - 40px); /* Ajustar para que no toque los bordes */
+      width: calc(100% - 35px); /* Ajustar para que no toque los bordes */
       padding: 1em;
       box-sizing: border-box;
       background: transparentize($color-text, 0.2);
-      border-radius: 10px;
       color: white;
       text-align: center;
       gap: 10px;

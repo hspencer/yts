@@ -27,6 +27,16 @@ a {
   }
 }
 
+.title-big {
+  font-weight: 100;
+  color: transparentize($color-text, .7);
+  font-size: 6em;
+  line-height: .56;
+  @media only screen and (max-width: $breakpoint-small) {
+    font-size: clamp(3.4em, 4.2em, 100%); 
+  }
+}
+
 .title-releases {
   $color-c: darken($color-primary, 5%);
   color: transparentize($color-c, 0.3);
@@ -39,6 +49,19 @@ a {
   @include long-shadow(text, 225, $color-secondary, 10, 0.2);
 
   @media only screen and (max-width: $breakpoint-small) {
-    font-size: 3em;
+    font-size: clamp(3.4em, 4.2em, 100%); 
+  }
+}
+
+.title-hr{
+  font-size: 2em;
+  font-weight: 160;
+  text-transform: lowercase;
+  line-height: 0;
+  margin: 1em .5ex .5em .5ex;
+  color: transparentize($color-text, .7);
+ 
+  @media only screen and (max-width: $breakpoint-small) {
+    font-size: clamp(2.2em, 4.2em, 100%); 
   }
 }

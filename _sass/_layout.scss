@@ -13,13 +13,6 @@
       hyphens: auto;
     }
 
-    .title-big {
-      font-weight: 300;
-      font-size: 2.5em;
-      @media only screen and (max-width: $breakpoint-small) {
-        font-size: 2em;
-      }
-    }
     img {
       max-width: 100%;
       &.special {

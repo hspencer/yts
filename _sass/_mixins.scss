@@ -32,7 +32,8 @@
   }
 
   @for $i from 1 through $length {
-    $transparency: $alpha * (1 - ($i / $length));
+    //$transparency: $alpha * (1 - ($i / $length));
+    $transparency: $alpha * (1 - calc($i / $length));
     
     // Calcular los desplazamientos X e Y según el ángulo
     $x-offset: $i * $x-multiplier;
