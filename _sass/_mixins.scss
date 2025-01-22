@@ -1,58 +1,51 @@
-@mixin long-shadow($type: box, $angle: 45, $color: pink, $length: 17, $alpha: 1) {
-  $shadows: ();
-  $x-multiplier: 0.7071;
-  $y-multiplier: 0.7071;
+@mixin long-shadow($type: box, $angle: 45, $color: pink, $length: 17, $alpha: 1) { // Definición de mixin
+  $shadows: ();                                                                 // Lista para acumular sombras
+  $x-multiplier: 0.7071;                                                         // Factor inicial para X
+  $y-multiplier: 0.7071;                                                         // Factor inicial para Y
 
-  @if $angle == 0 {
+  @if $angle == 0 {                                                              // Caso para ángulo 0
     $x-multiplier: 1;
     $y-multiplier: 0;
-  } @else if $angle == 45 {
+  } @else if $angle == 45 {                                                      // Caso para ángulo 45
     $x-multiplier: 0.7071;
     $y-multiplier: 0.7071;
-  } @else if $angle == 90 {
+  } @else if $angle == 90 {                                                      // Caso para ángulo 90
     $x-multiplier: 0;
     $y-multiplier: 1;
-  } @else if $angle == 135 {
+  } @else if $angle == 135 {                                                     // Caso para ángulo 135
     $x-multiplier: -0.7071;
     $y-multiplier: 0.7071;
-  } @else if $angle == 180 {
+  } @else if $angle == 180 {                                                     // Caso para ángulo 180
     $x-multiplier: -1;
     $y-multiplier: 0;
-  } @else if $angle == 225 {
+  } @else if $angle == 225 {                                                     // Caso para ángulo 225
     $x-multiplier: -0.7071;
     $y-multiplier: -0.7071;
-  } @else if $angle == 270 {
+  } @else if $angle == 270 {                                                     // Caso para ángulo 270
     $x-multiplier: 0;
     $y-multiplier: -1;
-  } @else if $angle == 315 {
+  } @else if $angle == 315 {                                                     // Caso para ángulo 315
     $x-multiplier: 0.7071;
     $y-multiplier: -0.7071;
   } @else {
-    @error "Ángulo no soportado: #{$angle}. Solo se admiten ángulos comunes como 0, 45, 90, 135, 180, 225, 270, 315.";
+    @error "Ángulo no soportado: #{$angle}. Solo se admiten 0, 45, 90, 135, 180, 225, 270, 315."; // Error si no coincide
   }
 
-  @for $i from 1 through $length {
-    //$transparency: $alpha * (1 - ($i / $length));
-    $transparency: $alpha * (1 - calc($i / $length));
-    
-    // Calcular los desplazamientos X e Y según el ángulo
-    $x-offset: $i * $x-multiplier;
-    $y-offset: $i * $y-multiplier;
-    
-    // Crear la sombra con los valores calculados
-    $current-shadow: #{$x-offset}px #{$y-offset}px 0 rgba($color, $transparency);
-
-    $shadows: append($shadows, $current-shadow, comma);
+  @for $i from 1 through $length {                                               // Ciclo que genera cada sombra
+    $transparency: $alpha * (1 - ($i / $length));                                 // Calcula la opacidad decreciente
+    $x-offset: $i * $x-multiplier;                                               // Desplazamiento en X
+    $y-offset: $i * $y-multiplier;                                               // Desplazamiento en Y
+    $current-shadow: #{$x-offset}px #{$y-offset}px 0 rgba($color, $transparency);// Define la sombra
+    $shadows: append($shadows, $current-shadow, comma);                          // Agrega sombra a la lista
   }
-  
-  // Aplicar las sombras según el tipo
-  @if $type == box {
+
+  @if $type == box {                                                             // Si es box-shadow
     box-shadow: $shadows;
-  } @else if $type == text {
+  } @else if $type == text {                                                     // Si es text-shadow
     text-shadow: $shadows;
-  } @else if $type == svg {
+  } @else if $type == svg {                                                      // Si es drop-shadow para SVG
     filter: drop-shadow($shadows);
   } @else {
-    @warn "Tipo de sombra no reconocido: #{$type}. Solo se admite 'box-shadow', 'text-shadow', o 'svg-shadow'.";
+    @warn "Tipo de sombra no reconocido: #{$type}. Se admiten 'box', 'text' o 'svg'."; // Advertencia si no coincide
   }
 }
