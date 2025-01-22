@@ -33,7 +33,7 @@ a {
   font-size: 6em;
   line-height: .56;
   @media only screen and (max-width: $breakpoint-small) {
-    font-size: clamp(3.4em, 4.2em, 100%); 
+    font-size: clamp(2.5em, 4.2em, 100%); 
   }
 }
 
@@ -61,11 +61,11 @@ a {
   font-size: 1.8em;
   font-weight: 260;
   text-transform: lowercase;
-  line-height: 0.7;
-  margin: .51em 0 -0.55em .25ex;
+  line-height: 2;
+  margin: 1ex 0 -1em 0;
   color: transparentize($color-text, 0.7);
  
   @media only screen and (max-width: $breakpoint-small) {
-    font-size: clamp(2.2em, 4.2em, 100%); 
+    font-size: clamp(1.2em, 4.2em, 100%); 
   }
 }
