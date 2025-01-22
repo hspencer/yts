@@ -38,8 +38,7 @@ a {
 }
 
 .title-releases {
-  $color-c: darken($color-primary, 5%);
-  color: transparentize($color-c, 0.7);
+  color: transparentize($color-primary, .7);
 
   margin: 0;
   font-stretch: expanded;
