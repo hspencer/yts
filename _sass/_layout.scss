@@ -176,15 +176,6 @@ footer {
 }
 
 
-@media only screen and (max-width: $breakpoint-medium) {
-  .grid-carousel{
-    display: block !important;
-    margin: 0;
-    padding: 0;
-  }
-}
-
-
 @keyframes vueloAbeja {
   0% {
     transform: translate(-50%, -50%) rotate(0deg);

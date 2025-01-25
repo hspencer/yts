@@ -28,12 +28,16 @@ a {
 }
 
 .title-big {
-  font-weight: 100;
-  color: transparentize($color-text, .6);
-  font-size: 6em;
-  line-height: .56;
+  display: inline-block;
+  font-weight: 500;
+  color: $color-primary;
+  font-size: 5em;
+  height: 140px;
+  line-height: .8;
+  max-width: 10em;
   @media only screen and (max-width: $breakpoint-small) {
-    font-size: clamp(2.5em, 4.2em, 100%); 
+    font-size: clamp(2em, 4em, 100%);
+    height: auto; 
   }
 }
 
@@ -63,7 +67,7 @@ a {
   text-transform: lowercase;
   line-height: 2;
   margin: 1ex 0 -1em 0;
-  color: transparentize($color-text, 0.7);
+  color: $color-primary;
  
   @media only screen and (max-width: $breakpoint-small) {
     font-size: clamp(1.2em, 4.2em, 100%); 
