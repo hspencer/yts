@@ -8,7 +8,7 @@ spotify: https://open.spotify.com/intl-es/album/2SNW7oyiIIm0WYOVsgo2ws?si=I6wLiN
 apple_music: https://music.apple.com/us/album/yendo-tras-sue%C3%B1os/1804810887
 youtube_music: https://youtu.be/qr9aHsUWS9A?si=M_kzuiwCajsHg8xa
 ---
-
+### Caciones
 1. Un Par de Pensamientos
 2. Adiós BB Nos Vemos Luego
 3. Bossa
@@ -20,7 +20,10 @@ youtube_music: https://youtu.be/qr9aHsUWS9A?si=M_kzuiwCajsHg8xa
 11. Una de las 3
 12. Yendo Tras Sueños (outro)
 
-### Créditos
+
+
+
+#### Créditos
  - Mezcla: Tomás Volker ("Ghose")
  - Master: Claudio Becerra
  - Maya Regolf: Voz (3)
