@@ -2,7 +2,8 @@
 layout: release
 title: "Yendo Tras Sueños"
 date: 2025-03-31
-description: "album release"
+duracion: "38 minutos, 12 canciones"
+description: "Primer álbum"
 image: /assets/images/releases/yendo-tras-suenos.jpg
 spotify: https://open.spotify.com/intl-es/album/2SNW7oyiIIm0WYOVsgo2ws?si=I6wLiN2tTzCGLuhxCTKLBA
 apple_music: https://music.apple.com/us/album/yendo-tras-sue%C3%B1os/1804810887
@@ -40,5 +41,7 @@ youtube_music: https://youtu.be/qr9aHsUWS9A?si=M_kzuiwCajsHg8xa
  - Timo Eichenhart: Cello (8)
  - Sandra Mooshammer: Violín (8)
  - Selin Turan: Trompeta (2)
+
+
 
 Todas las canciones compuestas y producidas por YTS (Campu, Simón y Polo) excepto "Pre-Sentir" producida por Ghose.
