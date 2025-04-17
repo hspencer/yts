@@ -1,0 +1,67 @@
+/* nav.scss */
+/* Contenedor principal del menú */
+.nav-container {
+    width: 100%;                // ocupar todo el ancho
+    position: relative;         // contexto para posicionar hijos
+  
+    /* checkbox oculto que controla el estado del menú */
+    .menu-toggle-input {
+      display: none;
+    }
+  
+    /* label como icono de hamburguesa */
+    .menu-toggle-label {
+      position: fixed;          // siempre visible al hacer scroll
+      top: 1rem;                // separación del borde superior
+      right: 1rem;              // separación del borde derecho
+      width: 2rem;              // ancho del icono
+      height: 2rem;             // alto del icono
+      display: flex;            // para alinear líneas
+      flex-direction: column;   // tres líneas verticales
+      justify-content: space-around;
+      align-items: center;
+      cursor: pointer;
+      z-index: 10;              // elevado sobre el menú
+  
+      /* líneas de la hamburguesa */
+      span {
+        display: block;
+        width: 100%;
+        height: 0.2rem;         // grosor de la línea
+        background: currentColor; // hereda color de texto
+        border-radius: 1px;
+        transition: transform 0.3s ease;
+      }
+    }
+  
+    /* navegación colapsable */
+    .nav-main {
+      max-height: 0;                   // oculta el menú (altura cero)
+      overflow: hidden;                // oculta el contenido extra
+      transition: max-height 0.3s ease; // animación suave
+      background: #fff;                // fondo del menú
+      width: 100%;                     // ocupa todo el ancho
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1); // sombra inferior
+  
+      /* estilos de la lista */
+      ol {
+        margin: 0;
+        padding: 1rem;               // espacio interior
+        list-style: none;            // sin viñetas
+      }
+      li {
+        margin: 0.5rem 0;            // separación entre ítems
+      }
+      a {
+        display: block;
+        text-decoration: none;
+        padding: 0.5rem 0;           // área clicable
+      }
+    }
+  
+    /* al activarse el checkbox, expandir el menú */
+    .menu-toggle-input:checked + .menu-toggle-label + .nav-main {
+      max-height: 100vh;             // altura suficiente para mostrar todo
+    }
+  }
+  

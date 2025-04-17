@@ -9,6 +9,14 @@
     "fut fut";
 }
 
+
+.column-body{
+  display: block;
+  position: relative;
+  margin: 0 auto;
+  max-width: 900px;
+}
+
 aside {
   #nav-elements {
     position: fixed;

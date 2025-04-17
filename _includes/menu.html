@@ -1,0 +1,41 @@
+<!-- nav.html: Include this file in your Jekyll layout -->
+<div class="nav-container">
+    <!-- Input oculto que controla el estado del menú -->
+    <input type="checkbox" id="menu-toggle" class="menu-toggle-input" />
+  
+    <!-- Label como icono de hamburguesa (tres rayitas) -->
+    <label for="menu-toggle" class="menu-toggle-label" aria-label="Abrir menú" role="button">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+  
+    <!-- Menú colapsable que empuja el contenido hacia abajo -->
+    <nav id="nav-main" class="nav-main">
+      <ol>
+        <li><a href="{{ '/' | relative_url }}">/</a></li>
+        <li><a href="{{ '/releases' | relative_url }}">Releases</a></li>
+        <li><a href="{{ '/posts' | relative_url }}">News</a></li>
+        <li><a href="{{ '/bio' | relative_url }}">Bio</a></li>
+        <li class="sep"><hr></li>
+        <li class="instagram">
+          <a class="btn" target="_blank" href="https://www.instagram.com/yts.group/">
+            {% include icon-instagram.svg %}
+            <span>@yts.group</span>
+          </a>
+        </li>
+        <li class="instagram">
+          <a class="btn" target="_blank" href="https://www.youtube.com/channel/UC7SauoubHXzZfilLRDCPm9g">
+            {% include icon-youtube.svg %}
+            <span>Canal de YT</span>
+          </a>
+        </li>
+        <li class="email">
+          <a class="btn" href="mailto:ficcionyts@gmail.com?subject=Contacto">
+            {% include icon-email.svg %}
+            <span>escríbemos</span>
+          </a>
+        </li>
+      </ol>
+    </nav>
+  </div>
