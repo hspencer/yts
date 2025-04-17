@@ -1,13 +1,21 @@
 <div class="carousel">
   <div class="carousel-inner">
-    {% assign sorted_releases = site.releases | sort: 'date' | reverse %}
-    {% for release in sorted_releases limit:10 %}
+    {% assign sorted_releases = site.releases | sort: "date" | reverse %}
+    {% for release in sorted_releases limit: 10 %}
       <div class="carousel-item">
+        {%- comment -%}
+        Elige UNA de estas dos líneas según cómo hayas definido tu colección:
+        1) Si necesitas que Jekyll añada baseurl:
+        {%- endcomment -%}
         <a href="{{ release.url | relative_url }}">
+        {%- comment -%}
+        2) Si release.url ya es correcto:
+        <a href="{{ release.url }}">
+        {%- endcomment -%}
           <img src="{{ release.image | relative_url }}" alt="{{ release.title }}">
         </a>
         <div class="carousel-content">
-          <h3>{{ release.title }}</h3>
+          <h3><a href="{{ release.url | relative_url }}">{{ release.title }}</a></h3>
           <div class="streaming-links">
             {% if release.spotify %}
               <a class="btn spotify" href="{{ release.spotify }}" target="_blank">
@@ -16,7 +24,7 @@
             {% endif %}
             {% if release.apple_music %}
               <a class="btn apple" href="{{ release.apple_music }}" target="_blank">
-               {% include icon-apple.html %}
+                {% include icon-apple.html %}
               </a>
             {% endif %}
             {% if release.youtube_music %}
@@ -30,8 +38,9 @@
     {% endfor %}
   </div>
   <div class="carousel-navigation">
-    <button class="carousel-control next" aria-label="Anterior">▲</button>
-    <button class="carousel-control prev" aria-label="Siguiente">▼</button>
+    <!-- aquí invertimos las clases para que ▲ sea “prev” y ▼ sea “next” -->
+    <button class="carousel-control prev" aria-label="Anterior">▲</button>
+    <button class="carousel-control next" aria-label="Siguiente">▼</button>
   </div>
 </div>
 
@@ -43,9 +52,8 @@
     const nextButton = document.querySelector('.carousel-control.next');
     let currentIndex = 0;
 
-    const angle = 360 / items.length; // Calcula el ángulo de rotación basado en el número de elementos
+    const angle = 360 / items.length;
 
-    // Coloca los elementos del carrusel en un círculo 3D
     items.forEach((item, index) => {
       const rotateAngle = index * angle;
       item.style.transform = `rotateX(${rotateAngle}deg) translateZ(300px)`;
@@ -54,8 +62,8 @@
     function showSlide(index) {
       const rotateAngle = -index * angle;
       carouselInner.style.transform = `rotateX(${rotateAngle}deg)`;
-      items.forEach((item, idx) => {
-        item.classList.toggle('active', idx === index);
+      items.forEach((_, idx) => {
+        items[idx].classList.toggle('active', idx === index);
       });
     }
 
