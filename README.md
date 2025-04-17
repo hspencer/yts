@@ -16,6 +16,11 @@ Paul Spencer
 bundle exec jekyll serve --host 0.0.0.0 --livereload
 ```
 
+#### rbenv
+```
+rbenv local 3.1.2
+```
+
 Para visualizar el sitio en tu teléfono celular debes conocer la IP de tu computador en tu red local. Para esto ejecutas en tu terminal:
 
 ```
