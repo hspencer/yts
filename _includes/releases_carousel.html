@@ -1,35 +1,33 @@
 <div class="carousel">
   <div class="carousel-inner">
     {% assign sorted_releases = site.releases | sort: "date" | reverse %}
-    {% for release in sorted_releases limit: 10 %}
+    {% for release in sorted_releases limit:10 %}
       <div class="carousel-item">
-        {%- comment -%}
-        Elige UNA de estas dos líneas según cómo hayas definido tu colección:
-        1) Si necesitas que Jekyll añada baseurl:
-        {%- endcomment -%}
-        <a href="{{ release.url | relative_url }}">
-        {%- comment -%}
-        2) Si release.url ya es correcto:
+        <!-- Sólo aquí modificamos la forma de generar el href -->
         <a href="{{ release.url }}">
-        {%- endcomment -%}
           <img src="{{ release.image | relative_url }}" alt="{{ release.title }}">
         </a>
         <div class="carousel-content">
-          <h3><a href="{{ release.url | relative_url }}">{{ release.title }}</a></h3>
+          <h3>{{ release.title }}</h3>
           <div class="streaming-links">
             {% if release.spotify %}
               <a class="btn spotify" href="{{ release.spotify }}" target="_blank">
-                {% include icon-spotify.html %}
+                {% include icon-spotify.svg %}
               </a>
             {% endif %}
             {% if release.apple_music %}
-              <a class="btn apple" href="{{ release.apple_music }}" target="_blank">
-                {% include icon-apple.html %}
+              <a class="btn tidal" href="{{ release.tidal }}" target="_blank">
+                {% include icon-tidal.svg %}
               </a>
             {% endif %}
             {% if release.youtube_music %}
               <a class="btn youtube" href="{{ release.youtube_music }}" target="_blank">
-                {% include icon-youtube-music.html %}
+                {% include icon-youtube-music.svg %}
+              </a>
+            {% endif %}
+            {% if release.apple_music %}
+              <a class="btn apple" href="{{ release.apple_music }}" target="_blank">
+                {% include icon-apple.svg %}
               </a>
             {% endif %}
           </div>
@@ -38,9 +36,8 @@
     {% endfor %}
   </div>
   <div class="carousel-navigation">
-    <!-- aquí invertimos las clases para que ▲ sea “prev” y ▼ sea “next” -->
-    <button class="carousel-control prev" aria-label="Anterior">▲</button>
-    <button class="carousel-control next" aria-label="Siguiente">▼</button>
+    <button class="carousel-control next" aria-label="Anterior">▲</button>
+    <button class="carousel-control prev" aria-label="Siguiente">▼</button>
   </div>
 </div>
 

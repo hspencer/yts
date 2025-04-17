@@ -18,17 +18,22 @@ layout: grid
     <div class="streaming-links">
       {% if page.spotify %}
         <a class="btn spotify" href="{{ page.spotify }}" target="_blank">
-          {% include icon-spotify.html %} Spotify
+          {% include icon-spotify.svg %} Spotify
         </a>
       {% endif %}
-      {% if page.apple_music %}
-        <a class="btn apple" href="{{ page.apple_music }}" target="_blank">
-         {% include icon-apple.html %} Apple Music
+      {% if page.tidal %}
+        <a class="btn" href="{{ page.tidal }}" target="_blank">
+         {% include icon-tidal.svg %} Tidal
         </a>
       {% endif %}
       {% if page.youtube_music %}
         <a class="btn youtube" href="{{ page.youtube_music }}" target="_blank">
-          {% include icon-youtube-music.html %} YouTube Music
+          {% include icon-youtube-music.svg %} YouTube Music
+        </a>
+      {% endif %}
+      {% if page.apple_music %}
+        <a class="btn apple" href="{{ page.apple_music }}" target="_blank">
+         {% include icon-apple.svg %} Apple Music
         </a>
       {% endif %}
     </div>
