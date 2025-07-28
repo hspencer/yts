@@ -305,12 +305,13 @@ aside {
     padding: 0.8em;
     border-radius: 1ex;
     height: fit-content;
-
+    transition: all .6s ease;
 
     .title {
       font-size: 140%;
       line-height: 99%;
       font-weight: 300;
+      transition: all .4s ease;
     }
 
     &:hover {
