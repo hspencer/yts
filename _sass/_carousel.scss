@@ -8,124 +8,130 @@
 .carousel {
   position: relative;
   width: 100%;
-  max-width: 41em;
-  border-radius: 1ex;
-  aspect-ratio: 1 / 1; /* Mantener la proporción cuadrada */
   overflow: hidden;
-  margin: 0 0 2em 0;
-  perspective: 3600px; /* Añadir perspectiva para el efecto 3D */
-  @include long-shadow();
+  margin: 3em 0;
+  outline: none;
+  cursor: grab;
 
-  .carousel-inner {
+  &:active {
+    cursor: grabbing;
+  }
+
+  .carousel-track {
+    display: flex;
+    flex-direction: row;
+    padding: 2em 0;
+    justify-content: center;
+    align-items: center;
     position: relative;
+    min-height: 500px;
     width: 100%;
-    height: 100%;
-    transform-style: preserve-3d; /* Mantener el efecto 3D */
-    transition: transform 0.5s ease-in-out;
-    display: flex; /* Asegura que los elementos hijos se comporten correctamente */
-    flex-direction: column; /* Establece la dirección para pantallas grandes */
   }
 
   .carousel-item {
     position: absolute;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    backface-visibility: hidden; /* Ocultar la parte trasera en la rotación */
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+    left: 50%;
+    flex-shrink: 0;
+    width: 70%;
+    max-width: 500px;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity: 0.4;
+    transform: translateX(-50%) scale(0.85);
+    user-select: none;
+    pointer-events: auto;
 
     &.active {
       opacity: 1;
-      z-index: 1; /* Asegurarse de que el elemento activo esté por encima */
+      transform: translateX(-50%) scale(1);
+      z-index: 2;
+      pointer-events: auto;
     }
 
-    img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain; /* Ajustar la imagen sin recortar */
-    }
+    .release-card {
+      display: block;
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 1ex;
+      overflow: hidden;
+      text-decoration: none;
+      @include long-shadow();
+      transition: transform 0.3s ease;
 
-    .carousel-content {
-      position: absolute;
-      bottom: 13px;
-      left: 50%; /* Centrar horizontalmente */
-      transform: translateX(-50%); /* Centrar horizontalmente */
-      display: inline-block;
-      justify-content: space-between;
-      align-items: center;
-      width: calc(100% - 35px); /* Ajustar para que no toque los bordes */
-      padding: 1em;
-      box-sizing: border-box;
-      background: transparentize($color-text, 0.2);
-      color: white;
-      text-align: center;
-      gap: 10px;
-
-      h3 {
-        font-weight: 500;
-        margin: 0 0 1ex 0.5ex;
-        flex: 1;
-        text-align: left;
-        @include long-shadow(text, 45, $color-text, 20, 0.5);
+      &:hover {
+        transform: translateY(-5px);
       }
 
-      .streaming-links {
-        display: flex;
-        flex-direction: row;
-        gap: .1ex;
-        right: 5em;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .release-title {
+        position: absolute;
+        bottom: 0;
         left: 0;
+        right: 0;
+        padding: 1.5em 1em 1em;
+        background: linear-gradient(to top, transparentize($color-text, 0.1), transparent);
 
-        a.btn {
-          width: 32px;
-          min-width: 32px;
-          border-radius: 50%;
-          padding: 0 0 2px 6px;
-          border: 1.5px solid rgb(240, 246, 246);
-          background-color: transparent;
-          text-decoration: none;
-          display: inline-block;
-          align-items: center;
-          aspect-ratio: 1 / 1;
-
-          svg {
-            position: relative;
-            fill: white;
-            top: 0.4793em;
-            left: -0.07891ex;
-          }
+        h3 {
+          color: white;
+          font-weight: 500;
+          margin: 0;
+          font-size: 1.2em;
+          text-align: left;
+          @include long-shadow(text, 45, $color-text, 20, 0.5);
         }
       }
-    }
-  }
-
-  .carousel-navigation {
-    position: absolute;
-    bottom: 13px;
-    right: 10px;
-    display: flex;
-    gap: 10px;
-
-    button {
-      background-color: white;
-      color: $color-text;
-      width: 34px;
-      padding: 0;
-      cursor: pointer;
-      border-radius: 50%;
-      aspect-ratio: 1 / 1;
-      border: none;
     }
   }
 }
 
 @media only screen and (max-width: $breakpoint-medium) {
-  .grid-carousel{
+  .grid-carousel {
     display: block !important;
     margin: 0;
     padding: 0;
+  }
+
+  .carousel {
+    margin: 2em 0;
+
+    .carousel-track {
+      min-height: 400px;
+    }
+
+    .carousel-item {
+      width: 80%;
+      max-width: 400px;
+    }
+  }
+}
+
+@media only screen and (max-width: $breakpoint-small) {
+  .carousel {
+    margin: 2em 0;
+    overflow: hidden;
+
+    .carousel-track {
+      min-height: 300px;
+      padding: 1em 0;
+    }
+
+    .carousel-item {
+      width: 85%;
+      max-width: 300px;
+
+      .release-card .release-title {
+        padding: 1em 0.8em 0.8em;
+
+        h3 {
+          font-size: 0.9em;
+        }
+      }
+    }
   }
 }

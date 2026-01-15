@@ -1,5 +1,5 @@
 ---
-layout: grid
+layout: column
 title: Biografía
 permalink: /bio/
 ---

@@ -1,82 +1,193 @@
-<div class="carousel">
-  <div class="carousel-inner">
+<div class="carousel" tabindex="0" role="region" aria-label="Carrusel de releases">
+  <div class="carousel-track">
     {% assign sorted_releases = site.releases | sort: "date" | reverse %}
     {% for release in sorted_releases limit:10 %}
-      <div class="carousel-item">
-        <!-- Sólo aquí modificamos la forma de generar el href -->
-        <a href="{{ release.url }}">
+      <div class="carousel-item" data-index="{{ forloop.index0 }}">
+        <a href="{{ release.url }}" class="release-card">
           <img src="{{ release.image | relative_url }}" alt="{{ release.title }}">
-        </a>
-        <div class="carousel-content">
-          <h3>{{ release.title }}</h3>
-          <div class="streaming-links">
-            {% if release.spotify %}
-              <a class="btn spotify" href="{{ release.spotify }}" target="_blank">
-                {% include icon-spotify.svg %}
-              </a>
-            {% endif %}
-            {% if release.tidal %}
-              <a class="btn tidal" href="{{ release.tidal }}" target="_blank">
-                {% include icon-tidal.svg %}
-              </a>
-            {% endif %}
-            {% if release.youtube_music %}
-              <a class="btn youtube" href="{{ release.youtube_music }}" target="_blank">
-                {% include icon-youtube-music.svg %}
-              </a>
-            {% endif %}
-            {% if release.apple_music %}
-              <a class="btn apple" href="{{ release.apple_music }}" target="_blank">
-                {% include icon-apple.svg %}
-              </a>
-            {% endif %}
+          <div class="release-title">
+            <h3>{{ release.title }}</h3>
           </div>
-        </div>
+        </a>
       </div>
     {% endfor %}
-  </div>
-  <div class="carousel-navigation">
-    <button class="carousel-control next" aria-label="Anterior">▲</button>
-    <button class="carousel-control prev" aria-label="Siguiente">▼</button>
   </div>
 </div>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    const carouselInner = document.querySelector('.carousel-inner');
+    const carousel = document.querySelector('.carousel');
+    const track = document.querySelector('.carousel-track');
     const items = document.querySelectorAll('.carousel-item');
-    const prevButton = document.querySelector('.carousel-control.prev');
-    const nextButton = document.querySelector('.carousel-control.next');
+    const totalItems = items.length;
     let currentIndex = 0;
+    let startX = 0;
+    let isDragging = false;
+    let startTransform = 0;
 
-    const angle = 360 / items.length;
+    // Normalize index to be circular
+    function normalizeIndex(index) {
+      return ((index % totalItems) + totalItems) % totalItems;
+    }
 
-    items.forEach((item, index) => {
-      const rotateAngle = index * angle;
-      item.style.transform = `rotateX(${rotateAngle}deg) translateZ(300px)`;
-    });
+    function updateCarousel(animate = true) {
+      const itemWidth = items[0].offsetWidth;
+      // Responsive gap based on screen size
+      const gap = window.innerWidth < 768 ? 16 : 32;
+      const itemStep = itemWidth + gap;
 
-    function showSlide(index) {
-      const rotateAngle = -index * angle;
-      carouselInner.style.transform = `rotateX(${rotateAngle}deg)`;
-      items.forEach((_, idx) => {
-        items[idx].classList.toggle('active', idx === index);
+      items.forEach((item, index) => {
+        if (!animate) {
+          item.style.transition = 'none';
+        } else {
+          item.style.transition = '';
+        }
+
+        // Calculate circular distance
+        let distance = index - currentIndex;
+
+        // Wrap around logic for infinite scroll
+        if (distance > totalItems / 2) {
+          distance -= totalItems;
+        } else if (distance < -totalItems / 2) {
+          distance += totalItems;
+        }
+
+        // Position each item relative to center
+        const offset = distance * itemStep;
+        // Responsive scale: smaller on mobile
+        const inactiveScale = window.innerWidth < 768 ? 0.75 : 0.85;
+        const scale = distance === 0 ? 1 : inactiveScale;
+        item.style.transform = `translateX(calc(-50% + ${offset}px)) scale(${scale})`;
+
+        // Update active state and visibility
+        if (distance === 0) {
+          item.classList.add('active');
+          item.setAttribute('aria-current', 'true');
+        } else {
+          item.classList.remove('active');
+          item.removeAttribute('aria-current');
+        }
+
+        if (!animate) {
+          requestAnimationFrame(() => {
+            item.style.transition = '';
+          });
+        }
       });
     }
 
+    function goToSlide(index) {
+      currentIndex = normalizeIndex(index);
+      updateCarousel();
+    }
+
     function nextSlide() {
-      currentIndex = (currentIndex + 1) % items.length;
-      showSlide(currentIndex);
+      goToSlide(currentIndex + 1);
     }
 
     function prevSlide() {
-      currentIndex = (currentIndex - 1 + items.length) % items.length;
-      showSlide(currentIndex);
+      goToSlide(currentIndex - 1);
     }
 
-    prevButton.addEventListener('click', prevSlide);
-    nextButton.addEventListener('click', nextSlide);
+    // Touch/Mouse events
+    track.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      startX = e.pageX;
+      startTransform = currentIndex;
+      track.style.cursor = 'grabbing';
+    });
 
-    showSlide(currentIndex);
+    track.addEventListener('touchstart', (e) => {
+      isDragging = true;
+      startX = e.touches[0].pageX;
+      startTransform = currentIndex;
+    }, { passive: true });
+
+    const handleMove = (clientX) => {
+      if (!isDragging) return;
+
+      const deltaX = startX - clientX;
+      const itemWidth = items[0].offsetWidth;
+      const threshold = itemWidth / 3;
+
+      if (Math.abs(deltaX) > threshold) {
+        if (deltaX > 0) {
+          currentIndex = startTransform + 1;
+        } else {
+          currentIndex = startTransform - 1;
+        }
+        currentIndex = normalizeIndex(currentIndex);
+        isDragging = false;
+        track.style.cursor = '';
+        updateCarousel();
+      }
+    };
+
+    document.addEventListener('mousemove', (e) => {
+      handleMove(e.pageX);
+    });
+
+    document.addEventListener('touchmove', (e) => {
+      handleMove(e.touches[0].pageX);
+    }, { passive: true });
+
+    document.addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false;
+        track.style.cursor = '';
+        updateCarousel();
+      }
+    });
+
+    document.addEventListener('touchend', () => {
+      if (isDragging) {
+        isDragging = false;
+        updateCarousel();
+      }
+    });
+
+    // Keyboard navigation
+    carousel.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        nextSlide();
+      }
+    });
+
+    // Click on items to navigate
+    items.forEach((item, index) => {
+      item.addEventListener('click', (e) => {
+        const realIndex = parseInt(item.dataset.index);
+        if (realIndex !== currentIndex) {
+          e.preventDefault();
+
+          // Calculate shortest path for circular navigation
+          let distance = realIndex - currentIndex;
+          if (distance > totalItems / 2) {
+            distance -= totalItems;
+          } else if (distance < -totalItems / 2) {
+            distance += totalItems;
+          }
+
+          goToSlide(currentIndex + distance);
+        }
+      });
+    });
+
+    // Initialize
+    updateCarousel(false);
+
+    // Handle resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        updateCarousel(false);
+      }, 250);
+    });
   });
 </script>

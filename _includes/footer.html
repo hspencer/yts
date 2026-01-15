@@ -1,9 +1,24 @@
 <footer>
-    <p>Todo el contenido en este sitio es propiedad de YTS, pero nos encanta compartir. Si te gusta lo que ves y quieres reproducirlo o difundirlo, ¡adelante! Solo recuerda mencionar que lo sacaste de aquí. ¡Gracias por ser parte de nuestra comunidad!</p><br>
+    <div class="social-links">
+      <a class="social-btn instagram" target="_blank" href="https://www.instagram.com/yts.group/" aria-label="Instagram">
+        {% include icon-instagram.svg %}
+      </a>
+      <a class="social-btn youtube" target="_blank" href="https://www.youtube.com/channel/UC7SauoubHXzZfilLRDCPm9g" aria-label="YouTube">
+        {% include icon-youtube.svg %}
+      </a>
+      <a class="social-btn email" href="mailto:ficcionyts@gmail.com?subject=Contacto" aria-label="Email">
+        {% include icon-email.svg %}
+      </a>
+    </div>
+
+    <p>Todo el contenido en este sitio es propiedad de YTS, pero nos encanta compartir. Si te gusta lo que ves y quieres reproducirlo o difundirlo, ¡adelante! Solo recuerda mencionar que lo sacaste de aquí. ¡Gracias por ser parte de nuestra comunidad!</p>
+
     <p><strong><img title="Este sitio está bajo licencia Creative Commons: Atribución y Compartir Igual 4.0" class='cc' src="/assets/images/ccheart.png"> {{ site.time | date: '%Y' }} {{ site.title }}</strong></p>
+
     <div class="illustration">
         <img id='abeja' src="/assets/images/yts-abeja.png">
         <img id='flores' src="/assets/images/yts-flores.png">
     </div>
-    <p>Suscíbete a nuestro feed de<a type="application/rss+xml" href="/feed-releases.xml">todo</a>, a las <a type="application/rss+xml" href="/feed-posts.xml">noticias</a> o a los <a type="application/rss+xml" href="/feed-releases.xml">releases</a></p>
+
+    <p class="feeds">Suscríbete a nuestro feed de <a type="application/rss+xml" href="/feed-releases.xml">todo</a>, a las <a type="application/rss+xml" href="/feed-posts.xml">noticias</a> o a los <a type="application/rss+xml" href="/feed-releases.xml">releases</a></p>
 </footer>

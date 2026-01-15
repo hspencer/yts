@@ -14,7 +14,16 @@
   display: block;
   position: relative;
   margin: 0 auto;
-  max-width: 900px;
+  
+  main{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1em 0 3em 0;
+
+    .news-grid{
+      padding: 0 1em 2em 1em;
+    }
+  }
 }
 
 aside {
@@ -40,7 +49,6 @@ main {
   grid-area: pag;
   grid-template-columns: repeat(auto-fit, minmax(200px, 540px));
   margin: 1.9em 0 0 0;
-  padding: 0 1em;
 
   p {
     hyphens: auto;
@@ -75,6 +83,8 @@ main {
       }
     }
     &.main-pic {
+      display: block;
+      margin: 0 auto;
       border-radius: 1ex;
       @include long-shadow(box, 45, $color-primary, 10, 0.1);
       border: 1px solid $color-primary;
@@ -95,6 +105,65 @@ footer {
   align-items: center;
   bottom: 0;
   position: relative;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+
+  p{
+    max-width: 40em;
+    margin: 0 auto;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 1em;
+    margin-bottom: 1.5em;
+    justify-content: center;
+
+    .social-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5em;
+      height: 2.5em;
+      border-radius: 50%;
+      border: 1.5px solid $color-text;
+      background-color: transparent;
+      transition: all 0.3s ease;
+      text-decoration: none;
+
+      svg {
+        width: 1.3em;
+        height: 1.3em;
+        fill: $color-text;
+        transition: fill 0.3s ease;
+      }
+
+      &:hover {
+        background-color: $color-text;
+        transform: translateY(-3px);
+
+        svg {
+          fill: white;
+        }
+      }
+
+      &.instagram:hover {
+        background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        border-color: #bc1888;
+      }
+
+      &.youtube:hover {
+        background-color: #FF0000;
+        border-color: #FF0000;
+      }
+
+      &.email:hover {
+        background-color: $color-gold-dark;
+        border-color: $color-gold-dark;
+      }
+    }
+  }
 
   img.cc {
     position: relative;
@@ -171,14 +240,36 @@ footer {
   }
 }
 
+@media only screen and (max-width: $breakpoint-medium) {
+  .news-grid {
+    column-count: 2;
+  }
+}
+
 @media only screen and (max-width: $breakpoint-small) {
   .grid-body {
     grid-template-columns: 111px minmax(50vw, 1fr);
     #nav-elements {
       width: 111px;
     }
-    .news-grid {
-      grid-template-columns: 1fr;
+  }
+  .news-grid {
+    column-count: 1;
+  }
+  footer {
+    .social-links {
+      gap: 0.8em;
+      margin-bottom: 1.2em;
+
+      .social-btn {
+        width: 2.2em;
+        height: 2.2em;
+
+        svg {
+          width: 1.1em;
+          height: 1.1em;
+        }
+      }
     }
   }
 }

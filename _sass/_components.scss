@@ -60,6 +60,7 @@
   margin-bottom: 20px;
 }
 
+/* Old header-top styles - no longer used with new design
 #header-top {
   display: flex;
   align-content: flex-start;
@@ -104,6 +105,7 @@
     }
   }
 }
+*/
 
 aside {
   border-right: 1px solid $color-line;
@@ -113,6 +115,7 @@ aside {
   }
 }
 
+/* Old nav-main styles - no longer used with new design
 #nav-main {
   text-align: right;
   line-height: 200%;
@@ -179,6 +182,7 @@ aside {
     }
   }
 }
+*/
 
 .releases-grid {
   display: grid;
@@ -294,10 +298,9 @@ aside {
 }
 
 .news-grid {
-  display: grid;
   position: relative;
-  grid-template-columns: repeat(auto-fit, minmax(15em, 1fr));
-  gap: 1.5em;
+  column-count: 3;
+  column-gap: 1.5em;
 
   .post-excerpt {
     border: 1px solid $color-line;
@@ -306,6 +309,8 @@ aside {
     border-radius: 1ex;
     height: fit-content;
     transition: all .6s ease;
+    break-inside: avoid;
+    margin-bottom: 1.5em;
 
     .title {
       font-size: 140%;
