@@ -130,7 +130,7 @@
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    border: 2px solid $color-text;
+    border: 1px solid transparentize($color-text, .5);
     background-color: transparent;
     cursor: pointer;
     transition: all 0.3s ease;

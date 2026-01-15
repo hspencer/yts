@@ -212,14 +212,15 @@ footer {
     text-align: center;
     padding: 0 1em;
     font-size: 0.8em;
+
     a {
       display: inline-block;
-      padding: 0 0.7ex;
+      // padding: 0 0.7ex;
       border-radius: 0.7ex;
       margin: 0 0.3ex;
-
+      font-weight: bolder;
       transition: all 0.5s ease;
-      background-color: transparentize($color-secondary, 0.5);
+      // background-color: transparentize($color-secondary, 0.5);
 
       &::before {
         content: "";
@@ -264,7 +265,7 @@ footer {
 @media only screen and (max-width: $breakpoint-small) {
   .column-body {
     main{
-      margin: 0 2em;
+      margin: 0 1em;
     }
   }
 
