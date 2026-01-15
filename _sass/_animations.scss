@@ -1,26 +1,26 @@
-.ripple {
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.4);
-  animation: ripple 0.6s linear;
-}
+// ============================================
+// Global Animations
+// Animations used across multiple components
+// ============================================
 
-@keyframes ripple {
+// Bee flying animation (used in footer)
+@keyframes vueloAbeja {
   0% {
-    width: 0;
-    height: 0;
-    opacity: 0.4;
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  20% {
+    transform: translate(-60%, -45%) rotate(-10deg);
+  }
+  40% {
+    transform: translate(-50%, -55%) rotate(10deg);
+  }
+  60% {
+    transform: translate(-40%, -45%) rotate(-5deg);
+  }
+  80% {
+    transform: translate(-50%, -50%) rotate(5deg);
   }
   100% {
-    width: 200px;
-    height: 200px;
-    opacity: 0;
+    transform: translate(-50%, -50%) rotate(0deg);
   }
-}
-
-@keyframes gradient-move {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }

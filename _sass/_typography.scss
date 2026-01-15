@@ -61,18 +61,19 @@ a {
 }
 
 .title-hr{
-  font-size: 1.8em;
-  font-weight: 260;
-  text-transform: lowercase;
-  line-height: 2;
-  margin: 0;
-  color: $color-primary;
- 
-  @media only screen and (max-width: $breakpoint-small) {
-    font-size: clamp(1.2em, 4.2em, 100%); 
-  }
+  color: transparentize($color-primary, .7);
+  font-stretch: expanded;
 
-  @media only screen and (min-width: $breakpoint-medium) {
-    margin-bottom: -1em;
-  }
+  letter-spacing: 0.036ex;
+
+  font-size: 5em;
+  font-weight: 100;
+  margin: 1em 0;
+
+  @include long-shadow(text, 225, $color-secondary, 10, 0.2);
+  font-size: 1.8em;
+  font-weight: 400;
+  text-transform: lowercase;
+  line-height: 1;
+
 }

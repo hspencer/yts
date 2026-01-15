@@ -1,3 +1,12 @@
+// ============================================
+// Layout - Main Grid Structure
+// Defines the overall page layout and grid areas
+// ============================================
+
+// --------------------------------------------
+// Grid Body (Main Layout Container)
+// --------------------------------------------
+
 .grid-body {
   display: grid;
   min-height: 100vh;
@@ -9,6 +18,10 @@
     "fut fut";
 }
 
+
+// --------------------------------------------
+// Column Body (Alternative Layout)
+// --------------------------------------------
 
 .column-body{
   display: block;
@@ -34,16 +47,16 @@ aside {
 
   header {
     grid-area: nav;
-
-    a {
-      //position: absolute;
-    }
   }
 
   nav {
     grid-area: nav;
   }
 }
+
+// --------------------------------------------
+// Main Content Area
+// --------------------------------------------
 
 main {
   grid-area: pag;
@@ -92,11 +105,15 @@ main {
   }
 }
 
+// --------------------------------------------
+// Footer
+// --------------------------------------------
+
 footer {
   grid-area: fut;
   background: $background-gradient;
   border-top: 1px solid $color-line;
-  padding: 1.8em 0 0 0;
+  padding: 2em 0;
   font-size: 80%;
   display: flex;
   align-content: flex-start;
@@ -124,8 +141,8 @@ footer {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 2.5em;
-      height: 2.5em;
+      width: 3.5em;
+      height: 3.5em;
       border-radius: 50%;
       border: 1.5px solid $color-text;
       background-color: transparent;
@@ -133,15 +150,14 @@ footer {
       text-decoration: none;
 
       svg {
-        width: 1.3em;
-        height: 1.3em;
+        width: 2em;
+        height: 2em;
         fill: $color-text;
         transition: fill 0.3s ease;
       }
 
       &:hover {
         background-color: $color-text;
-        transform: translateY(-3px);
 
         svg {
           fill: white;
@@ -174,6 +190,7 @@ footer {
   .illustration {
     max-width: 200px;
     position: relative;
+    margin: 3em 0 0 0;
 
     img {
       position: relative;
@@ -240,58 +257,33 @@ footer {
   }
 }
 
-@media only screen and (max-width: $breakpoint-medium) {
-  .news-grid {
-    column-count: 2;
-  }
-}
+// ============================================
+// Responsive Media Queries
+// ============================================
 
 @media only screen and (max-width: $breakpoint-small) {
-  .grid-body {
-    grid-template-columns: 111px minmax(50vw, 1fr);
-    #nav-elements {
-      width: 111px;
+  .column-body {
+    main{
+      margin: 0 2em;
     }
   }
-  .news-grid {
-    column-count: 1;
-  }
+
+
+
   footer {
     .social-links {
       gap: 0.8em;
       margin-bottom: 1.2em;
 
       .social-btn {
-        width: 2.2em;
-        height: 2.2em;
+        width: 3.2em;
+        height: 3.2em;
 
         svg {
-          width: 1.1em;
-          height: 1.1em;
+          width: 2.1em;
+          height: 2.1em;
         }
       }
     }
-  }
-}
-
-
-@keyframes vueloAbeja {
-  0% {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  20% {
-    transform: translate(-60%, -45%) rotate(-10deg);
-  }
-  40% {
-    transform: translate(-50%, -55%) rotate(10deg);
-  }
-  60% {
-    transform: translate(-40%, -50%) rotate(-10deg);
-  }
-  80% {
-    transform: translate(-50%, -45%) rotate(10deg);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(0deg);
   }
 }

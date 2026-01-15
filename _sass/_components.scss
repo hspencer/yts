@@ -1,3 +1,12 @@
+// ============================================
+// Components - Reusable UI Elements
+// Buttons, cards, and other shared components
+// ============================================
+
+// --------------------------------------------
+// Buttons
+// --------------------------------------------
+
 .btn {
   font-size: 0.9rem;
   display: inline-block;
@@ -48,10 +57,13 @@
     width: 1.6em;
     margin: -4px 2px -5px -3px;
     fill: $color-text;
-    // $type: box, $angle: 45deg, $color: pink, $length: 10, $alpha: 0.5)
     @include long-shadow(svg, 225, white, 25, 0.36);
   }
 }
+
+// --------------------------------------------
+// Cards
+// --------------------------------------------
 
 .card {
   background-color: rgba(transparent, 0.8);
@@ -60,7 +72,11 @@
   margin-bottom: 20px;
 }
 
-/* Old header-top styles - no longer used with new design
+// --------------------------------------------
+// Aside Navigation (old sidebar)
+// --------------------------------------------
+
+/* Commented old styles - kept for reference
 #header-top {
   display: flex;
   align-content: flex-start;
@@ -107,6 +123,10 @@
 }
 */
 
+// --------------------------------------------
+// Old Sidebar Styles (deprecated)
+// --------------------------------------------
+
 aside {
   border-right: 1px solid $color-line;
 
@@ -115,7 +135,7 @@ aside {
   }
 }
 
-/* Old nav-main styles - no longer used with new design
+/* Old nav-main sidebar styles - deprecated
 #nav-main {
   text-align: right;
   line-height: 200%;
@@ -184,6 +204,11 @@ aside {
 }
 */
 
+// ============================================
+// Releases Grid
+// Grid layout for displaying music releases
+// ============================================
+
 .releases-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -231,8 +256,10 @@ aside {
   flex-direction: column;
 }
 
-.release-detail {
+.release-detail,
+article {
   max-width: $breakpoint-small;
+  margin: 0 auto;
 
   header {
     h1 {
@@ -297,10 +324,28 @@ aside {
   }
 }
 
+// ============================================
+// News Grid
+// Masonry-style grid for blog posts/news
+// ============================================
+
 .news-grid {
   position: relative;
-  column-count: 3;
   column-gap: 1.5em;
+
+  // Desktop: 3 columns (default, >992px)
+  column-count: 3;
+
+  // Tablet: 2 columns
+  @media only screen and (max-width: $breakpoint-large) {
+    column-count: 2;
+  }
+
+  // Mobile: 1 column
+  @media only screen and (max-width: $breakpoint-small) {
+    column-count: 1;
+    column-gap: 0;
+  }
 
   .post-excerpt {
     border: 1px solid $color-line;
@@ -382,7 +427,6 @@ aside {
 
 .post-content {
   img {
-    max-width: 68vw;
     height: auto;
     border-radius: 1ex;
     margin: 1em 0;
@@ -405,6 +449,11 @@ aside {
     margin: 0 0 2em 0;
   }
 }
+
+// ============================================
+// Presave Component
+// Special call-to-action for pre-save campaigns
+// ============================================
 
 .presave {
   position: relative;

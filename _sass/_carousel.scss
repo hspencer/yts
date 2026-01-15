@@ -1,3 +1,8 @@
+// ============================================
+// Releases Carousel
+// Infinite horizontal carousel with peek effect
+// ============================================
+
 .grid-carousel {
   display: grid;
   margin-top: 2em;
@@ -56,11 +61,6 @@
       overflow: hidden;
       text-decoration: none;
       @include long-shadow();
-      transition: transform 0.3s ease;
-
-      &:hover {
-        transform: translateY(-5px);
-      }
 
       img {
         width: 100%;
@@ -111,6 +111,55 @@
   }
 }
 
+// --------------------------------------------
+// Carousel Dots (Mobile Only)
+// Navigation indicators shown only on mobile
+// --------------------------------------------
+
+.carousel-dots {
+  display: none; // Hidden by default (desktop)
+  justify-content: center;
+  align-items: center;
+  gap: 0.6em;
+  padding: 1.5em 0;
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+
+  .carousel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid $color-text;
+    background-color: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+    margin: 0;
+    flex-shrink: 0;
+
+    &.active {
+      background-color: $color-text;
+      transform: scale(1.4);
+      border-width: 2px;
+    }
+
+    &:hover:not(.active) {
+      background-color: transparentize($color-text, 0.6);
+      transform: scale(1.2);
+    }
+
+    &:focus {
+      outline: 2px solid $color-primary;
+      outline-offset: 3px;
+    }
+
+    &:active {
+      transform: scale(0.9);
+    }
+  }
+}
+
 @media only screen and (max-width: $breakpoint-small) {
   .carousel {
     margin: 2em 0;
@@ -133,5 +182,10 @@
         }
       }
     }
+  }
+
+  // Show dots only on mobile
+  .carousel-dots {
+    display: flex;
   }
 }

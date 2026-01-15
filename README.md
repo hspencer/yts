@@ -1,37 +1,111 @@
-# YTS &rarr; [ytsmusica.com](https://ytsmusica.com)
+# YTS → [ytsmusica.com](https://ytsmusica.com)
 
-Sitio del grupo musical **YTS**
-```
-Martín Campusano
-Simón Miranda
-Paul Spencer
-```
+Sitio web oficial del grupo musical **YTS**
 
-### DEV
+**Integrantes:**
+- Martín Campusano
+- Simón Miranda
+- Paul Spencer
 
-- desarrollado en [Jekyll](https://jekyllrb.com/)
-- para servir el sitio localmente:
+---
 
-```
+## 🚀 Inicio Rápido
+
+### Desarrollo Local
+
+```bash
+# Servir el sitio localmente con live reload
 bundle exec jekyll serve --host 0.0.0.0 --livereload
+
+# El sitio estará disponible en http://localhost:4000
 ```
 
-#### rbenv
-```
+### Versión de Ruby
+
+```bash
 rbenv local 3.1.2
 ```
 
-Para visualizar el sitio en tu teléfono celular debes conocer la IP de tu computador en tu red local. Para esto ejecutas en tu terminal:
+---
+
+## 📁 Estructura del Proyecto
 
 ```
-ipconfig // (en pc of ifcongif en mac)   
+yts/
+├── _includes/          # Componentes reutilizables (header, footer, carousel)
+├── _layouts/           # Plantillas de página (default, post, release)
+├── _posts/             # Artículos y noticias del blog
+├── _releases/          # Información de releases musicales
+├── _sass/              # Archivos SCSS organizados por componente
+│   ├── _variables.scss      # Colores, fuentes, breakpoints
+│   ├── _mixins.scss         # Mixins reutilizables (long-shadow, etc.)
+│   ├── _base.scss           # Estilos base y resets
+│   ├── _typography.scss     # Tipografía y estilos de texto
+│   ├── _layout.scss         # Estructura de grid y layout principal
+│   ├── _components.scss     # Componentes reutilizables (botones, cards)
+│   ├── _menu.scss           # Header y navegación
+│   ├── _carousel.scss       # Carrusel infinito de releases
+│   ├── _last_album.scss     # Componente de último álbum
+│   ├── _last_releases.scss  # Grid de releases recientes
+│   ├── _release_snippets.scss # Cards compactos de releases
+│   ├── _animations.scss     # Animaciones globales
+│   └── _video.scss          # Estilos para videos embebidos
+├── assets/
+│   ├── css/            # CSS compilado
+│   └── images/         # Imágenes del sitio
+└── README.md           # Este archivo
 ```
-luego accedes a esa ip en el puerto 4000 en el teléfono.
 
-#### Instalación (para desarrollo local)
-El propósito de instalarlo localmente es para poder previsualizarlo antes de publicarlo, como hacer pruebas en múltiples pantallas (escritorio, celular, explicado más arriba).
+---
 
-##### Requisitos Previos
+## 🎨 Arquitectura CSS/SCSS
+
+El proyecto usa una arquitectura modular de SCSS organizada por componentes:
+
+### Variables Globales (`_variables.scss`)
+- Colores del tema
+- Fuentes tipográficas
+- Breakpoints responsive
+- Velocidades de transición
+
+### Mixins (`_mixins.scss`)
+- `long-shadow()`: Genera sombras largas para elementos
+- Mixins utilitarios reutilizables
+
+### Componentes
+Cada componente tiene su propio archivo SCSS autocontenido con:
+- Estilos del componente
+- Media queries específicos
+- Animaciones relacionadas (cuando aplica)
+
+### Responsive Design
+- **Desktop**: >992px (3 columnas en grids)
+- **Tablet**: 577-992px (2 columnas)
+- **Mobile**: ≤576px (1 columna)
+
+---
+
+## 📱 Testing en Dispositivos Móviles
+
+Para visualizar el sitio en tu teléfono:
+
+1. **Obtén la IP local de tu computadora:**
+   ```bash
+   # En Mac/Linux
+   ifconfig | grep "inet "
+
+   # En Windows
+   ipconfig
+   ```
+
+2. **Accede desde tu móvil:**
+   - Asegúrate de estar en la misma red WiFi
+   - Abre `http://[TU_IP]:4000` en el navegador del móvil
+
+---
+
+## 🛠️ Instalación (para desarrollo local)
+### Requisitos Previos
 
 1. **Instalar Git**:
    - Descarga e instala Git desde [Git SCM](https://git-scm.com/). Durante la instalación, asegúrate de que la opción "Git Bash Here" esté seleccionada para facilitar el uso.
@@ -48,7 +122,7 @@ El propósito de instalarlo localmente es para poder previsualizarlo antes de pu
      gem install bundler jekyll
      ```
 
-##### Clonar el Repositorio y Configurar GitHub
+### Clonar el Repositorio y Configurar GitHub
 
 1. **Clonar el repositorio**:
    - Abre Git Bash y clona el repositorio:
@@ -69,7 +143,11 @@ El propósito de instalarlo localmente es para poder previsualizarlo antes de pu
      ```
    - Copia la clave generada y agrégala a tu cuenta de GitHub en "Settings" > "SSH and GPG keys".
 
-#### Creación de un Nuevo Post
+---
+
+## ✍️ Creación de Contenido
+
+### Crear un Nuevo Post
 
 Debes crear un nuevo post en la carpeta <code>_posts</code>; sigue los siguientes pasos:
 
@@ -101,7 +179,9 @@ Debes crear un nuevo post en la carpeta <code>_posts</code>; sigue los siguiente
      <iframe width="560" height="315" src="https://www.youtube.com/embed/tu-video-id" frameborder="0" allowfullscreen></iframe>
      ```
 
-#### Troubleshooting
+---
+
+## 🐛 Troubleshooting
 
 - **Problemas de Permisos**: Si tienes problemas con permisos al instalar dependencias, intenta usar `sudo` (en Linux/Mac) o ejecutar el terminal como administrador (en Windows).
 - **Errores de Gemas**: Si encuentras errores relacionados con gemas, prueba correr:
@@ -117,29 +197,44 @@ Debes crear un nuevo post en la carpeta <code>_posts</code>; sigue los siguiente
   jekyll clean
   ```
 
-#### Servir el Sitio de Forma Local
+---
 
-Para servir el sitio localmente y ver los cambios en tiempo real:
+## 📚 Tecnologías Utilizadas
 
-1. **Instalar dependencias**:
-   ```bash
-   bundle install
-   ```
+Este sitio está construido con **Jekyll**, un generador de sitios estáticos que utiliza:
 
-2. **Construir y servir el sitio**:
-   ```bash
-   bundle exec jekyll serve
-   ```
+- **Ruby** - Lenguaje de programación base
+- **Markdown** - Formato de texto simple para contenido
+- **Liquid** - Sistema de plantillas para contenido dinámico
+- **Sass/SCSS** - Pre-procesador CSS para estilos avanzados
+- **YAML** - Front matter para metadatos de páginas
+- **JavaScript** - Interactividad (carrusel, navegación touch)
 
-3. **Acceder al sitio**:
-   - Abre tu navegador y visita `http://localhost:4000`.
+### Características Destacadas
 
-#### Colofón
+- ✅ Diseño completamente responsive (mobile-first)
+- ✅ Carrusel infinito con soporte touch/swipe
+- ✅ Grid masonry para posts (sin espacios vacíos)
+- ✅ Navegación accesible (teclado + screen readers)
+- ✅ Optimizado para performance
+- ✅ SEO friendly con feeds RSS
 
-Jekyll es un generador de sitios estáticos escrito en Ruby. Facilita la creación de sitios web, blogs y páginas de documentación. Algunas tecnologías clave utilizadas por Jekyll incluyen:
+---
 
-- **Markdown**: Para formatear texto fácilmente.
-- **Liquid**: Un lenguaje de plantillas que permite la inclusión dinámica de contenido.
-- **Sass**: Para el manejo avanzado de CSS.
-- **YAML**: Utilizado en el front matter de cada archivo para configurar metadatos.
-- **Plugins**: Jekyll soporta plugins para extender las funcionalidades, como la generación de categorías o la integración con servicios externos.
+## 🤝 Contribuir
+
+Para contribuir al proyecto:
+
+1. Haz fork del repositorio
+2. Crea una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`)
+3. Commit tus cambios (`git commit -am 'Añade nueva funcionalidad'`)
+4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
+5. Abre un Pull Request
+
+---
+
+## 📝 Licencia
+
+Todo el contenido en este sitio es propiedad de YTS bajo licencia **Creative Commons: Atribución y Compartir Igual 4.0**
+
+Si quieres reproducir o difundir el contenido, ¡adelante! Solo recuerda mencionar que lo sacaste de aquí.

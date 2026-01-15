@@ -1,41 +1,56 @@
+// ============================================
+// Last Album Component
+// Display featured album with animated gradient
+// ============================================
+
 .last-album {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  border-radius: 1ex;
+  @include long-shadow(box, 45, #ffe100, 40, 0.02);
+
+  img {
     position: relative;
-    overflow: hidden;
-    aspect-ratio: 1 / 1;
-    border-radius: 1ex;
-    @include long-shadow(box, 45, #ffe100, 40, 0.02);
-  
-    img {
-      position: relative;
-      z-index: 2;
-      display: block;
-      height: 100%;
-      width: auto;
-      margin: 0 auto;
-    }
-  
-    &::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: url("/assets/images/animated-texture.gif") center/cover no-repeat;
-      opacity: 0.9;
-      z-index: 0;
-    }
-  
-    &::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(
-        circle at 0% 50%,
-        #87b23ba4 0%,
-        #2575479a 50%,
-        #516c1b96 100%
-      );
-      background-size: 200% 200%;
-      animation: gradient-move 10s linear infinite;
-      z-index: 1;
-    }
+    z-index: 2;
+    display: block;
+    height: 100%;
+    width: auto;
+    margin: 0 auto;
   }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("/assets/images/animated-texture.gif") center/cover no-repeat;
+    opacity: 0.9;
+    z-index: 0;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at 0% 50%,
+      #87b23ba4 0%,
+      #2575479a 50%,
+      #516c1b96 100%
+    );
+    background-size: 200% 200%;
+    animation: gradient-move 10s linear infinite;
+    z-index: 1;
+  }
+}
+
+// ============================================
+// Animations
+// ============================================
+
+@keyframes gradient-move {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
   

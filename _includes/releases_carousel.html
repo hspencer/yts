@@ -12,6 +12,13 @@
       </div>
     {% endfor %}
   </div>
+  <div class="carousel-dots">
+    {% for release in sorted_releases limit:10 %}
+      <button class="carousel-dot{% if forloop.index0 == 0 %} active{% endif %}"
+              data-index="{{ forloop.index0 }}"
+              aria-label="Ir a {{ release.title }}"></button>
+    {% endfor %}
+  </div>
 </div>
 
 <script>
@@ -73,6 +80,22 @@
           requestAnimationFrame(() => {
             item.style.transition = '';
           });
+        }
+      });
+
+      // Update dots
+      updateDots();
+    }
+
+    function updateDots() {
+      const dots = document.querySelectorAll('.carousel-dot');
+      dots.forEach((dot, index) => {
+        if (index === currentIndex) {
+          dot.classList.add('active');
+          dot.setAttribute('aria-current', 'true');
+        } else {
+          dot.classList.remove('active');
+          dot.removeAttribute('aria-current');
         }
       });
     }
@@ -175,6 +198,15 @@
 
           goToSlide(currentIndex + distance);
         }
+      });
+    });
+
+    // Dots navigation
+    const dots = document.querySelectorAll('.carousel-dot');
+    dots.forEach((dot) => {
+      dot.addEventListener('click', (e) => {
+        const targetIndex = parseInt(e.target.dataset.index);
+        goToSlide(targetIndex);
       });
     });
 

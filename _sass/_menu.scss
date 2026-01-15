@@ -1,3 +1,8 @@
+// ============================================
+// Site Header & Navigation
+// Logo and main navigation menu with pills
+// ============================================
+
 .site-header {
   width: 100%;
   padding: 2em 0 1em;
@@ -47,7 +52,6 @@
       &:hover {
         background-color: $color-text;
         color: white;
-        transform: translateY(-2px);
       }
 
       &.active,
