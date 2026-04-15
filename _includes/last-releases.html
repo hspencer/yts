@@ -19,7 +19,12 @@
       href="{{ release.url | relative_url }}"
       class="release-image"
     >
-      <img src="{{ release.image | relative_url }}" alt="{{ release.title }}" />
+      <img src="{{ release.image | relative_url }}"
+           alt="Portada de {{ release.title }}"
+           width="1200"
+           height="1200"
+           loading="lazy"
+           decoding="async" />
     </a>
     <div class="release-details">
       <h3 class="release-title">{{ release.title }}</h3>

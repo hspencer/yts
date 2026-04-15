@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-CL">
     {% include head.html %}
 <body class="column-body radial-bg">
+    <a class="skip-link" href="#main">Saltar al contenido</a>
     <div id="nav-elements">
         {% include menu.html %}
     </div>
-    <main>
+    <main id="main" tabindex="-1">
         {{ content }}
     </main>
     {% include footer.html %}

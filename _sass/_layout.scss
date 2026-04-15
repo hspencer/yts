@@ -192,19 +192,24 @@ footer {
     position: relative;
     margin: 3em 0 0 0;
 
-    img {
-      position: relative;
-      bottom: 0;
+    #flores {
+      display: block;
+      width: 100%;
     }
+
+    // `#abeja` flies on top of `#flores`. It used to be `position: relative`
+    // with `top: 21%`, but percentage `top` on a relative inline image is
+    // unreliable without a resolved parent height — Safari/Firefox would
+    // treat it as 0. Switching to `position: absolute` against the already
+    // relative `.illustration` container makes `top`/`right` behave as
+    // expected.
     #abeja {
-      width: 25%;
-      right: -59%;
-      top: 21%;
+      position: absolute;
+      width: 30%;
+      right: 2%;
+      top: 9%;
       transform-origin: center;
       animation: vueloAbeja 1s infinite ease-in-out;
-    }
-    #flores {
-      width: 100%;
     }
   }
 

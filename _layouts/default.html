@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-CL">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 </head>
 <body class="radial-bg">
+    <a class="skip-link" href="#main">Saltar al contenido</a>
     {% include header.html %}
     {% include nav.html %}
-    
-    <main>
+
+    <main id="main" tabindex="-1">
         {{ content }}
     </main>
     {% include footer.html %}

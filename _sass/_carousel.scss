@@ -12,9 +12,15 @@
 
 .carousel {
   position: relative;
-  width: 100%;
+  // Full-bleed: the carousel escapes the `main` max-width and spans 100vw.
+  // On narrow viewports (where main is already full-width) the calc resolves
+  // to ~0 and nothing changes. `overflow: hidden` contains the inner track.
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  margin-top: 3em;
+  margin-bottom: 3em;
   overflow: hidden;
-  margin: 3em 0;
   outline: none;
   cursor: grab;
 

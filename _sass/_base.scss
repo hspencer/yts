@@ -9,4 +9,46 @@ body {
   color: $color-text;
   line-height: 1.6;
   background: $background-gradient;
+  // Prevents the full-bleed carousel (width: 100vw) from creating a spurious
+  // horizontal scrollbar when a vertical scrollbar is present.
+  overflow-x: clip;
+}
+
+// Screen-reader-only utility. Visually hidden, still announced by AT.
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Skip link: hidden off-screen until keyboard focus brings it visible.
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: $color-text;
+  color: white;
+  padding: 0.6em 1em;
+  z-index: 1000;
+  text-decoration: none;
+  border-radius: 0 0 0.7ex 0;
+  font-weight: 600;
+  transition: top 0.2s ease;
+
+  &:focus {
+    top: 0;
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+  }
+}
+
+// Make #main a valid focus target without adding a visible outline.
+main:focus {
+  outline: none;
 }

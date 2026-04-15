@@ -4,7 +4,13 @@ layout: column
 <article class="release-detail">
   <header>
     <h1>{{ page.title }}</h1>
-    <img src="{{ page.image | relative_url }}" alt="{{ page.title }}">
+    <img src="{{ page.image | relative_url }}"
+         alt="Portada de {{ page.title }}"
+         width="1200"
+         height="1200"
+         loading="eager"
+         fetchpriority="high"
+         decoding="async">
   </header>
   
 
@@ -17,22 +23,22 @@ layout: column
 
     <div class="streaming-links">
       {% if page.spotify %}
-        <a class="btn spotify" href="{{ page.spotify }}" target="_blank">
+        <a class="btn spotify" href="{{ page.spotify }}" target="_blank" rel="noopener noreferrer">
           {% include icon-spotify.svg %} Spotify
         </a>
       {% endif %}
       {% if page.tidal %}
-        <a class="btn" href="{{ page.tidal }}" target="_blank">
+        <a class="btn" href="{{ page.tidal }}" target="_blank" rel="noopener noreferrer">
          {% include icon-tidal.svg %} Tidal
         </a>
       {% endif %}
       {% if page.youtube_music %}
-        <a class="btn youtube" href="{{ page.youtube_music }}" target="_blank">
+        <a class="btn youtube" href="{{ page.youtube_music }}" target="_blank" rel="noopener noreferrer">
           {% include icon-youtube-music.svg %} YouTube Music
         </a>
       {% endif %}
       {% if page.apple_music %}
-        <a class="btn apple" href="{{ page.apple_music }}" target="_blank">
+        <a class="btn apple" href="{{ page.apple_music }}" target="_blank" rel="noopener noreferrer">
          {% include icon-apple.svg %} Apple Music
         </a>
       {% endif %}

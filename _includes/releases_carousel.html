@@ -1,10 +1,22 @@
-<div class="carousel" tabindex="0" role="region" aria-label="Carrusel de releases">
+<div class="carousel" tabindex="0" role="region" aria-label="Carrusel de releases" aria-roledescription="carrusel">
   <div class="carousel-track">
     {% assign sorted_releases = site.releases | sort: "date" | reverse %}
     {% for release in sorted_releases limit:10 %}
-      <div class="carousel-item" data-index="{{ forloop.index0 }}">
-        <a href="{{ release.url }}" class="release-card">
-          <img src="{{ release.image | relative_url }}" alt="{{ release.title }}">
+      <div class="carousel-item"
+           data-index="{{ forloop.index0 }}"
+           role="group"
+           aria-roledescription="slide"
+           aria-label="{{ forloop.index }} de {{ sorted_releases.size | at_most: 10 }}: {{ release.title }}"
+           {% unless forloop.first %}aria-hidden="true"{% endunless %}>
+        <a href="{{ release.url }}"
+           class="release-card"
+           {% unless forloop.first %}tabindex="-1"{% endunless %}>
+          <img src="{{ release.image | relative_url }}"
+               alt="Portada de {{ release.title }}"
+               width="1200"
+               height="1200"
+               {% if forloop.first %}loading="eager" fetchpriority="high"{% else %}loading="lazy"{% endif %}
+               decoding="async">
           <div class="release-title">
             <h3>{{ release.title }}</h3>
           </div>
@@ -19,207 +31,5 @@
               aria-label="Ir a {{ release.title }}"></button>
     {% endfor %}
   </div>
+  <div class="carousel-live sr-only" aria-live="polite" aria-atomic="true"></div>
 </div>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const carousel = document.querySelector('.carousel');
-    const track = document.querySelector('.carousel-track');
-    const items = document.querySelectorAll('.carousel-item');
-    const totalItems = items.length;
-    let currentIndex = 0;
-    let startX = 0;
-    let isDragging = false;
-    let startTransform = 0;
-
-    // Normalize index to be circular
-    function normalizeIndex(index) {
-      return ((index % totalItems) + totalItems) % totalItems;
-    }
-
-    function updateCarousel(animate = true) {
-      const itemWidth = items[0].offsetWidth;
-      // Responsive gap based on screen size
-      const gap = window.innerWidth < 768 ? 16 : 32;
-      const itemStep = itemWidth + gap;
-
-      items.forEach((item, index) => {
-        if (!animate) {
-          item.style.transition = 'none';
-        } else {
-          item.style.transition = '';
-        }
-
-        // Calculate circular distance
-        let distance = index - currentIndex;
-
-        // Wrap around logic for infinite scroll
-        if (distance > totalItems / 2) {
-          distance -= totalItems;
-        } else if (distance < -totalItems / 2) {
-          distance += totalItems;
-        }
-
-        // Position each item relative to center
-        const offset = distance * itemStep;
-        // Responsive scale: smaller on mobile
-        const inactiveScale = window.innerWidth < 768 ? 0.75 : 0.85;
-        const scale = distance === 0 ? 1 : inactiveScale;
-        item.style.transform = `translateX(calc(-50% + ${offset}px)) scale(${scale})`;
-
-        // Update active state and visibility
-        if (distance === 0) {
-          item.classList.add('active');
-          item.setAttribute('aria-current', 'true');
-        } else {
-          item.classList.remove('active');
-          item.removeAttribute('aria-current');
-        }
-
-        if (!animate) {
-          requestAnimationFrame(() => {
-            item.style.transition = '';
-          });
-        }
-      });
-
-      // Update dots
-      updateDots();
-    }
-
-    function updateDots() {
-      const dots = document.querySelectorAll('.carousel-dot');
-      dots.forEach((dot, index) => {
-        if (index === currentIndex) {
-          dot.classList.add('active');
-          dot.setAttribute('aria-current', 'true');
-        } else {
-          dot.classList.remove('active');
-          dot.removeAttribute('aria-current');
-        }
-      });
-    }
-
-    function goToSlide(index) {
-      currentIndex = normalizeIndex(index);
-      updateCarousel();
-    }
-
-    function nextSlide() {
-      goToSlide(currentIndex + 1);
-    }
-
-    function prevSlide() {
-      goToSlide(currentIndex - 1);
-    }
-
-    // Touch/Mouse events
-    track.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      startX = e.pageX;
-      startTransform = currentIndex;
-      track.style.cursor = 'grabbing';
-    });
-
-    track.addEventListener('touchstart', (e) => {
-      isDragging = true;
-      startX = e.touches[0].pageX;
-      startTransform = currentIndex;
-    }, { passive: true });
-
-    const handleMove = (clientX) => {
-      if (!isDragging) return;
-
-      const deltaX = startX - clientX;
-      const itemWidth = items[0].offsetWidth;
-      const threshold = itemWidth / 3;
-
-      if (Math.abs(deltaX) > threshold) {
-        if (deltaX > 0) {
-          currentIndex = startTransform + 1;
-        } else {
-          currentIndex = startTransform - 1;
-        }
-        currentIndex = normalizeIndex(currentIndex);
-        isDragging = false;
-        track.style.cursor = '';
-        updateCarousel();
-      }
-    };
-
-    document.addEventListener('mousemove', (e) => {
-      handleMove(e.pageX);
-    });
-
-    document.addEventListener('touchmove', (e) => {
-      handleMove(e.touches[0].pageX);
-    }, { passive: true });
-
-    document.addEventListener('mouseup', () => {
-      if (isDragging) {
-        isDragging = false;
-        track.style.cursor = '';
-        updateCarousel();
-      }
-    });
-
-    document.addEventListener('touchend', () => {
-      if (isDragging) {
-        isDragging = false;
-        updateCarousel();
-      }
-    });
-
-    // Keyboard navigation
-    carousel.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        prevSlide();
-      } else if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        nextSlide();
-      }
-    });
-
-    // Click on items to navigate
-    items.forEach((item, index) => {
-      item.addEventListener('click', (e) => {
-        const realIndex = parseInt(item.dataset.index);
-        if (realIndex !== currentIndex) {
-          e.preventDefault();
-
-          // Calculate shortest path for circular navigation
-          let distance = realIndex - currentIndex;
-          if (distance > totalItems / 2) {
-            distance -= totalItems;
-          } else if (distance < -totalItems / 2) {
-            distance += totalItems;
-          }
-
-          goToSlide(currentIndex + distance);
-        }
-      });
-    });
-
-    // Dots navigation
-    const dots = document.querySelectorAll('.carousel-dot');
-    dots.forEach((dot) => {
-      dot.addEventListener('click', (e) => {
-        const targetIndex = parseInt(e.target.dataset.index);
-        goToSlide(targetIndex);
-      });
-    });
-
-    // Initialize
-    updateCarousel(false);
-
-    // Handle resize
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        updateCarousel(false);
-      }, 250);
-    });
-  });
-</script>
