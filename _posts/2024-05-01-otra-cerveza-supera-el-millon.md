@@ -2,6 +2,8 @@
 layout: post
 title: "Superamos el millón"
 date: 2024-05-01
+kind: milestone
+related_release: otra-cerveza
 ---
 
 ![Otra Cerveza](/assets/images/releases/otra-cerveza.jpg)

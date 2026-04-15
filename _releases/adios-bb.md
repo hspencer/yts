@@ -2,6 +2,7 @@
 layout: release
 title: "Adiós BB nos vemos luego"
 date: 2025-01-30
+kind: single
 duracion: "3:32"
 description: "Tercer Single del Álbum"
 image: /assets/images/releases/adios-bb.jpg

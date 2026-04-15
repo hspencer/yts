@@ -1,8 +1,28 @@
 title: YTS
 author: YTS
-description: Un lugar para mostrar la música y más
+description: >-
+  YTS es un grupo musical de Viña del Mar, Chile, formado por Simón Miranda,
+  Paul Spencer y Martín Campusano. Fusionan Hip-Hop, Bossa y sonidos
+  alternativos. Aquí encontrarás sus releases, noticias y próximas fechas.
 baseurl: "" # Deja esto vacío si es tu sitio principal
 url: "https://ytsmusica.com"
+lang: es-CL
+logo: /assets/images/yts-logo-new.svg
+
+# Datos para jekyll-seo-tag (Open Graph + JSON-LD).
+# YTS no tiene cuenta en Twitter/X, así que no se declara el bloque `twitter:`:
+# eso evita que el plugin emita <meta name="twitter:*">.
+social:
+  name: YTS
+  links:
+    - https://www.instagram.com/yts.group/
+    - https://www.youtube.com/channel/UC7SauoubHXzZfilLRDCPm9g
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
 feed:
   path: "feed.xml" # Esto es opcional; jekyll-feed usa este nombre por defecto
 
@@ -54,9 +74,11 @@ defaults:
       layout: "release"
   - scope:
       path: ""
-      type: "news"
+      type: "posts"
     values:
       layout: "post"
+      # Fallback social card para posts que no declaran imagen propia.
+      image: /assets/images/releases/yendo-tras-suenos.jpg
   - scope:
       path: ""
     values:

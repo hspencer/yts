@@ -2,6 +2,7 @@
 layout: release
 title: "Yendo Tras Sueños"
 date: 2025-03-31
+kind: album
 duracion: "38 minutos, 12 canciones"
 description: "Primer álbum"
 image: /assets/images/releases/yendo-tras-suenos.jpg

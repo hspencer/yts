@@ -2,6 +2,7 @@
 layout: release
 title: "Soy yo"
 date: 2021-05-29
+kind: single
 duracion: "3:36"
 description: ""
 image: /assets/images/releases/soy-yo.jpg

@@ -2,6 +2,7 @@
 layout: post
 title: "Tocata en el Casino Enjoy Viña del Mar 🃏"
 date: 2024-10-03
+kind: live_show
 ---
 
 ![Flyer tocata en Casino Enjoy](/assets/images/posts/tocata-casino-flayer.jpg)

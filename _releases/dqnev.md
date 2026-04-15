@@ -2,6 +2,7 @@
 layout: release
 title: "Desde que no estás vos"
 date: 2024-12-15
+kind: single
 duracion: "3:32"
 description: "Segundo Single del Álbum"
 image: /assets/images/releases/dqnev.jpg

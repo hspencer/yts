@@ -2,6 +2,7 @@
 layout: release
 title: "Aromos Live Session"
 date: 2023-10-11
+kind: live_session
 duracion: "3:45"
 description: "Live Session de YTS"
 image: /assets/images/releases/aromos-live.jpg

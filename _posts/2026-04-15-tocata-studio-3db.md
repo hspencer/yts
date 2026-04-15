@@ -2,6 +2,10 @@
 layout: post
 title: "YTS en vivo: 24 de abril 🎤"
 date: 2026-04-15
+kind: live_show
+venue: "Studio 3db"
+venue_address: "Marina 890, Viña del Mar, Chile"
+event_date: 2026-04-24T22:00:00-04:00
 ---
 
 ![Flyer YTS en vivo en Studio 3db, 24 de abril](/assets/images/posts/poster3db.png)

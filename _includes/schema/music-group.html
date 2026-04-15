@@ -1,0 +1,37 @@
+{%- comment -%}
+  JSON-LD schema.org/MusicGroup — identidad del artista.
+  Incluido site-wide desde `_layouts/default.html`, `column.html` y `grid.html`
+  para que cualquier página expuesta a Google Rich Results declare al grupo.
+{%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MusicGroup",
+  "name": "YTS",
+  "alternateName": "Yendo Tras Sueños",
+  "url": "{{ '/' | absolute_url }}",
+  "logo": "{{ '/assets/images/yts-logo-new.svg' | absolute_url }}",
+  "image": "{{ '/assets/images/releases/yendo-tras-suenos.jpg' | absolute_url }}",
+  "description": "Grupo musical de Viña del Mar, Chile, formado por Simón Miranda, Paul Spencer y Martín Campusano. Fusión de Hip-Hop, Bossa y sonidos alternativos.",
+  "genre": ["Hip-Hop", "Bossa Nova", "Jazz", "Alternative"],
+  "foundingLocation": {
+    "@type": "Place",
+    "name": "Viña del Mar",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Viña del Mar",
+      "addressRegion": "Valparaíso",
+      "addressCountry": "CL"
+    }
+  },
+  "member": [
+    { "@type": "Person", "name": "Simón Miranda" },
+    { "@type": "Person", "name": "Paul Spencer" },
+    { "@type": "Person", "name": "Martín Campusano" }
+  ],
+  "sameAs": [
+    "https://www.instagram.com/yts.group/",
+    "https://www.youtube.com/channel/UC7SauoubHXzZfilLRDCPm9g"
+  ]
+}
+</script>

@@ -2,6 +2,7 @@
 layout: release
 title: "Si no fuera"
 date: 2020-05-04
+kind: single
 duracion: "3:14"
 description: ""
 image: /assets/images/releases/si-no-fuera.jpg

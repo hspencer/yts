@@ -2,6 +2,7 @@
 layout: release
 title: "Noche de Placer"
 date: 2020-04-02
+kind: single
 duracion: "3:42"
 description: "feat Batista y Hannes B."
 image: /assets/images/releases/noche-de-placer.jpg

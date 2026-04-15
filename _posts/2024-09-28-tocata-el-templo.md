@@ -2,6 +2,7 @@
 layout: post
 title: "Tocata en el Templo de Concón 🍕"
 date: 2024-09-28
+kind: live_show
 ---
 
 ![Flyer Tocata en el Templo](/assets/images/posts/tocata-el-templo-flayer.jpg)

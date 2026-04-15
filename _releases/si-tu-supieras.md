@@ -2,6 +2,7 @@
 layout: release
 title: "Si Tú Supieras"
 date: 2024-05-04
+kind: single
 duracion: "3:14"
 description: ""
 image: /assets/images/releases/si-tu-supieras.jpg

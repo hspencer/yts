@@ -2,6 +2,7 @@
 layout: release
 title: "Tú y Yo"
 date: 2024-10-10
+kind: single
 duracion: "3:36"
 description: "Primer Single del Álbum"
 image: /assets/images/releases/tu-y-yo.jpg

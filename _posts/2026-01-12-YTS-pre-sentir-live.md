@@ -2,6 +2,8 @@
 layout: post
 title: "Nuevo Single: Disco-TK"
 date: 2026-01-12
+kind: release_announcement
+related_release: disco-tk
 ---
 
 ![Portada del Single: Dicto-TK](/assets/images/releases/disco-tk-sm.png)

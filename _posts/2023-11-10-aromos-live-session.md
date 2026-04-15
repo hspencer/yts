@@ -2,6 +2,8 @@
 layout: post
 title: "Aromos Live Session"
 date: 2023-11-10
+kind: live_session
+related_release: aromos-live
 youtube: https://youtu.be/znd7aYdGBUk?si=S359QsoCBErOhXoC
 ---
 

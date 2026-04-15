@@ -38,3 +38,7 @@ layout: column
     {% endif %} {{ content }}
   </div>
 </article>
+
+{% if page.kind == "live_show" %}
+  {% include schema/music-event.html %}
+{% endif %}

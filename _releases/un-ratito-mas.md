@@ -2,6 +2,7 @@
 layout: release
 title: "Un ratito más"
 date: 2023-09-30
+kind: single
 duracion: "2:58"
 description: "single release"
 image: /assets/images/releases/un-ratito-mas.jpg

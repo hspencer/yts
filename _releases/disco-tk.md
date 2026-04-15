@@ -2,6 +2,7 @@
 layout: release
 title: "Disco-TK"
 date: 2026-01-12
+kind: single
 duracion: "3:10"
 description: "single release"
 image: /assets/images/releases/disco-tk-sm.png

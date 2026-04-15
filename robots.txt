@@ -1,0 +1,8 @@
+---
+# Front matter vacío para que Jekyll copie este archivo a _site/robots.txt
+# procesándolo con Liquid (así `site.url` se resuelve en el sitemap).
+---
+User-agent: *
+Allow: /
+
+Sitemap: {{ site.url }}/sitemap.xml

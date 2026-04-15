@@ -2,6 +2,7 @@
 layout: release
 title: "¿PA' QUÉ?"
 date: 2026-04-15
+kind: single
 duracion: "2:56"
 description: "Segundo single post-álbum"
 image: /assets/images/releases/pa-que.png

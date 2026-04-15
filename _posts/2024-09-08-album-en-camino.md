@@ -2,6 +2,7 @@
 layout: post
 title: "Álbum en camino 🌻"
 date: 2024-09-06
+kind: album_teaser
 ---
 
 ![Otra tocata en los Aromos: cumple 50 de Papapol](/assets/images/posts/24-08-24-aromos.JPG)

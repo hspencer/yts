@@ -2,6 +2,8 @@
 layout: post
 title: "YTS presenta: Yendo Tras Sueños 🌻"
 date: 2025-03-31
+kind: release_announcement
+related_release: yendo-tras-suenos
 ---
 
 ![Portada del Album: Yendo Tras Sueños](/assets/images/releases/yendo-tras-suenos.jpg)

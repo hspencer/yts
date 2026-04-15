@@ -1,9 +1,18 @@
+{% comment %}
+  Hero de la home. El gráfico `girasol.png` es la identidad visual del
+  álbum "Yendo Tras Sueños", así que el enlace apunta fijo a ese release.
+  Cuando YTS saque un nuevo álbum, reemplazar tanto la imagen como el slug.
+{% endcomment %}
+{% assign hero_release = site.releases | where: "title", "Yendo Tras Sueños" | first %}
 <div class="last-album">
-    <img src="/assets/images/girasol.png"
-         alt="Yendo Tras Sueños - Album"
-         width="1200"
-         height="1200"
-         loading="eager"
-         fetchpriority="high"
-         decoding="async">
+    <a href="{{ hero_release.url | relative_url }}"
+       aria-label="Escuchar {{ hero_release.title }}">
+        <img src="/assets/images/girasol.png"
+             alt="Portada del álbum {{ hero_release.title }}"
+             width="1200"
+             height="1200"
+             loading="eager"
+             fetchpriority="high"
+             decoding="async">
+    </a>
 </div>

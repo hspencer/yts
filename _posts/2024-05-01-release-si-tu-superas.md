@@ -2,6 +2,8 @@
 layout: post
 title: "Release: Si Tú Supieras"
 date: 2024-05-01
+kind: release_announcement
+related_release: si-tu-supieras
 ---
 
 ![Si tú supieras](/assets/images/posts/si-tu-superas-release.jpg)

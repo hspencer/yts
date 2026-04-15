@@ -1,0 +1,44 @@
+{%- comment -%}
+  JSON-LD schema.org/MusicAlbum | MusicRecording — ficha de un release.
+  Emite MusicAlbum cuando page.kind = album/ep, MusicRecording en el resto
+  (single, live_session). Habilita Google Rich Results para música.
+  Incluido desde `_layouts/release.html`.
+{%- endcomment -%}
+{%- if page.kind == "album" or page.kind == "ep" -%}
+  {%- assign schema_type = "MusicAlbum" -%}
+{%- else -%}
+  {%- assign schema_type = "MusicRecording" -%}
+{%- endif -%}
+{%- assign same_as = "" | split: "" -%}
+{%- if page.spotify -%}{%- assign same_as = same_as | push: page.spotify -%}{%- endif -%}
+{%- if page.apple_music -%}{%- assign same_as = same_as | push: page.apple_music -%}{%- endif -%}
+{%- if page.youtube_music -%}{%- assign same_as = same_as | push: page.youtube_music -%}{%- endif -%}
+{%- if page.tidal -%}{%- assign same_as = same_as | push: page.tidal -%}{%- endif -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "{{ schema_type }}",
+  "name": {{ page.title | jsonify }},
+  "url": "{{ page.url | absolute_url }}",
+  "image": "{{ page.image | absolute_url }}",
+  "datePublished": "{{ page.date | date: '%Y-%m-%d' }}",
+  "inLanguage": "es",
+  "byArtist": {
+    "@type": "MusicGroup",
+    "name": "YTS",
+    "url": "{{ '/' | absolute_url }}"
+  }
+  {%- if page.description and page.description != "" -%}
+  ,
+  "description": {{ page.description | jsonify }}
+  {%- endif -%}
+  {%- if same_as.size > 0 -%}
+  ,
+  "sameAs": [
+    {%- for link in same_as -%}
+      "{{ link }}"{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ]
+  {%- endif -%}
+}
+</script>

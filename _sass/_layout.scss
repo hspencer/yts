@@ -1,56 +1,24 @@
 // ============================================
-// Layout - Main Grid Structure
-// Defines the overall page layout and grid areas
+// Layout - Main Page Structure
 // ============================================
 
 // --------------------------------------------
-// Grid Body (Main Layout Container)
+// Column Body (used by column.html / default.html)
 // --------------------------------------------
 
-.grid-body {
-  display: grid;
-  min-height: 100vh;
-  margin: 0 auto;
-  grid-template-columns: 200px 1fr;
-  grid-template-rows: 5fr 1fr;
-  grid-template-areas:
-    "nav pag"
-    "fut fut";
-}
-
-
-// --------------------------------------------
-// Column Body (Alternative Layout)
-// --------------------------------------------
-
-.column-body{
+.column-body {
   display: block;
   position: relative;
   margin: 0 auto;
-  
-  main{
+
+  main {
     max-width: 900px;
     margin: 0 auto;
     padding: 1em 0 3em 0;
 
-    .news-grid{
+    .news-grid {
       padding: 0 1em 2em 1em;
     }
-  }
-}
-
-aside {
-  #nav-elements {
-    position: fixed;
-    width: 200px;
-  }
-
-  header {
-    grid-area: nav;
-  }
-
-  nav {
-    grid-area: nav;
   }
 }
 
@@ -59,7 +27,6 @@ aside {
 // --------------------------------------------
 
 main {
-  grid-area: pag;
   grid-template-columns: repeat(auto-fit, minmax(200px, 540px));
   margin: 1.9em 0 0 0;
 
@@ -110,7 +77,6 @@ main {
 // --------------------------------------------
 
 footer {
-  grid-area: fut;
   background: $background-gradient;
   border-top: 1px solid $color-line;
   padding: 2em 0;
