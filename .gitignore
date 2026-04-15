@@ -29,3 +29,6 @@ Gemfile.lock
 *.swp
 Gemfile.lock
 
+# other
+.claude
+.allium

@@ -3,13 +3,6 @@
 // Infinite horizontal carousel with peek effect
 // ============================================
 
-.grid-carousel {
-  display: grid;
-  margin-top: 2em;
-  grid-template-columns: 33.333% 1fr;
-  gap: 1em;
-}
-
 .carousel {
   position: relative;
   // Full-bleed: the carousel escapes the `main` max-width and spans 100vw.
@@ -37,6 +30,7 @@
     position: relative;
     min-height: 500px;
     width: 100%;
+    margin-bottom: 1em;
   }
 
   .carousel-item {
@@ -97,12 +91,6 @@
 }
 
 @media only screen and (max-width: $breakpoint-medium) {
-  .grid-carousel {
-    display: block !important;
-    margin: 0;
-    padding: 0;
-  }
-
   .carousel {
     margin: 2em 0;
 
