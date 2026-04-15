@@ -1,0 +1,360 @@
+-- allium: 3
+-- editorial.allium
+--
+-- Scope: Estructura editorial y GUI pública del sitio YTS.
+-- Describe cómo se publican Releases (lanzamientos musicales) y News (noticias)
+-- sobre la base del diseño Jekyll actual, desde la perspectiva editorial.
+--
+-- Includes:
+--   - Release (colección de lanzamientos musicales)
+--   - NewsPost (colección de noticias / posts)
+--   - Estructura de la portada (home) y de las páginas de índice
+--   - Obligaciones editoriales para crear y mostrar contenido
+--
+-- Excludes:
+--   - Motor Jekyll, Liquid, SCSS, Sass, HTML, JavaScript del carrusel
+--     (son implementación del diseño, no decisiones editoriales)
+--   - Generación de feeds Atom (implementación de sindicación)
+--   - Analítica, SEO, favicons, manifest (infraestructura)
+--   - Autoría multiusuario, CMS, autenticación (no existen en el sitio)
+--   - Comentarios, likes, suscripciones (no existen en el sitio)
+
+------------------------------------------------------------
+-- External Entities
+------------------------------------------------------------
+
+-- Las plataformas de streaming son sistemas externos a los que el sitio
+-- se limita a enlazar. No se modelan sus estados internos.
+external entity StreamingPlatformLink {
+    platform: StreamingPlatform
+    url: String
+}
+
+-- Recurso de imagen gestionado fuera de esta especificación (archivos en
+-- assets/images). La spec sólo se compromete a referenciarlo.
+external entity ImageAsset {
+    path: String
+    alt_text: String
+}
+
+-- Video embebido externo (YouTube). Opcional en posts.
+external entity YouTubeVideo {
+    url: String
+    video_id: String
+}
+
+------------------------------------------------------------
+-- Value Types
+------------------------------------------------------------
+
+value SpanishDate {
+    day: Integer
+    month: Integer
+    year: Integer
+}
+
+value TrackCredit {
+    role: String                 -- e.g. "Voz", "Bajo", "Mezcla"
+    person_name: String
+    tracks: Set<Integer>         -- números de pista; vacío = todas
+}
+
+------------------------------------------------------------
+-- Enumerations
+------------------------------------------------------------
+
+enum StreamingPlatform {
+    spotify
+    apple_music
+    youtube_music
+    tidal
+}
+
+enum ReleaseKind {
+    single                       -- un solo tema
+    ep                           -- 2 a 6 temas
+    album                        -- álbum de larga duración
+    live_session                 -- sesión en vivo registrada
+}
+
+enum NewsKind {
+    release_announcement         -- "Nuevo single / álbum disponible"
+    milestone                    -- logro (ej. millón de streams)
+    live_show                    -- tocata o presentación en vivo
+    album_teaser                 -- anuncio previo, detrás de cámaras
+    live_session                 -- publicación de una sesión en video
+}
+
+enum PublicationStatus {
+    draft                        -- escrito pero aún no listo
+    scheduled                    -- con fecha futura, Jekyll lo publicará
+    published                    -- visible en el sitio
+}
+
+------------------------------------------------------------
+-- Entities and Variants
+------------------------------------------------------------
+
+-- Un Release representa una pieza musical publicada por YTS en plataformas
+-- de streaming. Es el objeto primario del proyecto: casi toda la actividad
+-- del sitio gira en torno a anunciar o celebrar un release.
+entity Release {
+    title: String
+    slug: String                 -- identificador legible en URL
+    release_date: SpanishDate
+    kind: ReleaseKind
+    duration_text: String        -- formato libre: "3:14", "38 minutos, 12 canciones"
+    short_description: String?   -- una línea sobre el disco ("Primer álbum", "Tercer single")
+    cover_image: ImageAsset
+    streaming_links: Set<StreamingPlatformLink>
+    body: String                 -- cuerpo editorial: letra, tracklist, créditos
+    status: PublicationStatus
+
+    -- Proyecciones
+    has_lyrics: body contains "<br>"
+    is_album: kind = album
+    is_single: kind = single
+
+    -- Derivados
+    is_public: status = published
+}
+
+-- Un NewsPost es una noticia corta: anuncio, celebración, tocata, detrás de
+-- cámaras. Su función editorial es sostener la conversación con el público
+-- entre lanzamientos y redirigir tráfico hacia los releases o eventos.
+entity NewsPost {
+    title: String
+    slug: String
+    publish_date: SpanishDate
+    kind: NewsKind
+    hero_image: ImageAsset?      -- imagen que abre el post
+    embedded_video: YouTubeVideo?-- si aplica (ej. live sessions)
+    related_release: Release?    -- release al que apunta, si lo hay
+    body: String                 -- cuerpo corto, tono cercano y entusiasta
+    status: PublicationStatus
+
+    -- Derivados
+    is_public: status = published
+    has_video: embedded_video != null
+    has_image: hero_image != null
+}
+
+-- El BandProfile describe la página "bio" y sirve como anclaje identitario
+-- para el estilo editorial. No tiene ciclo de vida; es una sola instancia
+-- estable del sitio.
+entity BandProfile {
+    artist_name: String          -- "YTS"
+    origin_city: String          -- "Viña del Mar, Chile"
+    members: Set<String>         -- Simón Miranda, Paul Spencer, Martín Campusano
+    genres: Set<String>          -- Hip-Hop, Bossa, Jazz, sonidos alternativos
+    tagline: String              -- "Un lugar para mostrar la música y más"
+    language: String             -- "es" (español chileno informal)
+}
+
+------------------------------------------------------------
+-- Config
+------------------------------------------------------------
+
+config {
+    -- Número máximo de releases mostrados en el carrusel de la portada.
+    carousel_size: Integer = 10
+
+    -- Número de releases destacados en bloques secundarios.
+    featured_releases_count: Integer = 3
+
+    -- Cantidad máxima de palabras del extracto de un NewsPost en el grid.
+    news_excerpt_words: Integer = 80
+
+    -- Idioma editorial por defecto.
+    editorial_language: String = "es-CL"
+}
+
+------------------------------------------------------------
+-- Rules
+------------------------------------------------------------
+
+-- Un Release sólo puede publicarse cuando están disponibles los metadatos
+-- mínimos que la página de detalle asume. Esta regla protege al lector de
+-- ver fichas incompletas.
+rule PublishRelease {
+    when: PublishRelease(release)
+
+    requires: release.status = draft or release.status = scheduled
+    requires: release.title != ""
+    requires: release.cover_image != null
+    requires: release.streaming_links.count >= 1
+    requires: release.duration_text != ""
+
+    ensures: release.status = published
+}
+
+-- Un NewsPost que anuncia un release debe enlazarlo explícitamente. Esto
+-- asegura que los anuncios siempre redirigen tráfico hacia la página de
+-- detalle del lanzamiento en el sitio.
+rule PublishReleaseAnnouncement {
+    when: PublishNewsPost(post)
+
+    requires: post.kind = release_announcement
+    requires: post.related_release != null
+    requires: post.related_release.is_public
+    requires: post.title != ""
+
+    ensures: post.status = published
+}
+
+-- Un NewsPost de live_session debe llevar video embebido, porque su razón
+-- editorial es precisamente mostrar la sesión registrada.
+rule PublishLiveSession {
+    when: PublishNewsPost(post)
+
+    requires: post.kind = live_session
+    requires: post.embedded_video != null
+
+    ensures: post.status = published
+}
+
+-- Los posts de milestone celebran un logro concreto (ej. superar el millón
+-- de streams). Deben estar asociados al release que alcanzó el hito.
+rule PublishMilestone {
+    when: PublishNewsPost(post)
+
+    requires: post.kind = milestone
+    requires: post.related_release != null
+
+    ensures: post.status = published
+}
+
+-- Regla general de publicación: cualquier NewsPost necesita título y cuerpo.
+rule PublishGenericNewsPost {
+    when: PublishNewsPost(post)
+
+    requires: post.kind = live_show or post.kind = album_teaser
+    requires: post.title != ""
+    requires: post.body != ""
+
+    ensures: post.status = published
+}
+
+------------------------------------------------------------
+-- Invariants
+------------------------------------------------------------
+
+invariant ReleaseSlugIsUnique {
+    -- Dos releases no pueden compartir slug porque la URL depende de él.
+    for r1 in Release, r2 in Release:
+        if r1 != r2: r1.slug != r2.slug
+}
+
+invariant NewsSlugIsUnique {
+    for p1 in NewsPost, p2 in NewsPost:
+        if p1 != p2: p1.slug != p2.slug
+}
+
+invariant PublishedReleasesAppearInCarousel {
+    -- La portada muestra los releases más recientes publicados. Releases
+    -- no publicados nunca aparecen en el carrusel público.
+    for r in Release:
+        if not r.is_public: r not in HomePage.carousel_releases
+}
+
+invariant CoverImageAlwaysDescribed {
+    -- Toda imagen de portada debe tener alt_text no vacío, por accesibilidad
+    -- y porque el diseño de release.html la muestra prominentemente.
+    for r in Release:
+        r.cover_image.alt_text != ""
+}
+
+------------------------------------------------------------
+-- Actor Declarations
+------------------------------------------------------------
+
+actor Editor                     -- el colaborador que escribe y publica
+actor Visitor                    -- lector público del sitio
+
+------------------------------------------------------------
+-- Surfaces
+------------------------------------------------------------
+
+-- La portada (home) es la superficie principal del sitio. Presenta el
+-- álbum actual, un carrusel de releases recientes y una grilla de noticias,
+-- todo con la identidad visual de YTS.
+surface HomePage {
+    facing visitor: Visitor
+
+    exposes:
+        ShowLatestAlbum(band: BandProfile)
+        ShowReleaseCarousel(releases: Sequence<Release>)
+            when releases.count <= carousel_size
+        ShowNewsGrid(posts: Sequence<NewsPost>)
+
+    @guarantee ChronologicalOrder
+        -- Releases y news aparecen ordenados por fecha descendente:
+        -- lo más reciente arriba y al centro del carrusel.
+
+    @guarantee OnlyPublishedContent
+        -- Sólo contenido con status = published aparece en la portada.
+}
+
+-- Página de detalle de un release. Es la superficie donde viven las fichas
+-- técnicas (duración, créditos, letra, enlaces a plataformas).
+surface ReleaseDetailPage {
+    facing visitor: Visitor
+
+    context release: Release
+
+    exposes:
+        ShowCover(image: ImageAsset)
+        ShowMetadata(date: SpanishDate, duration: String, description: String?)
+        ShowStreamingButtons(links: Set<StreamingPlatformLink>)
+        ShowBody(markdown: String)
+
+    @guarantee StreamingFirst
+        -- Los botones de streaming están visibles antes del cuerpo del
+        -- release: la prioridad editorial es llevar al oyente a escuchar.
+}
+
+-- Página de detalle de una noticia. Tono corto, cercano, con imagen o video.
+surface NewsPostPage {
+    facing visitor: Visitor
+
+    context post: NewsPost
+
+    exposes:
+        ShowTitle(title: String)
+        ShowLocalizedDate(date: SpanishDate)
+        ShowMedia(image: ImageAsset?, video: YouTubeVideo?)
+        ShowBody(markdown: String)
+
+    @guarantee SpanishDateFormat
+        -- La fecha se escribe en español: "31 de Marzo de 2025",
+        -- nunca en formato numérico en la página de detalle.
+}
+
+-- Páginas de índice: /releases y /posts.
+surface IndexPage {
+    facing visitor: Visitor
+
+    exposes:
+        ListReleases(releases: Sequence<Release>)
+        ListNewsPosts(posts: Sequence<NewsPost>)
+
+    @guarantee NewestFirst
+        -- Ambos índices ordenan por fecha descendente.
+}
+
+------------------------------------------------------------
+-- Open Questions
+------------------------------------------------------------
+
+-- Q1: ¿Debe "live_session" ser un NewsKind o un ReleaseKind? Actualmente
+--     "Aromos Live Session" existe como _posts/ con video embebido, pero
+--     conceptualmente es también una publicación musical. La decisión
+--     editorial actual lo trata como noticia.
+--
+-- Q2: ¿Los releases sin enlaces de streaming (pre-save previos a la fecha
+--     de lanzamiento) deberían ser un estado aparte, p.ej. "upcoming"?
+--     Hoy el sitio los oculta (status = draft) o los anuncia sólo como
+--     NewsPost tipo album_teaser.
+--
+-- Q3: ¿Se requiere un NewsKind adicional para colaboraciones con otros
+--     artistas, o entra dentro de release_announcement?
