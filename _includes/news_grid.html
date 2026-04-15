@@ -1,4 +1,4 @@
-<div class="news-grid">
+<div class="news-grid js-masonry">
   {% for post in site.posts %}
   <div class="post-excerpt">
     <a href="{{ post.url | relative_url }}">
@@ -10,10 +10,8 @@
       </p>
       {% if post.youtube %}
         {% if post.youtube contains "youtu.be" %}
-          <!-- Para URLs cortas (https://youtu.be/ID) -->
           {% assign video_id = post.youtube | split: "/" | last | split: "?" | first %}
         {% elsif post.youtube contains "watch?v=" %}
-          <!-- Para URLs largas (https://www.youtube.com/watch?v=ID) -->
           {% assign video_id = post.youtube | split: "v=" | last | split: "&" | first %}
         {% endif %}
         <div class="embed-responsive embed-responsive-16by9">
@@ -26,18 +24,95 @@
   {% endfor %}
 </div>
 
-<!-- <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    // Seleccionar todos los elementos con la clase .post-excerpt
-    var postExcerpts = document.querySelectorAll('.post-excerpt');
+<script>
+(function() {
+  const grid = document.querySelector('.news-grid.js-masonry');
+  if (!grid) return;
 
-    // Recorrer cada elemento y aplicarle una rotación aleatoria
-    postExcerpts.forEach(function(post) {
-      // Generar un número aleatorio entre -3 y 3
-      var randomRotation = Math.floor(Math.random() * 7) - 3; // 7 = (3 - (-3) + 1)
-      
-      // Aplicar la rotación al elemento
-      post.style.transform = `rotate(${randomRotation}deg)`;
+  function getColumnCount() {
+    const raw = getComputedStyle(grid).getPropertyValue('--news-grid-columns').trim();
+    const n = parseInt(raw, 10);
+    return Number.isFinite(n) && n > 0 ? n : 3;
+  }
+
+  function getGap() {
+    // Parse --news-grid-gap (em) relative to the grid's font-size.
+    const raw = getComputedStyle(grid).getPropertyValue('--news-grid-gap').trim();
+    const fontSize = parseFloat(getComputedStyle(grid).fontSize) || 16;
+    if (raw.endsWith('em')) return parseFloat(raw) * fontSize;
+    if (raw.endsWith('rem')) return parseFloat(raw) * (parseFloat(getComputedStyle(document.documentElement).fontSize) || 16);
+    if (raw.endsWith('px')) return parseFloat(raw);
+    return 24;
+  }
+
+  function layout() {
+    const items = Array.from(grid.querySelectorAll('.post-excerpt'));
+    if (items.length === 0) return;
+
+    const cols = getColumnCount();
+    const gap = getGap();
+    const containerWidth = grid.clientWidth;
+    const colWidth = (containerWidth - gap * (cols - 1)) / cols;
+
+    // Reset any previous absolute positioning so measurements are correct.
+    grid.style.position = 'relative';
+    items.forEach(item => {
+      item.style.position = 'absolute';
+      item.style.width = colWidth + 'px';
+      item.style.margin = '0';
+      item.style.boxSizing = 'border-box';
+      item.style.left = '0px';
+      item.style.top = '0px';
     });
+
+    // Force reflow so offsetHeight reflects the new width.
+    // eslint-disable-next-line no-unused-expressions
+    grid.offsetHeight;
+
+    const columnHeights = new Array(cols).fill(0);
+
+    items.forEach(item => {
+      // Pick the shortest column; ties go to the left-most (preserves
+      // row-first ordering for the opening row).
+      let shortestCol = 0;
+      for (let i = 1; i < cols; i++) {
+        if (columnHeights[i] < columnHeights[shortestCol]) {
+          shortestCol = i;
+        }
+      }
+      const x = shortestCol * (colWidth + gap);
+      const y = columnHeights[shortestCol];
+      item.style.left = x + 'px';
+      item.style.top = y + 'px';
+      columnHeights[shortestCol] += item.offsetHeight + gap;
+    });
+
+    grid.style.height = (Math.max.apply(null, columnHeights) - gap) + 'px';
+  }
+
+  let resizeTimer;
+  function scheduleLayout() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(layout, 100);
+  }
+
+  // Initial layout after DOM is ready.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', layout);
+  } else {
+    layout();
+  }
+
+  // Re-layout once every image finishes loading (heights change).
+  grid.querySelectorAll('img').forEach(img => {
+    if (!img.complete) {
+      img.addEventListener('load', scheduleLayout);
+      img.addEventListener('error', scheduleLayout);
+    }
   });
-</script> -->
+
+  // Re-layout when YouTube iframes settle.
+  window.addEventListener('load', layout);
+  window.addEventListener('resize', scheduleLayout);
+})();
+</script>

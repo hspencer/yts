@@ -326,25 +326,26 @@ article {
 
 // ============================================
 // News Grid
-// Masonry-style grid for blog posts/news
+// Responsive masonry: row-first ordering, packed like a Mondrian.
+// CSS gives the no-JS fallback (single column). A small script
+// (`news_grid.html`) absolutely-positions the items into packed
+// columns while preserving row-first source order for the top row.
 // ============================================
 
 .news-grid {
   position: relative;
-  column-gap: 1.5em;
+  // Column count consumed by the masonry script via data-columns.
+  // Defaults used when JS is disabled or before first layout pass.
+  --news-grid-columns: 3;
+  --news-grid-gap: 1.5em;
 
-  // Desktop: 3 columns (default, >992px)
-  column-count: 3;
-
-  // Tablet: 2 columns
   @media only screen and (max-width: $breakpoint-large) {
-    column-count: 2;
+    --news-grid-columns: 2;
   }
 
-  // Mobile: 1 column
   @media only screen and (max-width: $breakpoint-small) {
-    column-count: 1;
-    column-gap: 0;
+    --news-grid-columns: 1;
+    --news-grid-gap: 1em;
   }
 
   .post-excerpt {
@@ -354,7 +355,7 @@ article {
     border-radius: 1ex;
     height: fit-content;
     transition: all .6s ease;
-    break-inside: avoid;
+    // Fallback without JS: stack vertically with spacing.
     margin-bottom: 1.5em;
 
     .title {
