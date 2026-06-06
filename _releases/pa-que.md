@@ -9,6 +9,8 @@ image: /assets/images/releases/pa-que.png
 spotify: https://open.spotify.com/track/5mD06ogDhZsVhAha0nm2l4?si=90dcc5bc0d724751
 youtube_music: https://music.youtube.com/watch?v=jXbxtBH2Q9o&si=pHqgj_bZJYoOeF5O
 tidal: https://tidal.com/track/512842303/u
+meta_pixel_id: "1713158546368266"
+meta_campaign_name: "PA QUE?"
 ---
 
 De hace tiempo que te busco por todos lados

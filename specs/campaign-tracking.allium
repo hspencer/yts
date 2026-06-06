@@ -1,0 +1,242 @@
+-- allium: 3
+-- campaign-tracking.allium
+--
+-- Scope: Seguimiento de campañas de marketing digital en ytsmusica.com.
+-- Describe cómo se asocian píxeles de seguimiento a páginas específicas,
+-- qué eventos se emiten y cuándo, y cómo se generaliza para campañas futuras.
+--
+-- Includes:
+--   - CampaignPixel (configuración por página)
+--   - Eventos: PageView y StreamingClick
+--   - Reglas de disparo de eventos
+--   - Invariantes de privacidad y seguridad
+--
+-- Excludes:
+--   - Implementación HTML/JS del píxel (ver _includes/meta-pixel.html)
+--   - Modelo de contenido de releases y posts (ver content.allium)
+--   - Google Analytics / GTM (sistema separado, no comparte este spec)
+--   - Píxeles de plataformas distintas a Meta (TikTok, etc.) — misma
+--     arquitectura aplicable, spec separado si llega a necesitarse
+--
+-- Contexto:
+--   Primera campaña: "PA QUE?" (Meta Pixel ID 1713158546368266)
+--   Página: https://ytsmusica.com/releases/pa-que/
+--   Origen: campaña de Instagram Ads, Junio 2026
+
+------------------------------------------------------------
+-- External Entities
+------------------------------------------------------------
+
+-- Sistema de Meta Ads que recibe y procesa los eventos.
+-- El sitio no lee datos de Meta; sólo los envía.
+external entity MetaAdsManager {
+    pixel_id: String
+    receives: [PageViewEvent, StreamingClickEvent]
+}
+
+-- Una plataforma de streaming enlazada desde la página del release.
+-- Entidad ya definida en content.allium; se reutiliza aquí como contexto
+-- del evento StreamingClick.
+external entity StreamingPlatformLink {
+    platform: StreamingPlatform
+    url: String
+}
+
+------------------------------------------------------------
+-- Value Types
+------------------------------------------------------------
+
+-- Configuración del píxel asociada a una página específica del sitio.
+-- Se declara en el frontmatter YAML de la página como:
+--   meta_pixel_id: "1713158546368266"
+--   meta_campaign_name: "PA QUE?"   ← opcional, por defecto usa page.title
+value CampaignPixel {
+    pixel_id: String                 -- ID único del píxel en Meta
+    campaign_name: String            -- nombre del contenido a reportar en Meta Events
+    page_url: String                 -- URL canónica de la página donde está activo
+}
+
+-- Evento de vista de página. Se emite una vez al cargar la página.
+value PageViewEvent {
+    pixel_id: String
+    event_name: String = "PageView"  -- nombre estándar de Meta
+}
+
+-- Evento de clic en botón de streaming. Se emite cada vez que el visitante
+-- hace clic en un enlace a una plataforma de distribución musical.
+value StreamingClickEvent {
+    pixel_id: String
+    event_name: String = "ClickToStream"   -- evento personalizado (custom event)
+    content_name: String                   -- nombre de la campaña / release
+    platform: StreamingPlatform            -- plataforma específica donde se clicó
+}
+
+------------------------------------------------------------
+-- Enumerations
+------------------------------------------------------------
+
+-- Enumeración ya definida en content.allium. Se replica aquí para
+-- completitud del spec de campañas; en implementación es la misma enum.
+enum StreamingPlatform {
+    spotify
+    apple_music
+    youtube_music
+    tidal
+}
+
+------------------------------------------------------------
+-- Actors
+------------------------------------------------------------
+
+actor Visitor         -- usuario que llega a la página desde la campaña
+actor MetaAds         -- sistema externo que recibe los eventos (Meta)
+actor Editor          -- configura qué páginas tienen píxel activo
+
+------------------------------------------------------------
+-- Rules
+------------------------------------------------------------
+
+-- Al cargar cualquier página que tenga un CampaignPixel configurado,
+-- se emite automáticamente un evento PageView a Meta.
+-- Esto mide cuántos visitantes llegan a la landing de la campaña.
+rule FirePageView {
+    when: Visitor loads page with pixel: CampaignPixel
+
+    requires: page.meta_pixel_id != null
+    requires: page.url is https             -- Meta Pixel requiere HTTPS
+
+    ensures: PageViewEvent.sent(
+        to: MetaAdsManager(pixel_id: pixel.pixel_id),
+        event_name: "PageView"
+    )
+}
+
+-- Cuando el visitante hace clic en un botón de streaming en una página
+-- con píxel activo, se emite un evento personalizado ClickToStream.
+-- Este es el evento principal de conversión que le interesa al equipo
+-- de marketing: mide intención de escuchar, no sólo llegada a la página.
+rule FireStreamingClick {
+    when: Visitor clicks streaming_button on page with pixel: CampaignPixel
+
+    requires: page.meta_pixel_id != null
+    requires: streaming_button has platform_identifier
+    requires: pixel is initialized            -- fbq('init') ya fue llamado
+
+    ensures: StreamingClickEvent.sent(
+        to: MetaAdsManager(pixel_id: pixel.pixel_id),
+        event_name: "ClickToStream",
+        content_name: pixel.campaign_name,
+        platform: streaming_button.platform
+    )
+
+    @note "ClickToStream es un custom event de Meta. Se envía con
+           fbq('trackCustom', ...) no con fbq('track', ...).
+           El PDF original usa 'track' — esto sería incorrecto para
+           un nombre de evento no estándar."
+}
+
+-- El Editor configura una campaña añadiendo meta_pixel_id al frontmatter
+-- de la página de destino. El campo campaign_name es opcional.
+rule ConfigureCampaignOnPage {
+    when: Editor sets meta_pixel_id on page
+
+    requires: meta_pixel_id is valid Meta Pixel ID    -- formato numérico
+    requires: page exists in site
+
+    ensures: CampaignPixel.active(
+        pixel_id: meta_pixel_id,
+        campaign_name: page.meta_campaign_name or page.title,
+        page_url: page.canonical_url
+    )
+
+    @note "campaign_name se usa como content_name en los eventos Meta.
+           Si no se declara en frontmatter, toma el valor de page.title.
+           Esto permite usar 'PA QUE?' como nombre comercial aunque el
+           título del release sea '¿PA\' QUÉ?'."
+}
+
+------------------------------------------------------------
+-- Config
+------------------------------------------------------------
+
+config {
+    -- Nombre del evento personalizado de clic en streaming.
+    -- Se mantiene constante entre campañas para poder comparar en Meta.
+    streaming_click_event_name: String = "ClickToStream"
+
+    -- Parámetro content_name por defecto cuando no se declara
+    -- meta_campaign_name en el frontmatter.
+    campaign_name_fallback: String = page.title
+}
+
+------------------------------------------------------------
+-- Invariants
+------------------------------------------------------------
+
+invariant PixelOnlyOnConfiguredPages {
+    -- El píxel de Meta se inyecta ÚNICAMENTE en páginas que declaran
+    -- meta_pixel_id en su frontmatter. Ninguna otra página envía datos
+    -- a Meta. Esto limita la recolección de datos al alcance de la campaña.
+    for page in all_pages:
+        if not page.has meta_pixel_id:
+            page does_not emit PageViewEvent or StreamingClickEvent
+}
+
+invariant OnePixelPerPage {
+    -- Una página puede tener como máximo un píxel activo al mismo tiempo.
+    -- Si Meta otorga un nuevo píxel para una segunda campaña simultánea
+    -- en la misma página, se documenta como open question hasta tener
+    -- confirmación de la plataforma.
+    for page in all_pages:
+        page.active_campaign_pixels.count <= 1
+}
+
+invariant ClickEventRequiresInitializedPixel {
+    -- El evento ClickToStream no puede dispararse antes de que fbq('init')
+    -- haya sido llamado. El orden correcto en el HTML garantiza esto:
+    -- 1. fbq('init', pixel_id) en <head>
+    -- 2. listeners de clic registrados en DOMContentLoaded
+    for event in StreamingClickEvent:
+        event.pixel was initialized before event.fired
+}
+
+invariant HTTPSRequired {
+    -- Meta Pixel requiere HTTPS. GitHub Pages con dominio personalizado
+    -- ytsmusica.com provee HTTPS automáticamente. Esta invariante se
+    -- cumple por la infraestructura del hosting, no requiere verificación
+    -- en código.
+    site.url starts_with "https://"
+}
+
+invariant CampaignNameIsNonEmpty {
+    for pixel in CampaignPixel:
+        pixel.campaign_name != ""
+}
+
+------------------------------------------------------------
+-- Open Questions
+------------------------------------------------------------
+
+-- Q1: ¿Meta permite múltiples píxeles activos simultáneamente en páginas
+--     diferentes del mismo dominio? El equipo de marketing menciona que
+--     "Meta no les deja crear más píxeles". Verificar si el límite es
+--     por cuenta o por dominio, y si el mismo ID puede reutilizarse
+--     en futuras campañas con distinto campaign_name.
+--
+-- Q2: ¿Se desea rastrear clics en botones de streaming en páginas que
+--     NO son releases? Por ejemplo, si el carrusel de la portada tiene
+--     links a plataformas en algún futuro rediseño.
+--
+-- Q3: ¿Debería emitirse un evento diferente cuando el visitante llega
+--     a la página vía UTM de Instagram vs. tráfico orgánico? Actualmente
+--     Meta identifica el origen por el propio canal del Ad, pero podrían
+--     enriquecerse los eventos con parámetros UTM si se necesita
+--     granularidad adicional.
+--
+-- Q4: ¿El evento ClickToStream debe dispararse ANTES de que el navegador
+--     navegue al enlace externo (sin bloquear la navegación), o es
+--     aceptable el riesgo de que el evento no se registre si la
+--     navegación ocurre antes de que Meta reciba la llamada?
+--     Solución estándar: navigator.sendBeacon o confiar en el SDK de Meta
+--     que usa su propio buffer. La implementación actual es suficiente
+--     para este caso.

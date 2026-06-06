@@ -1,0 +1,320 @@
+-- allium: 3
+-- content.allium
+--
+-- Scope: Modelo de contenido editorial del sitio ytsmusica.com.
+-- Cubre las entidades que los editores crean y publican, sus estados
+-- de ciclo de vida, las reglas de publicación y los invariantes de
+-- integridad del catálogo.
+--
+-- Includes:
+--   - Release (lanzamientos musicales)
+--   - NewsPost (noticias, anuncios, live sessions)
+--   - BandProfile (página "bio", instancia única)
+--   - Entidades externas: plataformas de streaming, imágenes, video
+--
+-- Excludes:
+--   - Motor Jekyll / Liquid / SCSS / JS (implementación)
+--   - Layouts, superficies visuales (ver presentation.allium)
+--   - SEO, feeds Atom, analytics (ver infrastructure.allium)
+--   - Navegación, mapa del sitio (ver site.allium)
+--   - Autoría multi-usuario, autenticación (no existe en el sitio)
+
+------------------------------------------------------------
+-- External Entities
+------------------------------------------------------------
+
+-- Plataformas de distribución musical a las que el sitio enlaza.
+-- No se modela su estado interno; sólo el enlace es relevante.
+external entity StreamingPlatformLink {
+    platform: StreamingPlatform
+    url: String
+}
+
+-- Recurso de imagen gestionado fuera de esta especificación.
+-- Vive en /assets/images/. La spec sólo se compromete a referenciarlo
+-- y a exigir alt_text para accesibilidad.
+external entity ImageAsset {
+    path: String
+    alt_text: String
+}
+
+-- Video alojado en YouTube. Opcional en posts (live sessions, tocatas).
+external entity YouTubeVideo {
+    url: String
+    video_id: String             -- extraído automáticamente por el layout
+}
+
+------------------------------------------------------------
+-- Value Types
+------------------------------------------------------------
+
+-- Fecha representada en español de Chile para presentación al visitante.
+value SpanishDate {
+    day: Integer
+    month: Integer               -- 1 = Enero … 12 = Diciembre
+    year: Integer
+}
+
+-- Crédito de un track dentro de un lanzamiento.
+value TrackCredit {
+    role: String                 -- "Voz", "Bajo", "Mezcla", "Producción"
+    person_name: String
+    tracks: Set<Integer>         -- números de pista afectados; vacío = todas
+}
+
+------------------------------------------------------------
+-- Enumerations
+------------------------------------------------------------
+
+enum StreamingPlatform {
+    spotify
+    apple_music
+    youtube_music
+    tidal
+}
+
+-- Tipo de lanzamiento musical. Define la presentación en el detalle del release.
+enum ReleaseKind {
+    single          -- un solo tema; cuerpo = letra completa
+    ep              -- 2 a 6 temas; cuerpo = tracklist + créditos
+    album           -- larga duración; cuerpo = tracklist + créditos
+    live_session    -- sesión registrada en vivo; cuerpo = tracklist + créditos
+}
+
+-- Tipo de noticia. Determina las reglas de publicación aplicables.
+enum NewsKind {
+    release_announcement    -- "Nuevo single / álbum disponible"
+    milestone               -- logro concreto (millón de streams, etc.)
+    live_show               -- tocata o presentación en vivo
+    album_teaser            -- avance previo al lanzamiento
+    live_session            -- sesión grabada publicada (con video embebido)
+}
+
+-- Ciclo de vida de una publicación.
+enum PublicationStatus {
+    draft       -- en elaboración, no visible en el sitio
+    scheduled   -- fecha futura; Jekyll lo publicará en su momento
+    published   -- visible públicamente
+}
+
+------------------------------------------------------------
+-- Entities
+------------------------------------------------------------
+
+-- Entidad central del sitio. Un Release representa una pieza musical
+-- publicada por YTS en plataformas de streaming. Casi toda la actividad
+-- editorial gira en torno a anunciar o celebrar un release.
+entity Release {
+    title: String
+    slug: String                            -- identificador único en URL
+    release_date: SpanishDate
+    kind: ReleaseKind
+    duration_text: String                   -- "3:14" o "38 minutos, 12 canciones"
+    short_description: String?              -- "Primer álbum", "Tercer single del álbum"
+    cover_image: ImageAsset
+    streaming_links: Set<StreamingPlatformLink>
+    body: String                            -- letra (single) o tracklist+créditos (álbum)
+    status: PublicationStatus
+
+    -- Derivados
+    is_public: status = published
+    is_album: kind = album
+    is_single: kind = single
+    has_lyrics: kind = single or kind = live_session
+}
+
+-- Un NewsPost sostiene la conversación con el público entre lanzamientos:
+-- anuncia releases, celebra hitos, avisa de tocatas, muestra sesiones.
+entity NewsPost {
+    title: String
+    slug: String
+    publish_date: SpanishDate
+    kind: NewsKind
+    hero_image: ImageAsset?
+    embedded_video: YouTubeVideo?           -- obligatorio para live_session
+    related_release: Release?              -- obligatorio para release_announcement y milestone
+    venue: String?                         -- obligatorio para live_show
+    venue_address: String?                 -- obligatorio para live_show (JSON-LD)
+    event_date: SpanishDate?              -- obligatorio para live_show
+    body: String
+    status: PublicationStatus
+
+    -- Derivados
+    is_public: status = published
+    has_video: embedded_video != null
+    has_image: hero_image != null
+    is_live_show: kind = live_show
+}
+
+-- El BandProfile describe la página "bio". Es una instancia única y estable
+-- del sitio; su ciclo de vida no tiene variantes (no se crea ni se destruye).
+entity BandProfile {
+    artist_name: String          -- "YTS"
+    origin_city: String          -- "Viña del Mar, Chile"
+    year_formed: Integer         -- 2020
+    members: Set<String>         -- Simón Miranda, Paul Spencer (Polo), Martín Campusano (Campu)
+    genres: Set<String>          -- Hip-Hop, Bossa, Jazz, sonidos alternativos
+    tagline: String
+    language: String             -- "es-CL"
+}
+
+------------------------------------------------------------
+-- Config
+------------------------------------------------------------
+
+config {
+    -- Número máximo de releases mostrados en el carrusel de la portada.
+    carousel_size: Integer = 10
+
+    -- Palabras máximas del extracto de un NewsPost en el grid de noticias.
+    news_excerpt_words: Integer = 80
+
+    -- Idioma y región editorial de todo el contenido del sitio.
+    editorial_language: String = "es-CL"
+}
+
+------------------------------------------------------------
+-- Actors
+------------------------------------------------------------
+
+actor Editor      -- colaborador interno que crea y publica contenido
+actor Visitor     -- lector público del sitio, sin capacidad de escritura
+
+------------------------------------------------------------
+-- Rules
+------------------------------------------------------------
+
+-- Un Release sólo puede publicarse con los metadatos mínimos que la página
+-- de detalle necesita para mostrarse sin campos vacíos o rotos.
+rule PublishRelease {
+    when: PublishRelease(release)
+
+    requires: release.status = draft or release.status = scheduled
+    requires: release.title != ""
+    requires: release.cover_image != null
+    requires: release.cover_image.alt_text != ""
+    requires: release.streaming_links.count >= 1
+    requires: release.duration_text != ""
+
+    ensures: release.status = published
+}
+
+-- Un anuncio de release debe enlazar al release publicado; sin esa referencia
+-- el post es un callejón sin salida editorial.
+rule PublishReleaseAnnouncement {
+    when: PublishNewsPost(post)
+
+    requires: post.kind = release_announcement
+    requires: post.related_release != null
+    requires: post.related_release.is_public
+    requires: post.title != ""
+
+    ensures: post.status = published
+}
+
+-- Un post de live_session necesita video embebido: ese video ES el contenido.
+rule PublishLiveSession {
+    when: PublishNewsPost(post)
+
+    requires: post.kind = live_session
+    requires: post.embedded_video != null
+
+    ensures: post.status = published
+}
+
+-- Un hito debe asociarse al release que lo alcanzó para dar contexto al lector.
+rule PublishMilestone {
+    when: PublishNewsPost(post)
+
+    requires: post.kind = milestone
+    requires: post.related_release != null
+    requires: post.title != ""
+
+    ensures: post.status = published
+}
+
+-- Un anuncio de tocata necesita lugar y fecha para que el visitante pueda asistir.
+-- El venue_address se requiere también para emitir JSON-LD MusicEvent.
+rule PublishLiveShow {
+    when: PublishNewsPost(post)
+
+    requires: post.kind = live_show
+    requires: post.title != ""
+    requires: post.venue != null
+    requires: post.venue_address != null
+    requires: post.event_date != null
+
+    ensures: post.status = published
+}
+
+-- Un teaser puede publicarse con texto mínimo; no requiere release asociado
+-- porque puede anunciar algo que aún no existe en el catálogo.
+rule PublishAlbumTeaser {
+    when: PublishNewsPost(post)
+
+    requires: post.kind = album_teaser
+    requires: post.title != ""
+    requires: post.body != ""
+
+    ensures: post.status = published
+}
+
+------------------------------------------------------------
+-- Invariants
+------------------------------------------------------------
+
+invariant ReleaseSlugIsUnique {
+    -- Dos releases no pueden compartir slug: la URL depende de él.
+    for r1 in Release, r2 in Release:
+        if r1 != r2: r1.slug != r2.slug
+}
+
+invariant NewsSlugIsUnique {
+    for p1 in NewsPost, p2 in NewsPost:
+        if p1 != p2: p1.slug != p2.slug
+}
+
+invariant CoverImageAlwaysDescribed {
+    -- Toda portada de release tiene alt_text no vacío (accesibilidad + SEO).
+    for r in Release:
+        r.cover_image.alt_text != ""
+}
+
+invariant LiveShowRequiresVenueAndDate {
+    -- Los posts de tocata siempre tienen lugar y fecha; son datos operativos
+    -- que el visitante necesita para asistir, y que el schema JSON-LD requiere.
+    for p in NewsPost:
+        if p.kind = live_show:
+            p.venue != null and p.venue_address != null and p.event_date != null
+}
+
+invariant LiveSessionRequiresVideo {
+    -- Un live_session sin video no tiene contenido principal.
+    for p in NewsPost:
+        if p.kind = live_session:
+            p.embedded_video != null
+}
+
+invariant ReleaseAnnouncementRequiresRelease {
+    -- Un anuncio sin enlace al release es un texto sin destino.
+    for p in NewsPost:
+        if p.kind = release_announcement:
+            p.related_release != null
+}
+
+------------------------------------------------------------
+-- Open Questions
+------------------------------------------------------------
+
+-- Q1: ¿Debe "live_session" existir como ReleaseKind Y como NewsKind?
+--     Actualmente "Aromos Live Session" es _posts/ con video, pero
+--     conceptualmente también es una publicación musical (podría ser
+--     _releases/). La decisión editorial vigente: si tiene streams en
+--     plataformas → Release; si solo hay video YouTube → NewsPost.
+--
+-- Q2: ¿Los releases "preventa" (pre-save, antes de la fecha de lanzamiento)
+--     necesitan un estado separado "upcoming"? Actualmente se tratan como
+--     draft o se anuncian sólo vía album_teaser.
+--
+-- Q3: ¿Las colaboraciones con otros artistas necesitan un NewsKind propio
+--     o caben dentro de release_announcement?

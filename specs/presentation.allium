@@ -1,0 +1,261 @@
+-- allium: 3
+-- presentation.allium
+--
+-- Scope: Presentación visual del sitio ytsmusica.com desde el punto de vista
+-- del visitante. Describe qué muestra cada superficie, en qué orden y con
+-- qué garantías de accesibilidad y experiencia.
+--
+-- Includes:
+--   - Layouts y su jerarquía (qué contiene cada uno)
+--   - Componentes de UI: carrusel, masonry grid, hero álbum, header, footer
+--   - Superficies y sus garantías observables (orden, contenido, a11y)
+--
+-- Excludes:
+--   - Implementación SCSS / CSS / JavaScript (implementación)
+--   - Modelo de contenido (ver content.allium)
+--   - SEO, feeds Atom (ver infrastructure.allium)
+--   - Mapa de URLs y navegación (ver site.allium)
+
+------------------------------------------------------------
+-- Actors
+------------------------------------------------------------
+
+actor Visitor
+
+------------------------------------------------------------
+-- Layout Hierarchy
+------------------------------------------------------------
+
+-- DefaultLayout: estructura HTML base. Envuelve todas las páginas.
+-- Responsabilidades: <head>, skip-link de accesibilidad, <main>, <footer>.
+-- No define ancho ni columnas; es un contenedor neutro.
+--
+-- ColumnLayout extiende DefaultLayout.
+-- Aplica max-width 900px al área de contenido, centrada horizontalmente.
+-- Usada por: HomePage, ReleasesIndexPage, NewsIndexPage, BioPage, NotFoundPage.
+--
+-- PostLayout extiende ColumnLayout.
+-- Agrega: título del post, fecha localizada en español, embed YouTube opcional,
+-- y emite JSON-LD MusicEvent si el post es de tipo live_show.
+--
+-- ReleaseLayout extiende ColumnLayout.
+-- Agrega: portada de alta prioridad (fetchpriority="high"), metadata del release
+-- (fecha, duración, descripción breve), botones de streaming y JSON-LD MusicRelease.
+
+------------------------------------------------------------
+-- Components
+------------------------------------------------------------
+
+-- Header del sitio. Presente en todas las páginas vía DefaultLayout.
+-- Muestra el logo SVG centrado y, debajo, tres pills de navegación.
+-- El logo tiene hover de escala y enlaza a la portada.
+component SiteHeader {
+    contains: logo_svg, primary_nav_pills
+    logo_links_to: "/"
+    nav_item_count: 3
+}
+
+-- Footer del sitio. Presente en todas las páginas vía DefaultLayout.
+-- Muestra: iconos de redes sociales (Instagram, YouTube, Email),
+-- íconos de suscripción a feeds Atom, badge Creative Commons CC-BY-SA 4.0,
+-- e ilustración decorativa (abeja animada + flores).
+component SiteFooter {
+    contains: social_links, feed_subscription_links, cc_badge, decorative_illustration
+    social_channels: [instagram, youtube, email]
+    license: "CC-BY-SA 4.0"
+    decoration: animated_bee_flight
+}
+
+-- Carrusel infinito de releases. Ocupa el ancho completo (100vw).
+-- Soporta: drag de mouse, swipe táctil, flechas de teclado, dots indicadores.
+-- Accesibilidad: role="region", aria-live, tabindex gestionado dinámicamente.
+-- Muestra hasta carousel_size releases ordenados por fecha descendente.
+component ReleasesCarousel {
+    interaction: [mouse_drag, touch_swipe, keyboard_arrows, dot_click]
+    aria_role: region
+    aria_live: polite
+    aspect_ratio: 16:9
+    max_items: carousel_size             -- definido en content.allium config
+    order: newest_first
+}
+
+-- Grid masonry de noticias. Columnas responsivas definidas por CSS variable
+-- --news-grid-columns (1 en mobile, 2–3 en desktop).
+-- Altura de cada celda determinada por contenido (imagen + texto truncado).
+-- Los extractos se truncan a news_excerpt_words palabras.
+component NewsMasonryGrid {
+    layout: masonry
+    columns: responsive_css_variable
+    excerpt_length: news_excerpt_words    -- definido en content.allium config
+    order: newest_first
+}
+
+-- Hero del último álbum. Ocupa un bloque destacado en la portada.
+-- Muestra la portada del release más reciente de kind=album o kind=ep,
+-- con un overlay de gradiente animado y textura superpuesta.
+-- El bloque completo es un enlace a la página de detalle del release.
+component LastAlbumHero {
+    shows: cover_image, release_title
+    aspect_ratio: 1:1
+    links_to: release_detail_page
+    visual_effect: [animated_gradient_overlay, texture_layer]
+}
+
+------------------------------------------------------------
+-- Surfaces
+------------------------------------------------------------
+
+-- Portada: punto de entrada principal del sitio.
+-- Compone los tres componentes principales en orden vertical.
+surface HomePage {
+    facing visitor: Visitor
+
+    exposes:
+        ShowLastAlbumHero(release: Release)
+            when release.kind in [album, ep] and release.is_public
+        ShowReleasesCarousel(releases: Sequence<Release>)
+            when releases.all(r => r.is_public)
+        ShowNewsMasonryGrid(posts: Sequence<NewsPost>)
+            when posts.all(p => p.is_public)
+
+    @guarantee LatestAlbumIsHero
+        -- El LastAlbumHero siempre muestra el álbum/EP más reciente publicado.
+        -- Si no hay álbum publicado, el componente no se renderiza.
+
+    @guarantee ChronologicalOrder
+        -- Carrusel y grid muestran contenido ordenado por fecha descendente.
+
+    @guarantee OnlyPublishedContent
+        -- Ningún Release o NewsPost con status != published aparece en portada.
+}
+
+-- Detalle de un release. Prioridad: llevar al oyente a escuchar antes de leer.
+surface ReleaseDetailPage {
+    facing visitor: Visitor
+
+    context release: Release
+
+    exposes:
+        ShowCoverImage(image: ImageAsset)
+        ShowMetadata(date: SpanishDate, duration: String, description: String?)
+        ShowStreamingButtons(links: Set<StreamingPlatformLink>)
+        ShowBody(markdown: String)
+
+    @guarantee StreamingButtonsBeforeBody
+        -- Los botones de streaming están visibles antes del cuerpo del release.
+        -- El orden visual prioriza el acceso a las plataformas sobre la lectura.
+
+    @guarantee CoverImageIsEager
+        -- La imagen de portada carga con fetchpriority="high" y loading="eager"
+        -- porque es el elemento visual principal de la página.
+}
+
+-- Detalle de una noticia. Tono cercano, contenido breve.
+surface NewsPostPage {
+    facing visitor: Visitor
+
+    context post: NewsPost
+
+    exposes:
+        ShowTitle(title: String)
+        ShowLocalizedDate(date: SpanishDate)
+        ShowHeroMedia(image: ImageAsset?, video: YouTubeVideo?)
+        ShowBody(markdown: String)
+
+    @guarantee SpanishDateFormat
+        -- La fecha se presenta en texto corrido en español:
+        -- "31 de Marzo de 2025". Nunca en formato numérico ni en inglés.
+
+    @guarantee VideoEmbedIsResponsive
+        -- El iframe de YouTube (si existe) mantiene aspect ratio 16:9
+        -- en todos los tamaños de pantalla mediante CSS responsive container.
+}
+
+-- Catálogo de releases. Grid 3 columnas en desktop, 1 en mobile.
+surface ReleasesIndexPage {
+    facing visitor: Visitor
+
+    exposes:
+        ListReleases(releases: Sequence<Release>)
+
+    @guarantee NewestFirst
+        -- Los releases aparecen ordenados por fecha descendente.
+
+    @guarantee OnlyPublishedContent
+}
+
+-- Catálogo de noticias. Masonry grid con extractos.
+surface NewsIndexPage {
+    facing visitor: Visitor
+
+    exposes:
+        ListNewsPosts(posts: Sequence<NewsPost>)
+
+    @guarantee NewestFirst
+
+    @guarantee OnlyPublishedContent
+}
+
+-- Página de biografía. Una sola instancia, contenido estable.
+surface BioPage {
+    facing visitor: Visitor
+
+    exposes:
+        ShowBandProfile(profile: BandProfile)
+        ShowMemberPhotos()
+}
+
+------------------------------------------------------------
+-- Invariants (Accesibilidad)
+------------------------------------------------------------
+
+invariant SkipLinkPresent {
+    -- Todas las páginas incluyen un skip-to-main link que se hace visible
+    -- al recibir foco de teclado. Requerido para usuarios de teclado y
+    -- lectores de pantalla (WCAG 2.4.1).
+    every_page: has skip_link visible_on_focus
+}
+
+invariant ContentImagesHaveAltText {
+    -- Todas las imágenes de contenido tienen alt_text no vacío.
+    -- Las imágenes puramente decorativas usan alt="" (vacío explícito).
+    for r in Release:
+        r.cover_image.alt_text != ""
+    for p in NewsPost:
+        if p.hero_image != null: p.hero_image.alt_text != ""
+}
+
+invariant YouTubeEmbedHasTitleAttribute {
+    -- Todo iframe de YouTube tiene atributo title descriptivo (WCAG 4.1.2).
+    -- El layout de post lo rellena automáticamente con el título del post.
+    for p in NewsPost:
+        if p.has_video: p.embedded_video.iframe has non_empty_title_attribute
+}
+
+invariant CarouselIsKeyboardNavigable {
+    -- El carrusel de releases puede operarse completamente con teclado:
+    -- flechas izquierda/derecha para navegar, Enter/Escape para activar/salir.
+    ReleasesCarousel: keyboard_fully_operable
+}
+
+invariant SocialLinksOpenSafely {
+    -- Todos los enlaces a dominios externos usan rel="noopener noreferrer"
+    -- para evitar tabnapping cuando abren en target="_blank".
+    for link in SiteFooter.social_links:
+        link has rel_noopener_noreferrer
+}
+
+------------------------------------------------------------
+-- Open Questions
+------------------------------------------------------------
+
+-- Q1: ¿El LastAlbumHero debería mostrar también el single más reciente
+--     cuando no hay álbum publicado? Actualmente el componente sólo busca
+--     kind = album o kind = ep.
+--
+-- Q2: ¿El carrusel debe incluir live_session releases o sólo
+--     singles/EP/álbumes? Actualmente no hay filtro por kind.
+--
+-- Q3: ¿La página /bio/ necesita soporte para foto de grupo + fotos
+--     individuales de miembros como entidades separadas, o es suficiente
+--     con un bloque de contenido libre en Markdown?

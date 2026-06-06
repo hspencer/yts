@@ -1,0 +1,162 @@
+-- allium: 3
+-- site.allium
+--
+-- Scope: Arquitectura del sitio web ytsmusica.com.
+-- Describe la estructura de páginas, mapa de URLs, navegación principal
+-- y configuración de despliegue en GitHub Pages. Es el spec de más alto
+-- nivel; los demás specs desarrollan aspectos específicos.
+--
+-- Includes:
+--   - Mapa de páginas y URLs canónicas
+--   - Navegación principal (header pills)
+--   - Config global (URL, idioma, rama de despliegue)
+--   - Garantías de coherencia entre páginas
+--
+-- Excludes:
+--   - Modelo de contenido (ver content.allium)
+--   - Superficies visuales y layouts (ver presentation.allium)
+--   - SEO, feeds Atom, analytics (ver infrastructure.allium)
+--   - Motor Jekyll / Liquid (implementación)
+
+------------------------------------------------------------
+-- Config
+------------------------------------------------------------
+
+config {
+    -- URL canónica del sitio. Todas las URLs absolutas parten de aquí.
+    site_url: String = "https://ytsmusica.com"
+
+    -- Título del sitio usado en feeds, metadatos y pestaña del navegador.
+    site_title: String = "YTS"
+
+    -- Idioma y región de todo el contenido.
+    site_language: String = "es-CL"
+
+    -- Rama git desde la que GitHub Pages publica el sitio.
+    deployment_branch: String = "gh-pages"
+
+    -- Dominio personalizado configurado en CNAME.
+    custom_domain: String = "ytsmusica.com"
+
+    -- Permite publicar posts con fecha futura (anticipación de anuncios).
+    future_posts: Boolean = true
+
+    -- Procesador Markdown (GitHub-Flavored Markdown).
+    markdown_processor: String = "kramdown-gfm"
+}
+
+------------------------------------------------------------
+-- Actors
+------------------------------------------------------------
+
+actor Visitor    -- lector público, navega y consume contenido
+actor Editor     -- colaborador interno, crea y publica contenido
+
+------------------------------------------------------------
+-- Surfaces
+------------------------------------------------------------
+
+-- La portada es el punto de entrada. Muestra lo más reciente y redirige
+-- al visitante hacia releases, noticias o la bio.
+surface HomePage {
+    facing visitor: Visitor
+    url: "/"
+
+    exposes:
+        Navigate(to: PrimaryNavItem)
+
+    @guarantee IdentityFirst
+        -- El logo de YTS encabeza todas las páginas; la portada
+        -- además muestra el álbum activo como primer elemento visual.
+}
+
+-- Catálogo completo de lanzamientos. Punto de entrada al archivo musical.
+surface ReleasesIndexPage {
+    facing visitor: Visitor
+    url: "/releases/"
+}
+
+-- Catálogo completo de noticias y anuncios.
+surface NewsIndexPage {
+    facing visitor: Visitor
+    url: "/posts/"
+}
+
+-- Biografía de la banda. Instancia única; no tiene variantes.
+surface BioPage {
+    facing visitor: Visitor
+    url: "/bio/"
+}
+
+-- Detalle de un release individual. URL dinámica basada en el slug.
+surface ReleaseDetailPage {
+    facing visitor: Visitor
+    url: "/releases/{slug}/"
+}
+
+-- Detalle de una noticia individual.
+surface NewsDetailPage {
+    facing visitor: Visitor
+    url: "/news/{slug}/"
+}
+
+-- Página de error. Se activa cuando GitHub Pages no encuentra la ruta.
+surface NotFoundPage {
+    facing visitor: Visitor
+    url: "/404"
+}
+
+------------------------------------------------------------
+-- Navigation
+------------------------------------------------------------
+
+-- La navegación primaria es un conjunto fijo de tres pills centrados
+-- bajo el logo. Aparece en todas las páginas (todas heredan el layout base).
+-- El orden refleja la prioridad editorial: Releases > News > Bio.
+entity PrimaryNavItem {
+    label: String
+    url: String
+    position: Integer    -- 1 = primero
+}
+
+-- Instancias fijas de la navegación:
+--   1. Releases → /releases/
+--   2. News     → /posts/
+--   3. Bio      → /bio/
+
+------------------------------------------------------------
+-- Invariants
+------------------------------------------------------------
+
+invariant AllPagesShareHeader {
+    -- El logo y la navegación primaria aparecen en todas las páginas
+    -- excepto en /404. Ninguna página es una isla sin ruta de regreso.
+    every_page except NotFoundPage: includes SiteHeader
+}
+
+invariant AllPagesShareFooter {
+    -- El footer con redes sociales y feeds aparece en todas las páginas.
+    every_page: includes SiteFooter
+}
+
+invariant TrailingSlashRequired {
+    -- Todas las URLs de páginas (excepto /404) terminan en "/".
+    -- Esto es consistente con el permalink_style de Jekyll y evita
+    -- redirecciones dobles en GitHub Pages.
+    for page in [ReleasesIndexPage, NewsIndexPage, BioPage,
+                 ReleaseDetailPage, NewsDetailPage, HomePage]:
+        page.url ends_with "/"
+}
+
+invariant CanonicalDomainIsCustom {
+    -- Las URLs canónicas usan ytsmusica.com, nunca hspencer.github.io.
+    -- El CNAME y la config de GitHub Pages garantizan el redireccionamiento.
+    all_canonical_urls start_with "https://ytsmusica.com"
+}
+
+invariant FuturePostsAreAccessible {
+    -- Como future: true está activo, los posts con fecha futura se publican
+    -- en su momento sin intervención manual adicional.
+    for post in NewsPost:
+        if post.status = scheduled: post becomes published when now >= post.publish_date
+}

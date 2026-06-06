@@ -239,7 +239,7 @@ No toco `_config.yml`, layouts, includes, CSS ni JavaScript salvo que me lo pida
 
 ## 8. Referencias rápidas
 
-- **Spec formal:** [editorial.allium](editorial.allium)
+- **Spec formal:** [editorial.allium](../specs/editorial.allium)
 - **Ejemplos canónicos de tono:**
   - Anuncio de álbum: `_posts/2025-03-31-YTS-presenta-yendo-tras-suenos.md`
   - Anuncio de single: `_posts/2024-05-01-release-si-tu-superas.md`

@@ -23,22 +23,22 @@ layout: column
 
     <div class="streaming-links">
       {% if page.spotify %}
-        <a class="btn spotify" href="{{ page.spotify }}" target="_blank" rel="noopener noreferrer">
+        <a class="btn spotify" href="{{ page.spotify }}" target="_blank" rel="noopener noreferrer"{% if page.meta_pixel_id %} data-track-platform="Spotify"{% endif %}>
           {% include icon-spotify.svg %} Spotify
         </a>
       {% endif %}
       {% if page.tidal %}
-        <a class="btn" href="{{ page.tidal }}" target="_blank" rel="noopener noreferrer">
+        <a class="btn" href="{{ page.tidal }}" target="_blank" rel="noopener noreferrer"{% if page.meta_pixel_id %} data-track-platform="Tidal"{% endif %}>
          {% include icon-tidal.svg %} Tidal
         </a>
       {% endif %}
       {% if page.youtube_music %}
-        <a class="btn youtube" href="{{ page.youtube_music }}" target="_blank" rel="noopener noreferrer">
+        <a class="btn youtube" href="{{ page.youtube_music }}" target="_blank" rel="noopener noreferrer"{% if page.meta_pixel_id %} data-track-platform="YouTube Music"{% endif %}>
           {% include icon-youtube-music.svg %} YouTube Music
         </a>
       {% endif %}
       {% if page.apple_music %}
-        <a class="btn apple" href="{{ page.apple_music }}" target="_blank" rel="noopener noreferrer">
+        <a class="btn apple" href="{{ page.apple_music }}" target="_blank" rel="noopener noreferrer"{% if page.meta_pixel_id %} data-track-platform="Apple Music"{% endif %}>
          {% include icon-apple.svg %} Apple Music
         </a>
       {% endif %}

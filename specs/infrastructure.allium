@@ -1,0 +1,259 @@
+-- allium: 3
+-- infrastructure.allium
+--
+-- Scope: Infraestructura técnica del sitio ytsmusica.com.
+-- Documenta las capas que dan soporte al sitio pero no son contenido
+-- editorial ni presentación visual: SEO, structured data, feeds,
+-- analítica, PWA y convenciones de activos.
+--
+-- Includes:
+--   - SEO: metadatos Open Graph / Twitter Card / canonical
+--   - JSON-LD Schema (MusicGroup, MusicAlbum, MusicRecording, MusicEvent)
+--   - Feeds Atom (general, releases, noticias)
+--   - Sitemap y robots.txt
+--   - Google Analytics 4
+--   - PWA Web App Manifest
+--   - Convenciones de nombres de archivos y rutas de activos
+--
+-- Excludes:
+--   - Motor Jekyll / Ruby / Gems (herramienta, no dominio)
+--   - SCSS / JavaScript (implementación visual)
+--   - Modelo de contenido (ver content.allium)
+--   - Layouts / superficies (ver presentation.allium)
+--   - Mapa de páginas y navegación (ver site.allium)
+
+------------------------------------------------------------
+-- Actors
+------------------------------------------------------------
+
+actor Visitor
+actor SearchEngine    -- crawler que indexa y consume la infraestructura SEO
+
+------------------------------------------------------------
+-- SEO Metadata
+------------------------------------------------------------
+
+-- Cada página emite un conjunto mínimo de metadatos para que los buscadores
+-- y redes sociales muestren previsualizaciones correctas.
+-- Generados automáticamente por el plugin jekyll-seo-tag.
+contract PageSEOMetadata {
+    -- Campos Open Graph (Facebook, WhatsApp, etc.)
+    emits: og:title
+    emits: og:description
+    emits: og:image         -- imagen de portada del release o del post
+    emits: og:url           -- URL canónica de la página
+    emits: og:type          -- "website" en general, "music.album" en releases
+
+    -- Twitter Card
+    emits: twitter:card     -- summary_large_image
+    emits: twitter:title
+    emits: twitter:description
+
+    -- Canonical
+    emits: link_rel_canonical  -- siempre apunta a ytsmusica.com
+
+    -- Descripción del sitio
+    emits: meta_description
+}
+
+------------------------------------------------------------
+-- JSON-LD Schema
+------------------------------------------------------------
+
+-- MusicGroup emitido en todas las páginas vía _includes/head.html.
+-- Identifica a YTS como entidad musical en el Knowledge Graph de Google.
+-- Campos: name, url, genre, member[], sameAs[] (Instagram, YouTube).
+entity MusicGroupSchema {
+    type: "MusicGroup"
+    scope: site_wide
+    name: "YTS"
+    genres: Set<String>
+    social_profiles: Set<String>    -- URLs de redes sociales
+}
+
+-- MusicAlbum (para kind=album o kind=ep) o MusicRecording (para kind=single
+-- o kind=live_session). Emitido en la página de detalle de cada release.
+-- Permite Google Rich Results para música.
+entity MusicReleaseSchema {
+    type: "MusicAlbum" when release.kind in [album, ep]
+    type: "MusicRecording" when release.kind in [single, live_session]
+    scope: ReleaseDetailPage
+    fields: [name, datePublished, byArtist, duration, image]
+}
+
+-- MusicEvent emitido sólo en posts de tipo live_show y sólo cuando
+-- venue, venue_address y event_date están presentes.
+entity MusicEventSchema {
+    type: "MusicEvent"
+    scope: NewsPostPage when post.kind = live_show
+    requires: post.venue != null
+    requires: post.venue_address != null
+    requires: post.event_date != null
+    fields: [name, startDate, location.name, location.address, performer]
+}
+
+------------------------------------------------------------
+-- Feeds Atom
+------------------------------------------------------------
+
+-- Tres canales de suscripción independientes para distintas audiencias.
+-- Generados por el plugin jekyll-feed con configuraciones en _config.yml.
+
+external entity AtomFeed {
+    url: String
+    max_items: Integer = 20
+    order: newest_first
+}
+
+-- Feed general: incluye tanto releases como noticias.
+-- Destinado a lectores que quieren todo en un solo canal.
+-- URL: /feed.xml (también referenciado como /feed para RSS readers).
+--   max_items: 20, includes: Release + NewsPost
+
+-- Feed de releases: sólo lanzamientos musicales.
+-- Destinado a oyentes que quieren saber cuándo sale música nueva.
+-- URL: /feed-releases.xml
+--   max_items: 20, includes: Release
+
+-- Feed de noticias: sólo posts (anuncios, tocatas, hitos).
+-- Destinado a seguidores que quieren seguir la actividad de la banda.
+-- URL: /feed-posts.xml
+--   max_items: 20, includes: NewsPost
+
+------------------------------------------------------------
+-- Sitemap y Robots
+------------------------------------------------------------
+
+-- Sitemap XML generado automáticamente por jekyll-sitemap.
+-- Incluye todas las páginas con status=published.
+-- Referenciado en robots.txt para facilitar el crawling.
+external entity Sitemap {
+    url: "/sitemap.xml"
+    format: "sitemap-0.9"
+    includes: all_published_pages
+}
+
+-- robots.txt permite indexación de todo el sitio.
+-- Apunta al sitemap para facilitar el descubrimiento.
+external entity RobotsFile {
+    url: "/robots.txt"
+    policy: allow_all
+    sitemap_reference: Sitemap
+}
+
+------------------------------------------------------------
+-- Analytics
+------------------------------------------------------------
+
+-- Google Analytics 4 vía Google Tag Manager. Se carga en todas las páginas
+-- del sitio público. No se activa en entornos de desarrollo local
+-- (si bien no hay un mecanismo automático de exclusión implementado).
+external entity GoogleAnalytics {
+    provider: "Google Tag Manager"
+    measurement_id: "G-FTJ208PCKQ"
+    scope: site_wide
+    data_collected: [page_views, sessions, events]
+}
+
+------------------------------------------------------------
+-- PWA Web App Manifest
+------------------------------------------------------------
+
+-- Permite que los visitantes en móvil "instalen" el sitio en su pantalla
+-- de inicio como una aplicación. No hay service worker; no funciona offline.
+external entity WebAppManifest {
+    url: "/site.webmanifest"
+    name: "YTS - Música"
+    short_name: "YTS"
+    display: standalone
+    theme_color: "#ffffff"
+    background_color: "#ffffff"
+    icon_sizes: [192, 512]      -- px, PNG
+}
+
+------------------------------------------------------------
+-- Asset Conventions
+------------------------------------------------------------
+
+-- Convenciones de rutas y nombrado. No son reglas de Jekyll; son acuerdos
+-- editoriales para mantener el repositorio ordenado y las URLs predecibles.
+
+config {
+    -- Prefijos de ruta por tipo de activo.
+    image_path_releases: "/assets/images/releases/"
+    image_path_posts: "/assets/images/posts/"
+    image_path_bio: "/assets/images/"
+
+    -- Formato preferido para portadas de releases.
+    -- PNG sólo cuando la imagen requiere transparencia.
+    release_cover_format: "jpeg_preferred"
+
+    -- Límite de peso para portadas optimizadas (KB).
+    -- Portadas que excedan este límite deben recomprimirse antes de commitear.
+    release_cover_max_kb: Integer = 300
+
+    -- Nombre de rama de despliegue GitHub Pages.
+    gh_pages_branch: String = "gh-pages"
+}
+
+-- Convención de slugs: kebab-case ASCII, sin tildes ni eñes.
+-- Ejemplos válidos: "adios-bb", "yendo-tras-suenos", "pa-que", "disco-tk".
+-- Ejemplos inválidos: "adiós-bb", "yendo_tras_suenos", "pa que".
+
+-- Convención de nombres de archivo:
+--   Releases: _releases/{slug}.md
+--   Posts:    _posts/YYYY-MM-DD-{slug}.md  (prefijo de fecha obligatorio)
+
+------------------------------------------------------------
+-- Invariants
+------------------------------------------------------------
+
+invariant ThreeFeedsLinkedFromFooter {
+    -- Los tres feeds Atom están enlazados desde el footer del sitio
+    -- para que los lectores los encuentren sin inspeccionar el HTML.
+    SiteFooter links_to ["/feed.xml", "/feed-releases.xml", "/feed-posts.xml"]
+}
+
+invariant SitemapLinkedFromRobots {
+    -- robots.txt referencia el sitemap para que los crawlers lo encuentren
+    -- sin depender del header de autodescubrimiento.
+    RobotsFile.sitemap_reference = Sitemap
+}
+
+invariant CanonicalURLsUseSiteURL {
+    -- Ninguna URL canónica usa el dominio github.io.
+    -- El CNAME y la configuración de GitHub Pages garantizan el redireccionamiento.
+    for page in all_pages:
+        page.canonical_url starts_with "https://ytsmusica.com"
+}
+
+invariant ReleaseCoversWithinSizeLimit {
+    -- Portadas de release no deben superar 300 KB para garantizar
+    -- tiempos de carga razonables en conexiones móviles.
+    -- Nota: pa-que.png (14.6 MB) y poster3db.png (14.9 MB) violan esta
+    -- invariante y deben ser reemplazadas por versiones optimizadas.
+    for r in Release:
+        r.cover_image.file_size_kb <= release_cover_max_kb
+}
+
+invariant FaviconsPresent {
+    -- El sitio sirve favicons en múltiples formatos para compatibilidad
+    -- con distintos navegadores y sistemas operativos.
+    site provides: [favicon.ico, favicon-16x16.png, favicon-32x32.png,
+                    apple-touch-icon.png, android-chrome-192x192.png,
+                    android-chrome-512x512.png]
+}
+
+------------------------------------------------------------
+-- Open Questions
+------------------------------------------------------------
+
+-- Q1: ¿Se debería implementar un Service Worker para soporte offline?
+--     Actualmente el PWA manifest existe pero no hay SW. El sitio es
+--     estático, por lo que un SW simple de cache-first sería viable.
+--
+-- Q2: ¿El ID de GA4 (G-FTJ208PCKQ) debería externalizarse como variable
+--     de entorno o config Jekyll para evitar hardcodearlo en el HTML?
+--
+-- Q3: ¿Debería haber un mecanismo para excluir GA4 en desarrollo local
+--     (localhost) para no contaminar las métricas de producción?
