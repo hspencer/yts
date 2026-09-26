@@ -32,3 +32,4 @@ Gemfile.lock
 # other
 .claude
 .allium
+.DS_Store
